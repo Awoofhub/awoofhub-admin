@@ -3,7 +3,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-
 import { AiOutlineDashboard } from "react-icons/ai";
 import { FiUsers } from "react-icons/fi";
 import { MdOutlineCategory } from "react-icons/md";
@@ -25,13 +24,17 @@ export default function Sidebar() {
       links: [
         { href: "/offers", label: "Offers", icon: SiSimpleanalytics },
         { href: "/category", label: "Categories", icon: MdOutlineCategory },
-        { href: "/category/create", label: "Create Category", icon: MdOutlineCategory },
       ],
     },
     {
       title: "Users",
       links: [
         { href: "/users", label: "Users", icon: FiUsers },
+      ],
+    },
+    {
+      title: "Reports",
+      links: [
         { href: "/reports", label: "Reports", icon: TbReportAnalytics },
       ],
     },
@@ -79,9 +82,8 @@ export default function Sidebar() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`px-3 py-2 flex items-center gap-2 transition-all ${
-                    isActive ? "bg-white/40" : "hover:bg-white/20"
-                  }`}
+                  className={`px-3 py-2 flex items-center gap-2 transition-all ${isActive ? "bg-white/40" : "hover:bg-white/20"
+                    }`}
                 >
                   <Icon size={18} />
                   <span className="text-base font-medium">{link.label}</span>

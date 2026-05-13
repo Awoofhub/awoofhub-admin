@@ -1,19 +1,18 @@
 'use client'
 import { useLogout } from "@/features/auth/useLogout";
 import { useUser } from "@/features/user/useUser";
-import { capitalizeFirstLetter, firstFiveLetters } from "@/utils/truncate";
+import { capitalizeFirstLetter } from "@/utils/truncate";
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from "react";
 import { BsChevronDown } from "react-icons/bs";
-import { FiHelpCircle, FiLogOut, FiUser } from "react-icons/fi";
-import { GoArrowSwitch } from "react-icons/go";
+import { FiLogOut } from "react-icons/fi";
 import { IoNotificationsOutline } from "react-icons/io5";
 
 
 
-export default function DesktopMenu() {
+export default function Dropdown() {
     const [isOpenDropdown, setIsOpenDropdown] = useState(false);
     const dropdownRef = useRef<HTMLLIElement>(null);
 
@@ -51,7 +50,7 @@ export default function DesktopMenu() {
     const isLoggedIn = !!currentUser;
 
     return (
-        <ul className="hidden lg:flex items-center list-none p-0 m-0">
+        <ul className="flex items-center list-none p-0 m-0">
 
             {isLoggedIn &&
                 <>
@@ -62,10 +61,6 @@ export default function DesktopMenu() {
                     </li>
 
                     <li ref={dropdownRef} className="pl-[10px] flex items-center text-[1.7rem] relative">
-                        <span className="mr-3 text-[1.4rem] font-medium">
-                            {"Hi " + firstFiveLetters(currentUser.name)}
-                        </span>
-
                         <div
                             role="button"
                             tabIndex={-1}
@@ -94,19 +89,24 @@ export default function DesktopMenu() {
                         {isOpenDropdown && (
                             <div className="w-70 absolute top-full right-0 mt-3 bg-white rounded-2xl shadow-xl border border-muted/10 overflow-hidden z-50">
                                 <ul className="flex flex-col">
-                                    {/* Standard Items */}
-                                    {[
-                                        { label: 'Profile', icon: <FiUser />, href: `/profile/${currentUser.id}` },
-                                        { label: 'Help & Support', icon: <FiHelpCircle />, href: '/help' },
-                                        { label: 'Account Type', icon: <GoArrowSwitch />, href: '/switch-account' },
-                                    ].map((item, idx) => (
-                                        <li key={idx} className="border-b border-muted/10 last:border-none">
-                                            <Link href={item.href} onClick={() => toggleDropdown()} className="flex items-center gap-4 px-6 py-4 hover:bg-primary/5 transition-colors">
-                                                <span className="text-primary text-xl">{item.icon}</span>
-                                                <span className="text-foreground text-[20px] font-light">{item.label}</span>
-                                            </Link>
-                                        </li>
-                                    ))}
+                                    <li className="border-b border-muted/10 last:border-none text-foreground text-[20px] font-light flex items-center gap-4 px-6 py-4 hover:bg-primary/5 transition-colors">
+                                        <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0">
+                                            {currentUser.profileImageUrl ? (
+                                                <Image
+                                                    width={500}
+                                                    height={500}
+                                                    src={currentUser.profileImageUrl}
+                                                    alt={currentUser.name}
+                                                    className="w-full h-full object-cover"
+                                                />
+                                            ) : (
+                                                <div className="bg-green-500 text-white font-semibold flex items-center justify-center w-full h-full">
+                                                    {capitalizeFirstLetter(currentUser.name)}
+                                                </div>
+                                            )}
+                                        </div>
+                                        <span className="text-foreground text-[20px] font-medium capitalize break-words line-clamp-2">{currentUser.name}</span>
+                                    </li>
 
                                     {/* Logout - Special Styling */}
                                     <li>
