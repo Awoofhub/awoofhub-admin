@@ -37,10 +37,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${baloo.variable} ${montserrat.variable} ${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${baloo.variable} ${montserrat.variable} ${geistSans.variable} ${geistMono.variable} antialiased`} suppressHydrationWarning={true}
       >
         <AppProvider>
-            {children}
+          {children}
         </AppProvider>
       </body>
     </html>
