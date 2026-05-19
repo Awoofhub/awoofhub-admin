@@ -5,11 +5,14 @@ interface UseOffersAdminParams {
   search: string;
   category: string;
   status: string;
+  createdFrom: string;
+  createdTo: string;
   page: number;
   limit: number;
 }
 
 interface OffersResponse {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   offers: any[];
   totalPages: number;
   currentPage: number;
@@ -20,18 +23,29 @@ export const useOffersAdmin = ({
   search,
   category,
   status,
+  createdFrom,
+  createdTo,
   page,
   limit,
 }: UseOffersAdminParams) => {
   const { data, isLoading, error, refetch } = useQuery({
-    queryKey: ["admin-offers", search, category, status, page, limit],
+    queryKey: [
+      "admin-offers",
+      search,
+      category,
+      status,
+      createdFrom,
+      createdTo,
+      page,
+      limit,
+    ],
     queryFn: async () => {
       const response = await OfferService.offers(
         search,
         category,
         0, // minRating
-        "", // createdFrom
-        "", // createdTo
+        createdFrom,
+        createdTo,
         page,
         limit,
       );
@@ -40,6 +54,7 @@ export const useOffersAdmin = ({
       let offers = response.data || [];
       if (status) {
         offers = offers.filter(
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           (offer: any) => offer.moderationStatus === status,
         );
       }

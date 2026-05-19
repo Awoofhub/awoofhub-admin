@@ -1,26 +1,30 @@
+'use client';
+
 import { Tag, Clock, CheckCircle, XCircle } from 'lucide-react';
+
+interface OfferStats {
+    totalOffers: number;
+    approvedOffers: number;
+    pendingOffers: number;
+    rejectedOffers: number;
+}
 
 interface StatCard {
     label: string;
-    value: number;
+    valueGetter: (stats: OfferStats) => number;
     Icon: React.ElementType;
     iconBg: string;
 }
 
 interface Props {
-    stats: {
-        totalOffers: number;
-        approvedOffers: number;
-        pendingOffers: number;
-        rejectedOffers: number;
-    };
+    stats: OfferStats;
 }
 
 const cards: StatCard[] = [
     { label: 'Total Offers', valueGetter: (s) => s.totalOffers, Icon: Tag, iconBg: 'bg-emerald-100' },
-    { label: 'Pending', valueGetter: (s) => s.pendingOffers, Icon: Clock, iconBg: 'bg-orange-100' },
-    { label: 'Approved', valueGetter: (s) => s.approvedOffers, Icon: CheckCircle, iconBg: 'bg-green-100' },
-    { label: 'Rejected', valueGetter: (s) => s.rejectedOffers, Icon: XCircle, iconBg: 'bg-rose-100' },
+    { label: 'Pending',     valueGetter: (s) => s.pendingOffers, Icon: Clock, iconBg: 'bg-orange-100' },
+    { label: 'Approved',    valueGetter: (s) => s.approvedOffers, Icon: CheckCircle, iconBg: 'bg-green-100' },
+    { label: 'Rejected',    valueGetter: (s) => s.rejectedOffers, Icon: XCircle, iconBg: 'bg-rose-100' },
 ];
 
 export default function OfferStatsCards({ stats }: Props) {
