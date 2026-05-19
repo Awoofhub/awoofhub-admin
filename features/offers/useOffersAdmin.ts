@@ -43,20 +43,21 @@ export const useOffersAdmin = ({
       const response = await OfferService.offers(
         search,
         category,
-        0, // minRating
+        0,
         createdFrom,
         createdTo,
         page,
         limit,
       );
 
-      // Filter by status if provided
       let offers = response.data || [];
+
       if (status) {
-        offers = offers.filter(
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          (offer: any) => offer.moderationStatus === status,
-        );
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        offers = offers.filter((offer: any) => {
+          const offerStatus = offer.moderationStatus || offer.status;
+          return offerStatus === status;
+        });
       }
 
       return {
@@ -68,10 +69,5 @@ export const useOffersAdmin = ({
     },
   });
 
-  return {
-    data,
-    isLoading,
-    error: error as Error | null,
-    refetch,
-  };
+  return { data, isLoading, error, refetch };
 };

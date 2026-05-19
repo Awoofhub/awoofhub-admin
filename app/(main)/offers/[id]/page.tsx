@@ -20,7 +20,6 @@ export default function OfferDetailPage() {
     const [adminNote, setAdminNote] = useState('');
     const [moderationAction, setModerationAction] = useState<'approved' | 'rejected' | null>(null);
 
-    // Use our new hook!
     const { mutate: moderateOffer, isPending: isModerating } = useModerateOffer();
 
     const { data: offer, isLoading, error } = useQuery({
@@ -32,15 +31,15 @@ export default function OfferDetailPage() {
     });
 
     if (isLoading) return (
-        <section className="w-full bg-white px-4 py-8 max-w-[1440px] mx-auto">
+        <section className="w-full bg-white px-4 py-8 max-w-[1440px] mx-auto h-[90dvh] md:h-[88dvh]">
             <OfferDetailSkeleton />
         </section>
     );
 
     if (error || !offer) {
         return (
-            <section className="pt-14 px-6 w-full">
-                <div className="bg-red-50 border border-red-200 rounded-lg p-6">
+            <section className="pt-14 px-6 w-full h-[90dvh] md:h-[88dvh]">
+                <div className="bg-red-50 border border-red-200 rounded-lg p-6 max-w-lg mx-auto">
                     <h2 className="text-lg font-bold text-red-700 mb-2">Error Loading Offer</h2>
                     <p className="text-red-600">{error?.message ?? 'Failed to load offer details.'}</p>
                     <button onClick={() => router.back()} className="mt-4 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg">
@@ -74,91 +73,104 @@ export default function OfferDetailPage() {
         approved: 'bg-green-50 text-green-700 border border-green-200',
         pending: 'bg-orange-50 text-orange-700 border border-orange-200',
         rejected: 'bg-red-50 text-red-700 border border-red-200',
+        unknown: 'bg-gray-50 text-gray-500 border border-gray-200',
     };
+
+
+    // @ts-expect-error fallback property checking
+    const currentStatus = offer?.moderationStatus || offer?.status || 'unknown';
 
     return (
 
-        <section className="w-full max-w-[1440px] bg-white flex flex-col overflow-auto">
-            <div className="py-4 sm:py-6 md:py-8 px-3 sm:px-4 md:px-6 mx-auto w-full">
+        <section className="w-full bg-white flex flex-col h-[90dvh] md:h-[88dvh] overflow-hidden">
+            <div className="py-4 sm:py-6 md:py-8 px-3 sm:px-4 md:px-6 mx-auto w-full max-w-[1440px] flex flex-col h-full">
 
                 {/* Back Button & Title */}
-                <div className="mb-6 sm:mb-8 flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
+                <div className="mb-6 sm:mb-8 flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 shrink-0">
                     <div className="flex-1">
                         <button onClick={() => router.back()} className="text-primary hover:text-orange-700 font-semibold mb-3 flex items-center gap-2 text-sm sm:text-base">
                             ← Back to Offers
                         </button>
                         <h1 className="text-2xl sm:text-3xl font-bold text-slate-800">{offer.title}</h1>
                     </div>
-                    <div className={`px-3 sm:px-4 py-2 rounded-lg font-bold text-xs sm:text-sm whitespace-nowrap capitalize ${offer?.moderationStatus ? statusConfig[offer.moderationStatus] : 'bg-gray-50 text-gray-500 border border-gray-200'}`}>
-                        {offer?.moderationStatus ?? 'Moderation Status N/A'}
+                    <div className={`px-3 sm:px-4 py-2 rounded-lg font-bold text-xs sm:text-sm whitespace-nowrap capitalize ${statusConfig[currentStatus as keyof typeof statusConfig] || 'bg-gray-50 text-gray-500 border border-gray-200'}`}>
+                        {currentStatus}
                     </div>
                 </div>
 
                 {/* Main Content Grid */}
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
-                    {/* LEFT COLUMN */}
-                    <div className="lg:col-span-1">
-                        <div className="bg-gray-100 rounded-lg p-4 sm:p-6 mb-4 sm:mb-6 flex items-center justify-center">
-                            <Image src={offer.imageUrl} alt={offer.title} width={200} height={200} className="aspect-square object-cover rounded-md" />
-                        </div>
-                        <div className="bg-gray-50 rounded-lg p-4 mb-4 sm:mb-6">
-                            <h3 className="font-bold text-gray-900 mb-2 text-sm sm:text-base">Business</h3>
-                            <p className="text-gray-700 font-semibold text-sm sm:text-base">{offer.business?.name ?? '—'}</p>
-                        </div>
-                        <div className="bg-gray-50 rounded-lg p-4 space-y-4">
-                            <div><p className="text-xs text-gray-500 uppercase tracking-wide font-bold mb-1">Category</p><p className="text-gray-900 font-semibold text-sm sm:text-base">{offer.category.name}</p></div>
-                            <div><p className="text-xs text-gray-500 uppercase tracking-wide font-bold mb-1">Location</p><p className="text-gray-900 font-semibold text-sm sm:text-base">{offer.location}</p></div>
-                            <div><p className="text-xs text-gray-500 uppercase tracking-wide font-bold mb-1">Created</p><p className="text-gray-900 font-semibold text-xs sm:text-sm">{formatDateTime(offer.createdAt)}</p></div>
-                            <div><p className="text-xs text-gray-500 uppercase tracking-wide font-bold mb-1">Expires</p><p className="text-gray-900 font-semibold text-xs sm:text-sm">{formatDateTime(offer.endDate)}</p></div>
-                        </div>
-                    </div>
-
-                    {/* RIGHT COLUMN */}
-                    <div className="lg:col-span-2 space-y-6 md:space-y-8">
-                        <div className="bg-gray-50 rounded-lg p-4 sm:p-6">
-                            <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-3 sm:mb-4">Rating & Reviews</h2>
-                            <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
-                                <Rating value={offer.avgRating || 0} precision={0.1} readOnly size="large" sx={{ '& .MuiRating-iconFilled': { color: '#FFC000' } }} />
-                                <span className="text-lg sm:text-xl font-bold text-gray-900">{offer.avgRating || 0}</span>
-                                <span className="text-sm sm:text-base text-gray-500">({offer.reviewCount || 0} reviews)</span>
+                <div className="flex-1 overflow-auto min-h-0 pr-2">
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8 pb-8">
+                        {/* LEFT COLUMN */}
+                        <div className="lg:col-span-1">
+                            <div className="bg-gray-100 rounded-lg p-4 sm:p-6 mb-4 sm:mb-6 flex items-center justify-center">
+                                <Image src={offer.imageUrl} alt={offer.title} width={200} height={200} className="aspect-square object-cover rounded-md" />
+                            </div>
+                            <div className="bg-gray-50 rounded-lg p-4 mb-4 sm:mb-6">
+                                <h3 className="font-bold text-gray-900 mb-2 text-sm sm:text-base">Business</h3>
+                                <p className="text-gray-700 font-semibold text-sm sm:text-base">{offer.business?.name ?? '—'}</p>
+                            </div>
+                            <div className="bg-gray-50 rounded-lg p-4 space-y-4">
+                                <div><p className="text-xs text-gray-500 uppercase tracking-wide font-bold mb-1">Category</p><p className="text-gray-900 font-semibold text-sm sm:text-base">{offer.category.name}</p></div>
+                                <div><p className="text-xs text-gray-500 uppercase tracking-wide font-bold mb-1">Location</p><p className="text-gray-900 font-semibold text-sm sm:text-base">{offer.location}</p></div>
+                                <div><p className="text-xs text-gray-500 uppercase tracking-wide font-bold mb-1">Created</p><p className="text-gray-900 font-semibold text-xs sm:text-sm">{formatDateTime(offer.createdAt)}</p></div>
+                                <div><p className="text-xs text-gray-500 uppercase tracking-wide font-bold mb-1">Expires</p><p className="text-gray-900 font-semibold text-xs sm:text-sm">{formatDateTime(offer.endDate)}</p></div>
                             </div>
                         </div>
 
-                        <div className="bg-gray-50 rounded-lg p-4 sm:p-6">
-                            <h2 className="text-lg font-bold text-gray-900 mb-3">Description</h2>
-                            <p className="text-sm sm:text-base text-gray-700 leading-relaxed">{offer.description}</p>
-                        </div>
-
-                        <div className="bg-gray-50 rounded-lg p-4 sm:p-6">
-                            <h2 className="text-lg font-bold text-gray-900 mb-3">Offer Value</h2>
-                            <p className="text-2xl sm:text-3xl font-bold text-primary">{offer.value}</p>
-                        </div>
-
-                        <div className="bg-gray-50 rounded-lg p-4 sm:p-6">
-                            <Terms prop={offer.termsAndConditions} />
-                        </div>
-
-                        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 sm:p-6">
-                            <h2 className="text-lg font-bold text-blue-900 mb-3 flex items-center gap-2">
-                                <AlertCircle className="w-5 h-5" /> Admin Notes
-                            </h2>
-                            {offer.adminNote ? <p className="text-sm text-blue-800">{offer.adminNote}</p> : <p className="text-sm text-blue-600 italic">No admin notes yet</p>}
-                        </div>
-
-                        {/* Moderation Controls */}
-                        {offer.moderationStatus === 'pending' && (
-                            <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 sm:p-6">
-                                <h2 className="text-lg font-bold text-amber-900 mb-4 flex items-center gap-2"><Edit2 className="w-5 h-5" /> Moderation Actions</h2>
-                                <div className="flex flex-col sm:flex-row gap-4">
-                                    <button onClick={() => handleModeration('approved')} className="flex-1 flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-lg transition-colors">
-                                        <Check className="w-5 h-5" /> Approve
-                                    </button>
-                                    <button onClick={() => handleModeration('rejected')} className="flex-1 flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-lg transition-colors">
-                                        <X className="w-5 h-5" /> Reject
-                                    </button>
+                        {/* RIGHT COLUMN */}
+                        <div className="lg:col-span-2 space-y-6 md:space-y-8">
+                            <div className="bg-gray-50 rounded-lg p-4 sm:p-6">
+                                <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-3 sm:mb-4">Rating & Reviews</h2>
+                                <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+                                    <Rating value={offer.avgRating || 0} precision={0.1} readOnly size="large" sx={{ '& .MuiRating-iconFilled': { color: '#FFC000' } }} />
+                                    <span className="text-lg sm:text-xl font-bold text-gray-900">{offer.avgRating || 0}</span>
+                                    <span className="text-sm sm:text-base text-gray-500">({offer.reviewCount || 0} reviews)</span>
                                 </div>
                             </div>
-                        )}
+
+                            <div className="bg-gray-50 rounded-lg p-4 sm:p-6">
+                                <h2 className="text-lg font-bold text-gray-900 mb-3">Description</h2>
+                                <p className="text-sm sm:text-base text-gray-700 leading-relaxed">{offer.description}</p>
+                            </div>
+
+                            <div className="bg-gray-50 rounded-lg p-4 sm:p-6">
+                                <h2 className="text-lg font-bold text-gray-900 mb-3">Offer Value</h2>
+                                <p className="text-2xl sm:text-3xl font-bold text-primary">{offer.value}</p>
+                            </div>
+
+                            <div className="bg-gray-50 rounded-lg p-4 sm:p-6">
+                                <Terms prop={offer.termsAndConditions} />
+                            </div>
+
+                            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 sm:p-6">
+                                <h2 className="text-lg font-bold text-blue-900 mb-3 flex items-center gap-2">
+                                    <AlertCircle className="w-5 h-5" /> Admin Notes
+                                </h2>
+                                {/* @ts-expect-error fallback check */}
+                                {offer.adminNote || offer.note ? (
+                                    // @ts-expect-error fallback check
+                                    <p className="text-sm text-blue-800">{offer.adminNote || offer.note}</p>
+                                ) : (
+                                    <p className="text-sm text-blue-600 italic">No admin notes yet</p>
+                                )}
+                            </div>
+
+                            {/* Moderation Controls Check */}
+                            {currentStatus === 'pending' && (
+                                <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 sm:p-6">
+                                    <h2 className="text-lg font-bold text-amber-900 mb-4 flex items-center gap-2"><Edit2 className="w-5 h-5" /> Moderation Actions</h2>
+                                    <div className="flex flex-col sm:flex-row gap-4">
+                                        <button onClick={() => handleModeration('approved')} className="flex-1 flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-lg transition-colors">
+                                            <Check className="w-5 h-5" /> Approve
+                                        </button>
+                                        <button onClick={() => handleModeration('rejected')} className="flex-1 flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-lg transition-colors">
+                                            <X className="w-5 h-5" /> Reject
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
                     </div>
                 </div>
 

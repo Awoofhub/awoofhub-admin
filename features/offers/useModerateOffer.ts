@@ -6,7 +6,7 @@ import { notificationsStore } from "@/store/notifications/notifications";
 
 interface ModeratePayload {
   id: string;
-  status: "approved" | "rejected";
+  status: "approved" | "rejected" | "pending";
   adminNote?: string;
 }
 
@@ -21,9 +21,8 @@ export const useModerateOffer = () => {
         type: "success",
         title: "Success",
         duration: 3000,
-        message: "Offer moderation status updated successfully.",
+        message: "Offer moderation status and note updated successfully.",
       });
-      // Invalidate queries to refresh both the list and the specific offer
       queryClient.invalidateQueries({ queryKey: ["admin-offers"] });
       queryClient.invalidateQueries({ queryKey: ["offer"] });
     },

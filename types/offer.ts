@@ -17,19 +17,20 @@ export interface Offer {
     slug: string;
   };
   location: string;
-  moderationStatus: "pending" | "approved" | "rejected";
+  moderationStatus: "pending" | "approved" | "rejected" | "unknown";
   adminNote: string | null;
   statusUpdatedAt: string | null;
   createdAt: string;
   endDate: string;
-  avgRating: number,
-  reviewCount: number,
-  ratingDistribution: {}
-};
+  avgRating: number;
+  reviewCount: number;
+  // eslint-disable-next-line @typescript-eslint/no-empty-object-type
+  ratingDistribution: {};
+}
 
 export interface Stats {
   totalAds: number;
-  activeAds: number
+  activeAds: number;
   pendingAds: number;
   rejectedAds: number;
   expiredAds: number;
@@ -42,6 +43,7 @@ export interface CategoryData {
 
 export interface OffersByMonthData {
   month: string; // e.g., "2026-03"
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [category: string]: any;
 }
 
@@ -60,4 +62,3 @@ export interface OffersDashboard {
     expiringOffers: ExpiringOffers;
   };
 }
-

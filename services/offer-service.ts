@@ -80,16 +80,13 @@ async function deleteOffer(id: string): Promise<ApiResponse<Offer>> {
 
 async function moderateOffer(
   id: string,
-  status: "approved" | "rejected",
-  adminNote?: string,
+  status: "approved" | "rejected" | "pending",
+  note?: string,
 ): Promise<ApiResponse<Offer>> {
-  const res: ApiResponse<Offer> = await apiClient.patch(
-    `/offers/${id}/moderate`,
-    {
-      status,
-      adminNote,
-    },
-  );
+  const res: ApiResponse<Offer> = await apiClient.post(`/offers/${id}/status`, {
+    status,
+    note,
+  });
   return res;
 }
 
