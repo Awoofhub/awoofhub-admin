@@ -7,6 +7,11 @@ import { formatDateTime } from '@/utils/formatDateTime';
 import { ShieldAlert, Check, X } from 'lucide-react';
 import { useModerateReport } from '@/features/reports/useModerateReport';
 
+interface Reporter {
+    id: string;
+    name: string;
+}
+
 export default function ReportDetailPage() {
     const params = useParams();
     const router = useRouter();
@@ -74,13 +79,13 @@ export default function ReportDetailPage() {
                             <div className="bg-white p-4 rounded-lg border border-gray-200 break-all">
                                 <p className="text-gray-500 font-bold uppercase tracking-wide text-xs mb-1">Reporter ID</p>
                                 <p className="text-gray-900 font-mono text-xs">
-                                    {typeof report.reporter === 'string' ? report.reporter : report.reporter?.id}
+                                    {typeof report.reporter === 'string' ? report.reporter : (report.reporter as Reporter)?.id}
                                 </p>
                             </div>
                             <div className="bg-white p-4 rounded-lg border border-gray-200 break-all">
                                 <p className="text-gray-500 font-bold uppercase tracking-wide text-xs mb-1">Reporter Name</p>
                                 <p className="text-gray-900 font-mono text-xs">
-                                    {typeof report.reporter === 'string' ? '-' : report.reporter?.name}
+                                    {typeof report.reporter === 'string' ? '-' : (report.reporter as Reporter)?.name}
                                 </p>
                             </div>
                         </div>
