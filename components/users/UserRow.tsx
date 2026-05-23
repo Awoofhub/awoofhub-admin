@@ -27,7 +27,7 @@ export default function UserRow({ user, onModerateClick }: Props) {
         <tr onClick={handleRowClick} className="cursor-pointer hover:bg-gray-50 transition-colors border-y border-gray-200 text-sm">
             <td className="px-3 py-4 flex items-center gap-3">
                 {user.profileImageUrl ? (
-                    <Image src={user.profileImageUrl} alt={user.name} width={40} height={40} className="rounded-full object-cover w-10 h-10" />
+                    <Image unoptimized src={user.profileImageUrl} alt={user.name} width={40} height={40} className="rounded-full object-cover w-10 h-10" />
                 ) : (
                     <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold uppercase">{user.name.charAt(0)}</div>
                 )}
