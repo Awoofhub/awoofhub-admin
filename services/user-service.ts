@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { apiClient } from "@/lib/api-client";
 import { ApiResponse } from "@/types/api-response";
 import { User } from "@/types/user";
@@ -39,5 +40,22 @@ export async function moderateUserService(
       status,
     },
   );
+  return res;
+}
+
+export async function createModerationLog(payload: {
+  targetType: string;
+  targetId: string;
+  actionType: string;
+  reason: string;
+  endsAt?: string;
+}): Promise<ApiResponse<any>> {
+  const res: ApiResponse<any> = await apiClient.post("/moderation/", payload);
+  return res;
+}
+
+export async function addUserService(payload: any): Promise<ApiResponse<User>> {
+  // Using signup for creating users for user management , to be changed to specific admin create endpoint after confirming with backend team.
+  const res: ApiResponse<User> = await apiClient.post("/auth/signup/", payload);
   return res;
 }
