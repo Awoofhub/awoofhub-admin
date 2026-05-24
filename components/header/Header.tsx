@@ -1,14 +1,31 @@
 'use client';
-import DesktopMenu from './desktop/DesktopMenu';
+import Image from 'next/image';
+import Link from 'next/link';
+import Dropdown from './desktop/Dropdown';
+import Hamburger from './mobile/Hamburger';
 
 export default function Header() {
 
     return (
-        <header className="sticky top-0 left-0 z-[99] bg-white shadow-lg shadow-black/5 relative">
-            <div className="flex justify-end items-center max-w-[1440px] mx-auto h-[60px] px-3 xl:px-8">
-                <div className="flex justify-end gap-4">
-                    <DesktopMenu />
-                </div>
+        <header className="sticky top-0 left-0 z-[99] shadow-lg shadow-black/5 relative">
+            <div className="hidden md:flex justify-end items-center bg-white max-w-[1440px] mx-auto h-[60px] px-3 xl:px-8">
+                <Dropdown />
+            </div>
+            <div className="md:hidden flex justify-between items-center bg-orange-500 h-[60px] px-3">
+                <Hamburger />
+                <Link href="/">
+                    <Image
+                        src="/LogoWhite.png"
+                        alt="Logo"
+                        width={180}
+                        height={60}
+                        priority
+                        className="w-[120px] sm:w-[160px] h-auto"
+                    />
+                </Link>
+            </div>
+            <div className="md:hidden flex justify-end items-center bg-white h-[60px] px-3">
+                <Dropdown />
             </div>
         </header>
     )

@@ -21,7 +21,7 @@ export const LoginForm = ({
     };
 
     const handleGoogleLogin = () => {
-          window.location.assign(`${API_URL}/api/auth/google`);
+          window.location.assign(`${API_URL}/v1/auth/google`);
     };
 
     return (

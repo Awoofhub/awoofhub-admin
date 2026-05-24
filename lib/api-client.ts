@@ -4,7 +4,7 @@ import { notificationsStore } from "@/store/notifications/notifications";
 import axios from "axios";
 
 export const apiClient = axios.create({
-    baseURL: `${API_URL}/api`,
+    baseURL: `${API_URL}/v1`,
     withCredentials: true,
     headers: {
         'Content-Type': 'application/json',
