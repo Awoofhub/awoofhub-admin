@@ -1,7 +1,7 @@
 import { Offer } from '@/types/offer';
 import { formatDateTime } from '@/utils/formatDateTime';
 import Rating from '@mui/material/Rating';
-import { AlertTriangle, Check, Clock, RotateCcw, XCircle, X } from 'lucide-react';
+import { AlertTriangle, Check, Clock, RotateCcw, X, XCircle } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import RowActions from './RowActions';
