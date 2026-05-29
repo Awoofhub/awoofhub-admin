@@ -9,9 +9,30 @@ import { useComments } from '../../../../features/comments/useComments';
 import { Comment } from '@/types/comment';
 import { formatDateTime } from '@/utils/formatDateTime';
 import CommentModerationModal from '@/components/comments/CommentModerationModal';
-import CommentDetailSkeleton from '@/components/comments/CommentDetailSkeleton';
 
 const remoteImageLoader = ({ src }: { src: string }) => src;
+
+function CommentDetailSkeleton() {
+  return (
+    <section className="w-full bg-white flex flex-col h-[90dvh] md:h-[88dvh] overflow-hidden">
+      <div className="py-4 sm:py-6 px-3 sm:px-4 md:px-6 mx-auto w-full flex flex-col h-full items-center justify-center animate-pulse">
+        <div className="flex items-center gap-4 w-full max-w-2xl">
+          <div className="w-16 h-16 bg-gray-300 rounded-full"></div>
+          <div className="flex-1 space-y-2">
+            <div className="h-4 w-32 bg-gray-300 rounded"></div>
+            <div className="h-3 w-24 bg-gray-300 rounded"></div>
+          </div>
+        </div>
+        <div className="mt-6 w-full max-w-2xl space-y-3">
+          <div className="h-4 w-48 bg-gray-300 rounded"></div>
+          <div className="h-3 w-64 bg-gray-300 rounded"></div>
+          <div className="h-3 w-32 bg-gray-300 rounded"></div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 
 export default function CommentDetailPage() {
   const params = useParams();
@@ -24,17 +45,7 @@ export default function CommentDetailPage() {
   const comment = comments?.find((c: Comment) => c.id === commentId);
 
   if (isLoading) {
-    return (
-      <CommentDetailSkeleton />
-    );
-    return (
-      <section className="w-full bg-white flex flex-col h-[90dvh] md:h-[88dvh] overflow-hidden">
-        <div className="py-4 sm:py-6 px-3 sm:px-4 md:px-6 mx-auto w-full flex flex-col h-full items-center justify-center">
-          <Loader className="w-8 h-8 animate-spin text-primary mb-3" />
-          <p className="text-gray-500">Loading comment...</p>
-        </div>
-      </section>
-    );
+    return <CommentDetailSkeleton />;
   }
 
   if (error || !comment) {
@@ -97,12 +108,12 @@ export default function CommentDetailPage() {
                   />
                 )}
                 <div>
-                  <Link href={`/users/${comment.user?.id}`} className="text-sm text-gray-500 hover:underline">
-
-                    <h2 className="text-xl font-bold text-slate-800">
-                      {comment.user?.name || 'Anonymous'}
-                    </h2>
-                  </Link>
+                    <Link href={`/users/${comment.user?.id}`} className="text-sm text-gray-500 hover:underline">
+                     
+                  <h2 className="text-xl font-bold text-slate-800">
+                    {comment.user?.name || 'Anonymous'}
+                  </h2>
+                    </Link>
                 </div>
               </div>
             </div>
@@ -112,11 +123,11 @@ export default function CommentDetailPage() {
               <h6 className="text-sm font-semibold text-gray-700 uppercase mb-2">On Offer</h6>
               <div className="bg-white rounded-lg p-4">
 
-                <Link className='hover:underline' href={comment.offer?.id ? `/offers/${comment.offer.id}` : '#'} >
+                  <Link   className='hover:underline'         href={comment.offer?.id ? `/offers/${comment.offer.id}` : '#'} >
+                  
 
-
-                  <p className="text-sm font-semibold text-slate-800 ">{comment.offer?.title}</p>
-                </Link>
+                <p className="text-sm font-semibold text-slate-800 ">{comment.offer?.title}</p>
+                  </Link>
 
               </div>
             </div>
