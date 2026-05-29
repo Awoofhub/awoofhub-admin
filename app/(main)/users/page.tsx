@@ -4,7 +4,7 @@
 import { useState, useCallback, useMemo } from 'react';
 import { RotateCcw, Plus } from 'lucide-react';
 import UserPaginatedList from '@/components/users/UserPaginatedList';
-import SearchInput from '@/components/offers/business/SearchInput';
+import SearchInput from '@/components/offers/admin/SearchInput';
 import { useUsersAdmin } from '@/features/user/useUsersAdmin';
 import { useModerateUser } from '@/features/user/useModerateUser';
 import { addUserService } from '@/services/user-service';
@@ -17,9 +17,9 @@ export default function UsersPage() {
 
 
     // Add User Modal State
-    const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-    const [newUser, setNewUser] = useState({ name: '', email: '', password: '', role: 'user' });
-    const [isAdding, setIsAdding] = useState(false);
+    // const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+    // const [newUser, setNewUser] = useState({ name: '', email: '', password: '', role: 'user' });
+    // const [isAdding, setIsAdding] = useState(false);
 
     // Moderation Modal State
     const [modModalState, setModModalState] = useState<{ isOpen: boolean; action: 'suspended' | 'banned' | 'active' | null; userId: string | null }>({ isOpen: false, action: null, userId: null });
@@ -48,20 +48,20 @@ export default function UsersPage() {
             }
         );
     };
-    const handleAddUser = async () => {
-        setIsAdding(true);
-        try {
-            await addUserService(newUser);
-            notificationsStore.getState().showNotification({ type: 'success', title: 'User Created', duration: 3000, message: 'New user added successfully.' });
-            setIsAddModalOpen(false);
-            setNewUser({ name: '', email: '', password: '', role: 'user' });
-            refetch();
-        } catch (err: any) {
-            notificationsStore.getState().showNotification({ type: 'error', title: 'Error', duration: 5000, message: err.message || 'Failed to create user.' });
-        } finally {
-            setIsAdding(false);
-        }
-    };
+    // const handleAddUser = async () => {
+    //     setIsAdding(true);
+    //     try {
+    //         await addUserService(newUser);
+    //         notificationsStore.getState().showNotification({ type: 'success', title: 'User Created', duration: 3000, message: 'New user added successfully.' });
+    //         setIsAddModalOpen(false);
+    //         setNewUser({ name: '', email: '', password: '', role: 'user' });
+    //         refetch();
+    //     } catch (err: any) {
+    //         notificationsStore.getState().showNotification({ type: 'error', title: 'Error', duration: 5000, message: err.message || 'Failed to create user.' });
+    //     } finally {
+    //         setIsAdding(false);
+    //     }
+    // };
 
     if (error) return <div className="p-8 text-red-500">Error loading users.</div>;
 
@@ -71,9 +71,9 @@ export default function UsersPage() {
 
                 <header className="mb-4 sm:mb-6 shrink-0 flex justify-between items-center">
                     <h1 className="text-2xl sm:text-3xl font-bold text-slate-800">User Management</h1>
-                    <button onClick={() => setIsAddModalOpen(true)} className="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg font-semibold flex items-center gap-2 text-sm transition-colors">
+                    {/* <button onClick={() => setIsAddModalOpen(true)} className="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-lg font-semibold flex items-center gap-2 text-sm transition-colors">
                         <Plus className="w-4 h-4" /> Add User
-                    </button>
+                    </button> */}
                 </header>
 
                 <div className="mb-4 sm:mb-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2 sm:gap-3 bg-gray-50 p-3 sm:p-4 rounded-lg shrink-0">
@@ -111,7 +111,7 @@ export default function UsersPage() {
                 </div>
 
                 {/* Add User Modal */}
-                {isAddModalOpen && (
+                {/* {isAddModalOpen && (
                     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-150 p-4">
                         <div className="bg-white rounded-lg p-6 sm:p-8 max-w-md w-full shadow-2xl">
                             <h2 className="text-xl font-bold text-gray-900 mb-4">Add New User</h2>
@@ -133,7 +133,7 @@ export default function UsersPage() {
                             </div>
                         </div>
                     </div>
-                )}
+                )} */}
 
 
                 {/* Moderation Modal */}

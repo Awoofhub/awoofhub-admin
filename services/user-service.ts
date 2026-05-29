@@ -18,9 +18,12 @@ export async function getAllUsersService(
   page: number = 1,
   limit: number = 10,
 ): Promise<ApiResponse<User[]>> {
-  const res: ApiResponse<User[]> = await apiClient.get("/users", {
-    params: { search, role, status, page, limit },
-  });
+  const params: any = { page, limit };
+  if (search) params.search = search;
+  if (role) params.role = role;
+  if (status) params.status = status;
+
+  const res: ApiResponse<User[]> = await apiClient.get("/users", { params });
   return res;
 }
 
