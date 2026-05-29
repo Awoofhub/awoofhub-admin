@@ -1,7 +1,6 @@
 "use client"
 import { Button } from '@/components/button/Button';
 import { InputField } from '@/components/form/InputField';
-import { API_URL } from "@/config/constants";
 import { useLogin } from '@/features/auth/useLogin';
 import { LoginData } from '@/types/auth';
 import { LoginFormProps } from '@/types/form-props';
@@ -18,10 +17,6 @@ export const LoginForm = ({
 
     const onSubmit = (data: LoginData) => {
         login.submit(data);
-    };
-
-    const handleGoogleLogin = () => {
-          window.location.assign(`${API_URL}/v1/auth/google`);
     };
 
     return (
