@@ -1,46 +1,15 @@
 'use client';
 
+import { useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
-import { AlertCircle, Loader, MessageSquare } from 'lucide-react';
+import { AlertCircle, Loader, MessageSquare, ShieldAlert } from 'lucide-react';
 import { useComments } from '../../../../features/comments/useComments';
 import { Comment } from '@/types/comment';
-import CommentModerationModal from '@/components/comments/CommentModerationModal';
-function CommentDetailSkeleton() {
-  return (
-    <section className="w-full bg-white flex flex-col h-[90dvh] md:h-[88dvh] overflow-hidden">
-      <div className="py-4 sm:py-6 px-3 sm:px-4 md:px-6 mx-auto w-full max-w-4xl flex flex-col h-full space-y-4">
-        {/* Header */}
-        <div className="h-8 w-48 bg-gray-200 rounded animate-pulse" />
-        {/* User Info */}
-        <div className="flex items-center space-x-4">
-          <div className="w-16 h-16 bg-gray-200 rounded-full animate-pulse" />
-          <div className="flex-1">
-            <div className="h-4 w-3/4 bg-gray-200 rounded animate-pulse" />
-            <div className="h-3 w-1/2 bg-gray-200 rounded mt-2 animate-pulse" />
-          </div>
-        </div>
-        {/* Offer Info */}
-        <div className="h-4 w-32 bg-gray-200 rounded animate-pulse" />
-        {/* Comment Content */}
-        <div className="space-y-2">
-          <div className="h-4 w-full bg-gray-200 rounded animate-pulse" />
-          <div className="h-4 w-5/6 bg-gray-200 rounded animate-pulse" />
-          <div className="h-4 w-4/6 bg-gray-200 rounded animate-pulse" />
-        </div>
-        {/* Timestamp */}
-        <div className="h-3 w-24 bg-gray-200 rounded animate-pulse" />
-        {/* Buttons */}
-        <div className="flex space-x-2">
-          <div className="h-10 w-32 bg-gray-200 rounded animate-pulse" />
-          <div className="h-10 w-32 bg-gray-200 rounded animate-pulse" />
-        </div>
-      </div>
-    </section>
-  );
-}
 import { formatDateTime } from '@/utils/formatDateTime';
+import CommentModerationModal from '@/components/comments/CommentModerationModal';
+import CommentDetailSkeleton from '@/components/comments/CommentDetailSkeleton';
 
 const remoteImageLoader = ({ src }: { src: string }) => src;
 
@@ -48,6 +17,7 @@ export default function CommentDetailPage() {
   const params = useParams();
   const router = useRouter();
   const commentId = params.id as string;
+  const [showModModal, setShowModModal] = useState(false);
 
   const { comments, isLoading, error } = useComments({ page: 1, limit: 100 });
 
@@ -56,6 +26,14 @@ export default function CommentDetailPage() {
   if (isLoading) {
     return (
       <CommentDetailSkeleton />
+    );
+    return (
+      <section className="w-full bg-white flex flex-col h-[90dvh] md:h-[88dvh] overflow-hidden">
+        <div className="py-4 sm:py-6 px-3 sm:px-4 md:px-6 mx-auto w-full flex flex-col h-full items-center justify-center">
+          <Loader className="w-8 h-8 animate-spin text-primary mb-3" />
+          <p className="text-gray-500">Loading comment...</p>
+        </div>
+      </section>
     );
   }
 
@@ -161,7 +139,7 @@ export default function CommentDetailPage() {
               </p>
             </div>
 
-            <div className="mt-5">
+            <div className="mt-5 flex gap-3">
               <button
                 type="button"
                 onClick={() => router.push('/comments')}
@@ -169,10 +147,28 @@ export default function CommentDetailPage() {
               >
                 Back to comments
               </button>
+              <button
+                type="button"
+                onClick={() => setShowModModal(true)}
+                className="inline-flex items-center justify-center gap-2 rounded-lg bg-red-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-red-700"
+              >
+                <ShieldAlert className="w-4 h-4" />
+                Moderate Comment
+              </button>
             </div>
           </div>
         </div>
       </div>
+
+      <CommentModerationModal
+        isOpen={showModModal}
+        onClose={() => setShowModModal(false)}
+        commentId={commentId}
+        commentText={comment.comment}
+        onSubmitSuccess={() => {
+          router.push('/comments');
+        }}
+      />
     </section>
   );
 }
