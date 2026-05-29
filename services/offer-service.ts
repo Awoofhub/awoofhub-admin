@@ -11,7 +11,7 @@ async function offers(
   page: number,
   limit: number,
 ): Promise<ApiResponse<Offer[]>> {
-  const res: ApiResponse<Offer[]> = await apiClient.get("/offers/", {
+  const res: ApiResponse<Offer[]> = await apiClient.get("/offers/admin/", {
     params: {
       search,
       category,

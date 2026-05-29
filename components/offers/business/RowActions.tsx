@@ -1,8 +1,8 @@
 import { cn } from "@/lib/utils";
+import { Eye, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { BsThreeDots } from "react-icons/bs";
-import { Eye, Trash2 } from "lucide-react";
 
 interface Props {
   offerId: string;
