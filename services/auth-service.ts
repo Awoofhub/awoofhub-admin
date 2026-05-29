@@ -1,11 +1,10 @@
 import { apiClient } from "@/lib/api-client";
 import { ApiResponse } from "@/types/api-response";
-import { EmailData, LoginData, ResetPasswordData } from "@/types/auth";
-import { User } from "@/types/user";
+import { EmailData, LoginData, LoginResponse, ResetPasswordData } from "@/types/auth";
 
 // Login
-export async function loginService(payload: LoginData): Promise<ApiResponse<User>> {
-  const res: ApiResponse<User> = await apiClient.post('/auth/login/', payload)
+export async function loginService(payload: LoginData): Promise<ApiResponse<LoginResponse>> {
+  const res: ApiResponse<LoginResponse> = await apiClient.post('/auth/login/', payload)
 
   return res;
 }
