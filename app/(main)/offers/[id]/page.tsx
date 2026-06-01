@@ -31,7 +31,7 @@ export default function OfferDetailPage() {
     });
 
     if (isLoading) return (
-        <section className="w-full bg-white px-4 py-8 max-w-[1440px] mx-auto h-[90dvh] md:h-[88dvh]">
+        <section className="w-full bg-white px-4 py-8 max-w-360 mx-auto h-[90dvh] md:h-[88dvh]">
             <OfferDetailSkeleton />
         </section>
     );
@@ -83,7 +83,7 @@ export default function OfferDetailPage() {
     return (
 
         <section className="w-full bg-white flex flex-col h-[90dvh] md:h-[88dvh] overflow-hidden">
-            <div className="py-4 sm:py-6 md:py-8 px-3 sm:px-4 md:px-6 mx-auto w-full max-w-[1440px] flex flex-col h-full">
+            <div className="py-4 sm:py-6 md:py-8 px-3 sm:px-4 md:px-6 mx-auto w-full max-w-360 flex flex-col h-full">
 
                 {/* Back Button & Title */}
                 <div className="mb-6 sm:mb-8 flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 shrink-0">
@@ -120,6 +120,18 @@ export default function OfferDetailPage() {
 
                         {/* RIGHT COLUMN */}
                         <div className="lg:col-span-2 space-y-6 md:space-y-8">
+                            <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 sm:p-6 shadow-sm">
+                                <h2 className="text-lg font-bold text-amber-900 mb-4 flex items-center gap-2"><Edit2 className="w-5 h-5" /> Moderation Actions</h2>
+                                <div className="flex flex-col sm:flex-row gap-4">
+                                    <button onClick={() => handleModeration('approved')} disabled={currentStatus === 'approved'} className="flex-1 flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 disabled:opacity-50 text-white font-bold py-3 rounded-lg transition-colors">
+                                        <Check className="w-5 h-5" /> Approve Offer
+                                    </button>
+                                    <button onClick={() => handleModeration('rejected')} disabled={currentStatus === 'rejected'} className="flex-1 flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 disabled:opacity-50 text-white font-bold py-3 rounded-lg transition-colors">
+                                        <X className="w-5 h-5" /> Reject Offer
+                                    </button>
+                                </div>
+                            </div>
+
                             <div className="bg-gray-50 rounded-lg p-4 sm:p-6">
                                 <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-3 sm:mb-4">Rating & Reviews</h2>
                                 <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
@@ -155,28 +167,13 @@ export default function OfferDetailPage() {
                                     <p className="text-sm text-blue-600 italic">No admin notes yet</p>
                                 )}
                             </div>
-
-                            {/* Moderation Controls Check */}
-                            {currentStatus === 'pending' && (
-                                <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 sm:p-6">
-                                    <h2 className="text-lg font-bold text-amber-900 mb-4 flex items-center gap-2"><Edit2 className="w-5 h-5" /> Moderation Actions</h2>
-                                    <div className="flex flex-col sm:flex-row gap-4">
-                                        <button onClick={() => handleModeration('approved')} className="flex-1 flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-lg transition-colors">
-                                            <Check className="w-5 h-5" /> Approve
-                                        </button>
-                                        <button onClick={() => handleModeration('rejected')} className="flex-1 flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-lg transition-colors">
-                                            <X className="w-5 h-5" /> Reject
-                                        </button>
-                                    </div>
-                                </div>
-                            )}
                         </div>
                     </div>
                 </div>
 
                 {/* Moderation Modal */}
                 {showModerationModal && (
-                    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[150] p-4">
+                    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-150 p-4">
                         <div className="bg-white rounded-lg p-6 sm:p-8 max-w-md w-full">
                             <h2 className="text-xl font-bold text-gray-900 mb-4">
                                 {moderationAction === 'approved' ? 'Approve' : 'Reject'} Offer
