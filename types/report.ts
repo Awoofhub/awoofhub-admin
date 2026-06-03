@@ -16,7 +16,14 @@ export interface Report {
   description: string;
   targetType: "user" | "offer" | "comment";
   targetId: string;
-  reporter: string | { id: string; name: string };
+  reporter:
+    | string
+    | {
+        id: string;
+        name?: string;
+        email?: string;
+        profileImageUrl?: string;
+      };
   createdAt: string;
   updatedAt: string;
   status: "pending" | "resolved" | "dismissed";

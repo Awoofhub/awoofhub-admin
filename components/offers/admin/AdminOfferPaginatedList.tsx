@@ -12,7 +12,7 @@ interface Props {
   onPageChange: (page: number) => void;
 }
 
-export default function BusinessOfferPaginatedList({ offers, currentPage, totalPages, onPageChange }: Props) {
+export default function AdminOfferPaginatedList({ offers, currentPage, totalPages, onPageChange }: Props) {
   // Modal State for the table
   const [modalState, setModalState] = useState<{
     isOpen: boolean;
