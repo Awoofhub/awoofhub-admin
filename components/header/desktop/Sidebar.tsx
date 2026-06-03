@@ -7,6 +7,8 @@ import { AiOutlineDashboard } from "react-icons/ai";
 import { FiUsers } from "react-icons/fi";
 import { MdOutlineCategory } from "react-icons/md";
 import { SiSimpleanalytics } from "react-icons/si";
+import { FaRegCommentDots } from "react-icons/fa";
+
 import { TbReportAnalytics } from "react-icons/tb";
 
 export default function Sidebar() {
@@ -30,6 +32,7 @@ export default function Sidebar() {
       title: "Users",
       links: [
         { href: "/users", label: "Users", icon: FiUsers },
+        { href: "/comments", label: "Comments", icon: FaRegCommentDots },
       ],
     },
     {
