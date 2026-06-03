@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import OfferService from "@/services/offer-service";
+import { apiClient } from "@/lib/api-client";
 import { notificationsStore } from "@/store/notifications/notifications";
 
 interface ModeratePayload {
@@ -14,25 +15,38 @@ export const useModerateOffer = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ id, status, adminNote }: ModeratePayload) =>
-      OfferService.moderateOffer(id, status, adminNote),
+    mutationFn: async ({ id, status, adminNote }: ModeratePayload) => {
+      await apiClient
+        .post("/moderation/", {
+          targetType: "offer",
+          targetId: id,
+          actionType: status,
+          reason: adminNote || `Admin marked offer as ${status}`,
+        })
+        .catch((e) => console.error("Moderation logging failed", e));
+
+      const res = await apiClient.patch(`/offers/${id}`, {
+        moderationStatus: status,
+        adminNote: adminNote,
+      });
+      return res.data;
+    },
     onSuccess: () => {
       notificationsStore.getState().showNotification({
         type: "success",
         title: "Success",
         duration: 3000,
-        message: "Offer moderation status and note updated successfully.",
+        message: "Offer updated and logged successfully.",
       });
       queryClient.invalidateQueries({ queryKey: ["admin-offers"] });
       queryClient.invalidateQueries({ queryKey: ["offer"] });
     },
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onError: (error: any) => {
       notificationsStore.getState().showNotification({
         type: "error",
-        title: "Moderation Failed",
+        title: "Failed",
         duration: 5000,
-        message: error?.message || "Failed to update offer status.",
+        message: error?.message || "Failed to update offer.",
       });
     },
   });

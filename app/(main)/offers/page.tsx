@@ -1,10 +1,10 @@
 'use client';
 
-import BusinessOfferListSkeleton from '@/components/offers/business/BusinessOfferListSkeleton';
-import BusinessOfferPaginatedList from '@/components/offers/business/BusinessOfferPaginatedList';
-import CategorySelect from '@/components/offers/business/CategorySelect';
-import SearchInput from '@/components/offers/business/SearchInput';
-import StatusSelect from '@/components/offers/business/StatusSelect';
+import AdminOfferListSkeleton from '@/components/offers/admin/AdminOfferListSkeleton';
+import AdminOfferPaginatedList from '@/components/offers/admin/AdminOfferPaginatedList';
+import CategorySelect from '@/components/offers/admin/CategorySelect';
+import SearchInput from '@/components/offers/admin/SearchInput';
+import StatusSelect from '@/components/offers/admin/StatusSelect';
 import { useOffersAdmin } from '@/features/offers/useOffersAdmin';
 import { RotateCcw } from 'lucide-react'; // Better Reset icon
 import { useCallback, useMemo, useState } from 'react';
@@ -98,12 +98,12 @@ export default function OffersPage() {
                 {/* Main Content Area */}
                 <div className="flex-1 min-h-0 flex flex-col bg-white rounded-lg border border-gray-100">
                     {offersLoading ? (
-                        <div className="p-4"><BusinessOfferListSkeleton number={5} /></div>
+                        <div className="p-4"><AdminOfferListSkeleton number={5} /></div>
                     ) : data?.offers && data.offers.length > 0 ? (
                         <div className="flex flex-col h-full">
                             {/* Table area scrolls*/}
                             <div className="flex-1 overflow-auto">
-                                <BusinessOfferPaginatedList
+                                <AdminOfferPaginatedList
                                     offers={data.offers}
                                     currentPage={filters.page}
                                     totalPages={data.totalPages}

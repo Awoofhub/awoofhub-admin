@@ -3,7 +3,7 @@
 import { useState, useCallback, useMemo } from 'react';
 import { RotateCcw } from 'lucide-react';
 import ReportPaginatedList from '@/components/reports/ReportPaginatedList';
-import SearchInput from '@/components/offers/business/SearchInput';
+import SearchInput from '@/components/offers/admin/SearchInput';
 import { useReportsAdmin } from '@/features/reports/useReportsAdmin';
 import { useModerateReport } from '@/features/reports/useModerateReport';
 
