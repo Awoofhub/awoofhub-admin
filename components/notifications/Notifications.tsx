@@ -68,28 +68,22 @@ const NotificationToast = ({
       {...notificationVariants[type]}
       className="rounded-lg"
     >
-      <Stack
-        direction="row"
-        p="4"
-        spacing="3"
-        justifyContent="space-between"
-      >
-        <Stack spacing="2.5">
-          <Stack spacing="1">
-            <Text className="text-md font-semibold">
-              {title} !
-            </Text>
-            {notification.message && (
-              <Text fontSize="sm" color="muted">
-                {message}
-              </Text>
-            )}
-          </Stack>
-        </Stack>
-        <CloseButton
-          onClick={() => onDismiss(id)}
-          transform="translateY(-6px)"
-        />
+      <Stack p="10" spacing="2.5">
+        <Flex justifyContent="space-between" alignItems="center">
+          <Text className="text-lg font-semibold">
+            {title}!
+          </Text>
+          <CloseButton
+            onClick={() => onDismiss(id)}
+            size="sm" 
+          />
+        </Flex>
+
+        {message && (
+          <Text fontSize="sm" color="muted">
+            {message}
+          </Text>
+        )}
       </Stack>
     </Box>
   );
