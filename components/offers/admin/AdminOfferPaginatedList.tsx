@@ -17,7 +17,7 @@ export default function AdminOfferPaginatedList({ offers, currentPage, totalPage
   const [modalState, setModalState] = useState<{
     isOpen: boolean;
     offerId: string | null;
-    action: 'approved' | 'rejected' | null;
+    action: 'approved' | 'rejected' | 'pending' | null;
   }>({ isOpen: false, offerId: null, action: null });
 
   const [adminNote, setAdminNote] = useState('');
@@ -25,7 +25,7 @@ export default function AdminOfferPaginatedList({ offers, currentPage, totalPage
   const { mutate: moderateOffer, isPending } = useModerateOffer();
 
   // Passed down to OfferRow
-  const handleModerateClick = (id: string, action: 'approved' | 'rejected') => {
+  const handleModerateClick = (id: string, action: 'approved' | 'rejected' | 'pending') => {
     setModalState({ isOpen: true, offerId: id, action });
   };
 
@@ -63,7 +63,7 @@ export default function AdminOfferPaginatedList({ offers, currentPage, totalPage
 
       {/* Confirmation Modal */}
       {modalState.isOpen && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[150] p-4">
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-150 p-4">
           <div className="bg-white rounded-lg p-6 sm:p-8 max-w-md w-full shadow-2xl">
             <h2 className="text-xl font-bold text-gray-900 mb-4">
               {modalState.action === 'approved' ? 'Approve' : 'Reject'} Offer

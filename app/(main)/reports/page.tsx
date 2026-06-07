@@ -6,6 +6,7 @@ import ReportPaginatedList from '@/components/reports/ReportPaginatedList';
 import SearchInput from '@/components/offers/admin/SearchInput';
 import { useReportsAdmin } from '@/features/reports/useReportsAdmin';
 import { useModerateReport } from '@/features/reports/useModerateReport';
+import TableSkeleton from '@/components/table/TableSkeleton';
 
 interface Filters {
     search: string;
@@ -69,7 +70,7 @@ export default function ReportsPage() {
                 {/* Main Table Content */}
                 <div className="flex-1 min-h-0 flex flex-col bg-white rounded-lg border border-gray-100">
                     {isLoading ? (
-                        <div className="flex-1 flex items-center justify-center"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div></div>
+                        <div className="flex-1 overflow-auto p-4"><TableSkeleton rows={10} columns={5} /></div>
                     ) : data?.reports && data.reports.length > 0 ? (
                         <div className="flex-1 overflow-auto">
                             <ReportPaginatedList reports={data.reports} currentPage={filters.page} totalPages={data.totalPages} onPageChange={(page) => updateFilters({ page })} onModerateClick={handleModerate} />

@@ -54,7 +54,6 @@ export default function OfferRow({ offer, onModerateClick }: Props) {
 
   const isExpired = new Date(offer.endDate) < new Date();
 
-
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const rawStatus = offer.moderationStatus || (offer as any).status;
   const currentStatus = (rawStatus && rawStatus.toLowerCase() !== 'unknown') ? rawStatus.toLowerCase() : 'pending';

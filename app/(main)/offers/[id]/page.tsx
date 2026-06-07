@@ -3,13 +3,18 @@
 import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
+import { useEffect, useRef } from 'react';
 import OfferService from '@/services/offer-service';
 import { apiClient } from '@/lib/api-client';
 import Terms from '@/components/offer/Terms';
 import OfferDetailSkeleton from '@/components/offers/OfferDetailsSkeleton';
 import { formatDateTime } from '@/utils/formatDateTime';
 import Rating from '@mui/material/Rating';
-import { Check, X, AlertCircle, Edit2, History, AlertTriangle, Clock } from 'lucide-react';
+import {
+    Check, X,
+    Edit2, History,
+    Clock, ChevronDown
+} from 'lucide-react';
 import { useState } from 'react';
 import { useModerateOffer } from '@/features/offers/useModerateOffer';
 
@@ -21,10 +26,23 @@ export default function OfferDetailPage() {
     const [showModerationModal, setShowModerationModal] = useState(false);
     const [adminNote, setAdminNote] = useState('');
     const [moderationAction, setModerationAction] = useState<'approved' | 'rejected' | 'pending' | null>(null);
+    const [isModerationDropdownOpen, setIsModerationDropdownOpen] = useState(false);
 
     const { mutate: moderateOffer, isPending: isModerating } = useModerateOffer();
 
-    // 1. Fetch the Offer
+
+    const dropdownRef = useRef<HTMLDivElement>(null);
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+                setIsModerationDropdownOpen(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
+
+  
     const { data: offer, isLoading, error } = useQuery({
         queryKey: ['offer', offerId],
         queryFn: async () => {
@@ -33,18 +51,17 @@ export default function OfferDetailPage() {
         },
     });
 
-    // 2. Fetch the Moderation History (since notes are stored here now!)
     const { data: moderationHistory, isLoading: isLoadingHistory } = useQuery({
         queryKey: ['moderation-history', offerId],
         queryFn: async () => {
             const res = await apiClient.get(`/moderation/history/${offerId}`);
             return Array.isArray(res.data) ? res.data : [];
         },
-        enabled: !!offerId, // Only run when we have the ID
+        enabled: !!offerId,
     });
 
     if (isLoading) return (
-        <section className="w-full bg-white px-4 py-8 max-w-[1440px] mx-auto h-[90dvh] md:h-[88dvh]">
+        <section className="w-full bg-white px-4 py-8 max-w-360 mx-auto h-[90dvh] md:h-[88dvh]">
             <OfferDetailSkeleton />
         </section>
     );
@@ -66,6 +83,7 @@ export default function OfferDetailPage() {
     const handleModeration = async (action: 'approved' | 'rejected' | 'pending') => {
         setModerationAction(action);
         setShowModerationModal(true);
+        setIsModerationDropdownOpen(false);
     };
 
     const confirmModeration = () => {
@@ -89,27 +107,72 @@ export default function OfferDetailPage() {
         rejected: 'bg-red-50 text-red-700 border border-red-200',
     };
 
-    // Safely get the exact status the backend provides (e.g. "pending", "rejected")
+
     const currentStatus = (offer.status || offer.moderationStatus || 'pending').toLowerCase();
 
     return (
-        <section className="w-full bg-white flex flex-col h-[90dvh] md:h-[88dvh] overflow-hidden">
-            <div className="py-4 sm:py-6 md:py-8 px-3 sm:px-4 md:px-6 mx-auto w-full max-w-[1440px] flex flex-col h-full">
+        <section className="w-full bg-white flex flex-col h-[90dvh] md:h-[88dvh] overflow-hidden relative">
+            <div className="py-4 sm:py-6 md:py-8 px-3 sm:px-4 md:px-6 mx-auto w-full max-w-360 flex flex-col h-full">
 
-                <div className="mb-6 sm:mb-8 flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 shrink-0">
+                <div className="mb-6 sm:mb-8 flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4 shrink-0 relative">
                     <div className="flex-1">
                         <button onClick={() => router.back()} className="text-primary hover:text-orange-700 font-semibold mb-3 flex items-center gap-2 text-sm sm:text-base">
                             ← Back to Offers
                         </button>
                         <h1 className="text-2xl sm:text-3xl font-bold text-slate-800">{offer.title}</h1>
                     </div>
-                    <div className={`px-3 sm:px-4 py-2 rounded-lg font-bold text-xs sm:text-sm whitespace-nowrap capitalize ${statusConfig[currentStatus] || 'bg-gray-50 text-gray-500 border border-gray-200'}`}>
-                        {currentStatus}
+                    <div className="flex items-center gap-3">
+                        <div className={`px-3 sm:px-4 py-2 rounded-lg font-bold text-xs sm:text-sm whitespace-nowrap capitalize ${statusConfig[currentStatus] || 'bg-gray-50 text-gray-500 border border-gray-200'}`}>
+                            {currentStatus}
+                        </div>
+                        
+                        {/* Sticky Moderation Dropdown */}
+                        <div className="relative" ref={dropdownRef}>
+                            <button
+                                onClick={() => setIsModerationDropdownOpen(!isModerationDropdownOpen)}
+                                className={`flex items-center gap-2 px-3 sm:px-4 py-2 rounded-lg font-bold text-xs sm:text-sm transition-all ${
+                                    isModerationDropdownOpen
+                                        ? 'bg-amber-100 text-amber-900 border border-amber-300'
+                                        : 'bg-amber-50 text-amber-900 border border-amber-200 hover:bg-amber-100'
+                                }`}
+                            >
+                                <Edit2 className="w-4 h-4" />
+                                <span className="hidden sm:inline">Actions</span>
+                                <ChevronDown className={`w-4 h-4 transition-transform ${isModerationDropdownOpen ? 'rotate-180' : ''}`} />
+                            </button>
+
+                            {/* Dropdown Menu */}
+                            {isModerationDropdownOpen && (
+                                <div className="absolute top-full right-0 mt-2 w-40 sm:w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50 -mr-2 sm:mr-0">
+                                    <button
+                                        onClick={() => handleModeration('approved')}
+                                        disabled={currentStatus === 'approved' || currentStatus === 'active'}
+                                        className="w-full flex items-center gap-2 px-4 py-3 text-left text-sm font-medium text-green-700 hover:bg-green-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors border-b border-gray-100"
+                                    >
+                                        <Check className="w-4 h-4" /> Approve
+                                    </button>
+                                    <button
+                                        onClick={() => handleModeration('pending')}
+                                        disabled={currentStatus === 'pending'}
+                                        className="w-full flex items-center gap-2 px-4 py-3 text-left text-sm font-medium text-orange-700 hover:bg-orange-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors border-b border-gray-100"
+                                    >
+                                        <Clock className="w-4 h-4" /> Pending
+                                    </button>
+                                    <button
+                                        onClick={() => handleModeration('rejected')}
+                                        disabled={currentStatus === 'rejected' || currentStatus === 'block'}
+                                        className="w-full flex items-center gap-2 px-4 py-3 text-left text-sm font-medium text-red-700 hover:bg-red-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                                    >
+                                        <X className="w-4 h-4" /> Reject
+                                    </button>
+                                </div>
+                            )}
+                        </div>
                     </div>
                 </div>
 
                 <div className="flex-1 overflow-auto min-h-0 pr-2">
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8 pb-8">
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8 pb-8 lg:pb-0">
                         {/* LEFT COLUMN */}
                         <div className="lg:col-span-1">
                             <div className="bg-gray-100 rounded-lg p-4 sm:p-6 mb-4 sm:mb-6 flex items-center justify-center">
@@ -130,22 +193,6 @@ export default function OfferDetailPage() {
 
                         {/* RIGHT COLUMN */}
                         <div className="lg:col-span-2 space-y-6 md:space-y-8">
-
-                            {/* Moderation Controls - Always Visible 3-Way Logic */}
-                            <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 sm:p-6 shadow-sm">
-                                <h2 className="text-lg font-bold text-amber-900 mb-4 flex items-center gap-2"><Edit2 className="w-5 h-5" /> Moderation Actions</h2>
-                                <div className="flex flex-col xl:flex-row gap-3">
-                                    <button onClick={() => handleModeration('approved')} disabled={currentStatus === 'approved' || currentStatus === 'active'} className="flex-1 flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 disabled:opacity-50 text-white font-bold py-3 px-2 rounded-lg transition-colors text-sm">
-                                        <Check className="w-4 h-4" /> Approve
-                                    </button>
-                                    <button onClick={() => handleModeration('pending')} disabled={currentStatus === 'pending'} className="flex-1 flex items-center justify-center gap-2 bg-orange-500 hover:bg-orange-600 disabled:opacity-50 text-white font-bold py-3 px-2 rounded-lg transition-colors text-sm">
-                                        <Clock className="w-4 h-4" /> Mark Pending
-                                    </button>
-                                    <button onClick={() => handleModeration('rejected')} disabled={currentStatus === 'rejected' || currentStatus === 'block'} className="flex-1 flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 disabled:opacity-50 text-white font-bold py-3 px-2 rounded-lg transition-colors text-sm">
-                                        <X className="w-4 h-4" /> Reject
-                                    </button>
-                                </div>
-                            </div>
 
                             <div className="bg-gray-50 rounded-lg p-4 sm:p-6">
                                 <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-3 sm:mb-4">Rating & Reviews</h2>
@@ -170,7 +217,7 @@ export default function OfferDetailPage() {
                                 <Terms prop={offer.termsAndConditions} />
                             </div>
 
-                            {/* Moderation History Box to replace the old "Admin Notes" */}
+                         
                             <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 sm:p-6">
                                 <h2 className="text-lg font-bold text-blue-900 mb-4 flex items-center gap-2">
                                     <History className="w-5 h-5" /> Moderation History & Notes
@@ -206,7 +253,7 @@ export default function OfferDetailPage() {
 
                 {/* 3-Way Moderation Modal */}
                 {showModerationModal && (
-                    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[150] p-4">
+                    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-150 p-4">
                         <div className="bg-white rounded-lg p-6 sm:p-8 max-w-md w-full shadow-2xl">
                             <h2 className="text-xl font-bold text-gray-900 mb-4 capitalize">
                                 {moderationAction === 'approved' ? 'Approve' : moderationAction === 'rejected' ? 'Reject' : 'Mark as Pending'} Offer
@@ -232,8 +279,8 @@ export default function OfferDetailPage() {
                                     onClick={confirmModeration}
                                     disabled={isModerating || (!adminNote.trim() && moderationAction !== 'approved')}
                                     className={`flex-1 px-4 py-2 text-white font-semibold rounded-lg disabled:opacity-50 ${moderationAction === 'approved' ? 'bg-green-600 hover:bg-green-700'
-                                            : moderationAction === 'rejected' ? 'bg-red-600 hover:bg-red-700'
-                                                : 'bg-orange-500 hover:bg-orange-600'
+                                        : moderationAction === 'rejected' ? 'bg-red-600 hover:bg-red-700'
+                                            : 'bg-orange-500 hover:bg-orange-600'
                                         }`}
                                 >
                                     {isModerating ? 'Saving...' : 'Confirm'}
