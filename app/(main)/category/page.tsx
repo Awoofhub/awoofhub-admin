@@ -52,7 +52,7 @@ export default function CategoryPage() {
                     </button>
                 </header>
 
-                <div className="mb-4 sm:mb-6 bg-gray-50 p-3 sm:p-4 rounded-lg shrink-0 flex gap-3 w-full sm:w-1/2 lg:w-1/3">
+                <div className="mb-4 sm:mb-6 bg-gray-50 p-3 sm:p-4 rounded-lg shrink-0 flex gap-3 w-full ">
                     <SearchInput
                         value={search}
                         onChange={(val: string) => { setSearch(val); setPage(1); }}
