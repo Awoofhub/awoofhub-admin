@@ -9,26 +9,36 @@ interface ModeratePayload {
   id: string;
   status: "approved" | "rejected" | "pending";
   adminNote?: string;
+  reportId?: string;
 }
 
 export const useModerateOffer = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ id, status, adminNote }: ModeratePayload) => {
-      await apiClient
-        .post("/moderation/", {
-          targetType: "offer",
-          targetId: id,
-          actionType: status,
-          reason: adminNote || `Admin marked offer as ${status}`,
-        })
-        .catch((e) => console.error("Moderation logging failed", e));
+    mutationFn: async ({
+      id,
+      status,
+      adminNote,
+      reportId,
+    }: ModeratePayload) => {
+      const actionMap: Record<string, "activate" | "block" | "suspend"> = {
+        approved: "activate",
+        rejected: "block",
+        pending: "suspend",
+      };
 
-      const res = await apiClient.patch(`/offers/${id}`, {
-        moderationStatus: status,
-        adminNote: adminNote,
-      });
+      const payload: any = {
+        targetType: "offer",
+        targetId: id,
+        actionType: actionMap[status],
+        reason: adminNote || `Admin marked offer as ${status}`,
+      };
+
+      if (reportId) payload.reportId = reportId;
+
+      const res = await apiClient.post("/moderation", payload);
+
       return res.data;
     },
     onSuccess: () => {
@@ -40,13 +50,15 @@ export const useModerateOffer = () => {
       });
       queryClient.invalidateQueries({ queryKey: ["admin-offers"] });
       queryClient.invalidateQueries({ queryKey: ["offer"] });
+      queryClient.invalidateQueries({ queryKey: ["moderation-history"] }); // Refresh history instantly!
     },
+
     onError: (error: any) => {
       notificationsStore.getState().showNotification({
         type: "error",
         title: "Failed",
         duration: 5000,
-        message: error?.message || "Failed to update offer.",
+        message: error?.message || "Failed to moderate offer.",
       });
     },
   });

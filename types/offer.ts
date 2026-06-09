@@ -1,4 +1,5 @@
 export interface Offer {
+  status: string;
   id: string;
   title: string;
   description: string;
