@@ -1,55 +1,62 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import {
-  moderateUserService,
-  createModerationLog,
-} from "@/services/user-service";
+import { createModerationLog } from "@/services/user-service";
 import { notificationsStore } from "@/store/notifications/notifications";
 
 interface ModerateUserPayload {
   id: string;
   status: "active" | "suspended" | "banned";
   reason?: string;
+  reportId?: string;
 }
 
 export const useModerateUser = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ id, status, reason }: ModerateUserPayload) => {
-      // If banning or suspending, log status to the moderation history with the reason
-      if (status !== "active" && reason) {
-        await createModerationLog({
-          targetType: "user",
-          targetId: id,
-          actionType: status,
-          reason: reason,
-        });
-      }
-      // update the user's status
-      return moderateUserService(id, status);
-    },
+    mutationFn: async ({
+      id,
+      status,
+      reason,
+      reportId,
+    }: ModerateUserPayload) => {
+      const actionMap: Record<string, "activate" | "suspend" | "block"> = {
+        active: "activate",
+        suspended: "suspend",
+        banned: "block",
+      };
 
+      const payload: any = {
+        targetType: "user",
+        targetId: id,
+        actionType: actionMap[status],
+        reason: reason || `Admin marked user as ${status}`,
+      };
+
+      if (reportId) payload.reportId = reportId;
+
+      const res = await createModerationLog(payload);
+      return res.data;
+    },
     onSuccess: () => {
       notificationsStore.getState().showNotification({
         type: "success",
         title: "User Updated",
         duration: 3000,
-        message:
-          "User status and moderation history have been successfully updated.",
+        message: "User status and history successfully updated.",
       });
       queryClient.invalidateQueries({ queryKey: ["admin-users"] });
       queryClient.invalidateQueries({ queryKey: ["user"] });
       queryClient.invalidateQueries({ queryKey: ["moderation-history"] });
     },
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onError: (error: any) => {
       notificationsStore.getState().showNotification({
         type: "error",
         title: "Update Failed",
         duration: 5000,
-        message: error?.message || "Failed to update user status.",
+        message: error?.message || "Failed to moderate user.",
       });
     },
   });

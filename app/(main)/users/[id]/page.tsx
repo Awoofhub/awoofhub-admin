@@ -3,6 +3,7 @@
 import { useParams, useRouter } from 'next/navigation';
 import { useUserById } from '@/features/user/useUserById';
 import { useModerateUser } from '@/features/user/useModerateUser';
+import OfferDetailSkeleton from '@/components/offers/OfferDetailsSkeleton';
 import { formatDateTime } from '@/utils/formatDateTime';
 import { CheckCircle2, Ban, ShieldAlert, UserIcon, MapPin, Globe } from 'lucide-react';
 import Image from 'next/image';
@@ -18,7 +19,7 @@ export default function UserDetailPage() {
     const [modalState, setModalState] = useState<{ isOpen: boolean; action: 'active' | 'suspended' | 'banned' | null }>({ isOpen: false, action: null });
     const [reason, setReason] = useState('');
 
-    if (isLoading) return <div className="p-8 text-center text-gray-500">Loading user details...</div>;
+    if (isLoading) return <section className="w-full bg-white px-4 py-8 max-w-360 mx-auto h-[90dvh] md:h-[88dvh]"><OfferDetailSkeleton /></section>;
     if (!user) return <div className="p-8 text-center text-red-500">Failed to load user.</div>;
 
     const handleActionClick = (action: 'active' | 'suspended' | 'banned') => {

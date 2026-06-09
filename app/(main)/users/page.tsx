@@ -2,17 +2,18 @@
 'use client';
 
 import { useState, useCallback, useMemo } from 'react';
-import { RotateCcw, Plus } from 'lucide-react';
+import { RotateCcw} from 'lucide-react';
 import UserPaginatedList from '@/components/users/UserPaginatedList';
 import SearchInput from '@/components/offers/admin/SearchInput';
 import { useUsersAdmin } from '@/features/user/useUsersAdmin';
 import { useModerateUser } from '@/features/user/useModerateUser';
-import { addUserService } from '@/services/user-service';
-import { notificationsStore } from '@/store/notifications/notifications';
+// import { addUserService } from '@/services/user-service';
+// import { notificationsStore } from '@/store/notifications/notifications';
+import TableSkeleton from '@/components/table/TableSkeleton';
 
 export default function UsersPage() {
     const [filters, setFilters] = useState({ search: '', role: '', status: '', page: 1, limit: 10 });
-    const { data, isLoading, error, refetch } = useUsersAdmin(filters);
+    const { data, isLoading, error} = useUsersAdmin(filters);
     const { mutate: moderateUser, isPending: isModerating } = useModerateUser();
 
 
@@ -100,7 +101,7 @@ export default function UsersPage() {
 
                 <div className="flex-1 min-h-0 flex flex-col bg-white rounded-lg border border-gray-100">
                     {isLoading ? (
-                        <div className="flex-1 flex items-center justify-center"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div></div>
+                        <div className="flex-1 overflow-auto p-4"><TableSkeleton rows={10} columns={5} /></div>
                     ) : data?.users && data.users.length > 0 ? (
                         <div className="flex-1 overflow-auto">
                             <UserPaginatedList users={data.users} currentPage={filters.page} totalPages={data.totalPages} onPageChange={(p) => updateFilters({ page: p })} onModerateClick={handleModerate} />

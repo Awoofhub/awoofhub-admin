@@ -8,7 +8,7 @@ import RowActions from './RowActions';
 
 interface Props {
   offer: Offer;
-  onModerateClick: (id: string, action: 'approved' | 'rejected') => void;
+  onModerateClick: (id: string, action: 'approved' | 'rejected' | 'pending') => void;
 }
 
 export function ExpiryBadge({ isExpired }: { isExpired: boolean }) {
@@ -54,7 +54,6 @@ export default function OfferRow({ offer, onModerateClick }: Props) {
 
   const isExpired = new Date(offer.endDate) < new Date();
 
-
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const rawStatus = offer.moderationStatus || (offer as any).status;
   const currentStatus = (rawStatus && rawStatus.toLowerCase() !== 'unknown') ? rawStatus.toLowerCase() : 'pending';
@@ -82,24 +81,25 @@ export default function OfferRow({ offer, onModerateClick }: Props) {
       <td className="px-2 sm:px-3 py-3 sm:py-5 text-xs action-cell" onClick={(e) => e.stopPropagation()}>
         <div className="flex items-center gap-2">
           <StatusBadge status={currentStatus} />
-          {currentStatus === 'pending' && (
-            <div className="flex items-center gap-1">
-              <button
-                onClick={() => onModerateClick(offer.id, 'approved')}
-                className="p-1 bg-green-100 hover:bg-green-200 text-green-700 rounded transition-colors"
-                title="Approve"
-              >
+
+          <div className="flex items-center gap-1">
+            {currentStatus !== 'approved' && (
+              <button onClick={() => onModerateClick(offer.id, 'approved')} className="p-1 bg-green-100 hover:bg-green-200 text-green-700 rounded transition-colors" title="Approve">
                 <Check className="w-4 h-4" />
               </button>
-              <button
-                onClick={() => onModerateClick(offer.id, 'rejected')}
-                className="p-1 bg-red-100 hover:bg-red-200 text-red-700 rounded transition-colors"
-                title="Reject"
-              >
+            )}
+            {currentStatus !== 'pending' && (
+              <button onClick={() => onModerateClick(offer.id, 'pending')} className="p-1 bg-orange-100 hover:bg-orange-200 text-orange-700 rounded transition-colors" title="Mark Pending">
+                <Clock className="w-4 h-4" />
+              </button>
+            )}
+            {currentStatus !== 'rejected' && (
+              <button onClick={() => onModerateClick(offer.id, 'rejected')} className="p-1 bg-red-100 hover:bg-red-200 text-red-700 rounded transition-colors" title="Reject">
                 <X className="w-4 h-4" />
               </button>
-            </div>
-          )}
+            )}
+          </div>
+
         </div>
       </td>
 
