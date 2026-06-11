@@ -2,7 +2,7 @@
 
 import DashboardDate from "@/components/dashboard/DashboardDate";
 import StatsCard from "@/components/dashboard/StatsCard";
-import Loading from "@/components/loading/Loading";
+import { Loading } from "@/components/loading/Loading";
 import { useDashboard } from "@/features/dashboard/useDashboard";
 import { AlertCircle, Briefcase, CalendarX, CheckCircle, CheckCircle2, Clock, FileText, MessageSquare, ShieldAlert, Tag, Users, UserX, XCircle } from 'lucide-react';
 
