@@ -12,7 +12,7 @@ interface CommentModerationModalProps {
   onSubmitSuccess?: () => void;
 }
 
-type ActionType = "delete" | "warning" | "restore";
+type ActionType = "delete";
 
 export default function CommentModerationModal({
   isOpen,
@@ -113,12 +113,11 @@ export default function CommentModerationModal({
             <select
               id="mod-action-type"
               value={actionType}
+              disabled
               onChange={(e) => setActionType(e.target.value as ActionType)}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-slate-700 focus:ring-2 focus:ring-primary focus:border-transparent outline-none text-sm transition-shadow"
             >
               <option value="delete">Delete/Remove</option>
-              <option value="warning">Warning</option>
-              <option value="restore">Restore</option>
             </select>
           </div>
 

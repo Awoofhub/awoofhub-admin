@@ -3,6 +3,7 @@
 import DashboardDate from "@/components/dashboard/DashboardDate";
 import StatsCard from "@/components/dashboard/StatsCard";
 import Loading from "@/components/loading/Loading";
+import { DashLoading } from "@/components/loading/Loading";
 import { useDashboard } from "@/features/dashboard/useDashboard";
 import { AlertCircle, Briefcase, CalendarX, CheckCircle, CheckCircle2, Clock, FileText, MessageSquare, ShieldAlert, Tag, Users, UserX, XCircle } from 'lucide-react';
 
@@ -11,7 +12,7 @@ export default function Home() {
   const { data, isLoading } = useDashboard()
 
   if (isLoading) {
-    return <Loading />
+    return <DashLoading />
   }
 
   if (!data) {
