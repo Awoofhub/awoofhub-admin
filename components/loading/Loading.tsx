@@ -1,6 +1,4 @@
 import { Spinner } from '@chakra-ui/react'
-import { DashboardLoading } from '../dashboard/DashboardSkeletion'
-
 export default function Loading() {
 
   return (
@@ -16,9 +14,3 @@ export default function Loading() {
 
 }
 
-export function DashLoading() {
-  return (
-    <DashboardLoading />
-  )
-
-}
