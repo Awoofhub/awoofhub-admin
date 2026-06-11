@@ -1,5 +1,3 @@
-
-
 export function Dashboardskeleton() {
     return (
         <div className="min-h-screen bg-slate-50 px-4 py-6 md:flex md:gap-6">
@@ -34,8 +32,6 @@ export function Dashboardskeleton() {
 
 
                                 </div>
-
-
                             </div>
 
                         ))}
