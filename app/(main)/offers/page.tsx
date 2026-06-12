@@ -69,7 +69,12 @@ export default function OffersPage() {
                     <div className="sm:col-span-2 lg:col-span-2">
                         <SearchInput
                             value={filters.search}
-                            onChange={(value: string) => updateFilters({ search: value, page: 1 })}
+                            onChange={(val) => {
+                                setFilters((prev) => {
+                                    if (prev.search === val) return prev;
+                                    return { ...prev, search: val, page: 1 };
+                                });
+                            }}
                         />
                     </div>
 
@@ -96,21 +101,17 @@ export default function OffersPage() {
                 </div>
 
                 {/* Main Content Area */}
-                <div className="flex-1 min-h-0 flex flex-col bg-white rounded-lg border border-gray-100">
+                <div className="flex-1 min-h-0 lg:-mb-10 flex flex-col bg-white rounded-lg border border-gray-100 overflow-hidden">
                     {offersLoading ? (
-                        <div className="p-4"><AdminOfferListSkeleton number={5} /></div>
+                        <div className=" flex-1 overflow-auto p-4"><AdminOfferListSkeleton number={5} /></div>
                     ) : data?.offers && data.offers.length > 0 ? (
-                        <div className="flex flex-col h-full">
-                            {/* Table area scrolls*/}
-                            <div className="flex-1 overflow-auto">
-                                <AdminOfferPaginatedList
-                                    offers={data.offers}
-                                    currentPage={filters.page}
-                                    totalPages={data.totalPages}
-                                    onPageChange={(page) => updateFilters({ page })}
-                                />
-                            </div>
-                        </div>
+
+                        <AdminOfferPaginatedList
+                            offers={data.offers}
+                            currentPage={filters.page}
+                            totalPages={data.totalPages}
+                            onPageChange={(page) => updateFilters({ page })}
+                        />
                     ) : (
                         <div className="flex flex-col items-center justify-center h-full min-h-[40vh]">
                             <h2 className="text-lg sm:text-xl font-bold text-gray-700 mb-2">No Offers Found</h2>

@@ -2,7 +2,7 @@
 'use client';
 
 import { useState, useCallback, useMemo } from 'react';
-import { RotateCcw} from 'lucide-react';
+import { RotateCcw } from 'lucide-react';
 import UserPaginatedList from '@/components/users/UserPaginatedList';
 import SearchInput from '@/components/offers/admin/SearchInput';
 import { useUsersAdmin } from '@/features/user/useUsersAdmin';
@@ -13,7 +13,7 @@ import TableSkeleton from '@/components/table/TableSkeleton';
 
 export default function UsersPage() {
     const [filters, setFilters] = useState({ search: '', role: '', status: '', page: 1, limit: 10 });
-    const { data, isLoading, error} = useUsersAdmin(filters);
+    const { data, isLoading, error } = useUsersAdmin(filters);
     const { mutate: moderateUser, isPending: isModerating } = useModerateUser();
 
 
@@ -78,7 +78,15 @@ export default function UsersPage() {
                 </header>
 
                 <div className="mb-4 sm:mb-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2 sm:gap-3 bg-gray-50 p-3 sm:p-4 rounded-lg shrink-0">
-                    <div className="sm:col-span-2"><SearchInput value={filters.search} onChange={(val) => updateFilters({ search: val, page: 1 })} /></div>
+                    <div className="sm:col-span-2"><SearchInput
+                        value={filters.search}
+                        onChange={(val) => {
+                            setFilters((prev) => {
+                                if (prev.search === val) return prev;
+                                return { ...prev, search: val, page: 1 };
+                            });
+                        }}
+                    /></div>
 
                     <select value={filters.role} onChange={(e) => updateFilters({ role: e.target.value, page: 1 })} className="px-4 py-2 text-sm border border-gray-300 rounded-lg outline-none bg-white">
                         <option value="">All Roles</option>
@@ -99,13 +107,17 @@ export default function UsersPage() {
                     </button>
                 </div>
 
-                <div className="flex-1 min-h-0 flex flex-col bg-white rounded-lg border border-gray-100">
+                <div className="flex-1 min-h-0 lg:-mb-10 flex flex-col bg-white rounded-lg border border-gray-100 overflow-hidden">
                     {isLoading ? (
                         <div className="flex-1 overflow-auto p-4"><TableSkeleton rows={10} columns={5} /></div>
                     ) : data?.users && data.users.length > 0 ? (
-                        <div className="flex-1 overflow-auto">
-                            <UserPaginatedList users={data.users} currentPage={filters.page} totalPages={data.totalPages} onPageChange={(p) => updateFilters({ page: p })} onModerateClick={handleModerate} />
-                        </div>
+                        <UserPaginatedList
+                            users={data.users}
+                            currentPage={filters.page}
+                            totalPages={data.totalPages}
+                            onPageChange={(p) => updateFilters({ page: p })}
+                            onModerateClick={handleModerate}
+                        />
                     ) : (
                         <div className="flex-1 flex flex-col items-center justify-center"><h2 className="text-lg font-bold text-gray-700">No Users Found</h2></div>
                     )}
