@@ -1,14 +1,17 @@
 import { Offer } from '@/types/offer';
 import { formatDateTime } from '@/utils/formatDateTime';
 import Rating from '@mui/material/Rating';
-import { AlertTriangle, Check, Clock, RotateCcw, X, XCircle } from 'lucide-react';
+import {
+  AlertTriangle, Check, Clock, RotateCcw,
+  XCircle
+} from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import RowActions from './RowActions';
 
 interface Props {
   offer: Offer;
-  onModerateClick: (id: string, action: 'approved' | 'rejected' | 'pending') => void;
+  onModerateClick: (id: string, action: 'approved' | 'rejected' | 'pending' | 'delete') => void;
 }
 
 export function ExpiryBadge({ isExpired }: { isExpired: boolean }) {
@@ -81,7 +84,7 @@ export default function OfferRow({ offer, onModerateClick }: Props) {
       <td className="px-2 sm:px-3 py-3 sm:py-5 text-xs action-cell" onClick={(e) => e.stopPropagation()}>
         <div className="flex items-center gap-2">
           <StatusBadge status={currentStatus} />
-
+          {/* 
           <div className="flex items-center gap-1">
             {currentStatus !== 'approved' && (
               <button onClick={() => onModerateClick(offer.id, 'approved')} className="p-1 bg-green-100 hover:bg-green-200 text-green-700 rounded transition-colors" title="Approve">
@@ -98,14 +101,18 @@ export default function OfferRow({ offer, onModerateClick }: Props) {
                 <X className="w-4 h-4" />
               </button>
             )}
-          </div>
+          </div> */}
 
         </div>
       </td>
 
       <td className="hidden sm:table-cell px-2 sm:px-3 py-3 sm:py-5 text-xs"><ExpiryBadge isExpired={isExpired} /></td>
       <td className="px-2 sm:px-3 py-3 sm:py-5 text-center action-cell" onClick={(e) => e.stopPropagation()}>
-        <RowActions offerId={offer.id} />
+        <RowActions
+          offerId={offer.id}
+          currentStatus={currentStatus}
+          onModerateClick={onModerateClick}
+        />
       </td>
     </tr>
   );
