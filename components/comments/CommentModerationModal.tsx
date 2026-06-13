@@ -12,7 +12,7 @@ interface CommentModerationModalProps {
   onSubmitSuccess?: () => void;
 }
 
-type ActionType = "delete" | "warning" | "restore";
+type ActionType = "delete";
 
 export default function CommentModerationModal({
   isOpen,
