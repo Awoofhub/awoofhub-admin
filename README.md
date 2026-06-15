@@ -118,37 +118,10 @@ Static assets and images.
 
 ## 3. Tech Stack
 
-### Core
-- Next.js 16
-- React 19
-- TypeScript
-
-### UI & Styling
-- Chakra UI
-- Material UI (MUI)
-- Tailwind CSS v4
-- Emotion
-
-### State & Data
-- TanStack Query
-- Zustand
-- Axios
-
-### Features
-- Google OAuth
-- Stream Chat
-- Google Maps API
-- FilePond
-
-### Data Visualization
-- MUI X Charts
-- Recharts
-
-### Testing
-- Vitest
-- Testing Library
-- MSW
-
-### Tooling
-- ESLint
-- PostCSS
+| Category | Technologies |
+|----------|------------|
+| Frontend | Next.js, React, TypeScript |
+| UI | Chakra UI, MUI, Tailwind CSS |
+| State | Zustand, TanStack Query |
+| API | Axios |
+| Testing | Vitest, Testing Library, MSW |
