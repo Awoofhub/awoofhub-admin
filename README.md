@@ -115,3 +115,40 @@ Static assets and images.
 - Application branding assets
 
 **Purpose:** Stores publicly accessible static files.
+
+## 3. Tech Stack
+
+### Core
+- Next.js 16
+- React 19
+- TypeScript
+
+### UI & Styling
+- Chakra UI
+- Material UI (MUI)
+- Tailwind CSS v4
+- Emotion
+
+### State & Data
+- TanStack Query
+- Zustand
+- Axios
+
+### Features
+- Google OAuth
+- Stream Chat
+- Google Maps API
+- FilePond
+
+### Data Visualization
+- MUI X Charts
+- Recharts
+
+### Testing
+- Vitest
+- Testing Library
+- MSW
+
+### Tooling
+- ESLint
+- PostCSS
