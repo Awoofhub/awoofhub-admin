@@ -5,6 +5,7 @@ import Loading from '@/components/loading/Loading';
 import { useDashboard } from '@/features/dashboard/useDashboard';
 import { ResponsiveContainer, PieChart, Pie, Cell, Legend, Tooltip } from 'recharts';
 import { FileText, AlertCircle, CheckCircle2, XCircle, PieChartIcon } from 'lucide-react';
+import LoadingSkeleton from '@/components/loading/LoadingSkeleton';
 
 const PIE_COLORS = ['#3B82F6', '#22C55E', '#EF4444'];
 
@@ -69,7 +70,7 @@ function ReportsAnalyticsContent({ reports }: { reports: any }) {
 export default function DashboardReportsPage() {
     const { data, isLoading } = useDashboard();
 
-    if (isLoading) return <Loading />;
+    if (isLoading) return <LoadingSkeleton />;
     if (!data) return <section className="pt-14 px-6 text-center text-gray-500">No data available.</section>;
 
     return (

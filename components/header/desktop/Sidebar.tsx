@@ -52,7 +52,7 @@ export default function Sidebar() {
   ];
 
   return (
-    <div className="fixed top-0 z-[100] w-50 h-screen hidden md:flex flex-col items-center justify-start border border-gray-300 bg-primary">
+    <div className="fixed top-0 z-[100] w-50 h-screen hidden md:flex flex-col items-center justify-start border border-gray-300 bg-primary  overflow-y-auto pb-4">
 
       {/* Logo */}
       <Link className="py-8" href="/">

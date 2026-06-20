@@ -8,6 +8,7 @@ import {
     PieChart, Pie, Cell, Legend,
 } from 'recharts';
 import { Tag, Clock, CheckCircle, XCircle, PieChartIcon, TrendingUp } from 'lucide-react';
+import LoadingSkeleton from '@/components/loading/LoadingSkeleton';
 
 const PIE_COLORS = ['#22C55E', '#FB923C', '#E11D48', '#A855F7'];
 
@@ -33,9 +34,9 @@ interface StatCard {
 
 interface Props {
     offers: {
-        totalOffers:   number;
+        totalOffers: number;
         pendingOffers: number;
-        activeOffers:  number;
+        activeOffers: number;
         expiredOffers: number;
     };
 }
@@ -44,7 +45,7 @@ function buildBarData(total: number): { month: string; offers: number; }[] {
     if (total <= 0) return [];
     const inflated = (v: number, pct: number) => Math.round(v * pct);
     return [
-        { month: 'Mar', offers: inflated(total, 0.1)  },
+        { month: 'Mar', offers: inflated(total, 0.1) },
         { month: 'Apr', offers: inflated(total, 0.15) },
         { month: 'May', offers: inflated(total, 0.25) },
         { month: 'Jun', offers: total - inflated(total, 0.1) - inflated(total, 0.15) - inflated(total, 0.25) },
@@ -53,16 +54,16 @@ function buildBarData(total: number): { month: string; offers: number; }[] {
 
 function DashboardReportContent({ offers }: Props) {
     const statCards: StatCard[] = [
-        { label: 'Total Offers',   value: offers.totalOffers,  icon: Tag,         iconBg: 'bg-emerald-100', description: 'All offers on the platform' },
-        { label: 'Pending',        value: offers.pendingOffers, icon: Clock,       iconBg: 'bg-orange-100',  description: 'Awaiting moderation'    },
-        { label: 'Active',         value: offers.activeOffers,  icon: CheckCircle, iconBg: 'bg-green-100',   description: 'Currently live'         },
-        { label: 'Expired',        value: offers.expiredOffers, icon: XCircle,     iconBg: 'bg-rose-100',    description: 'Past end date'          },
+        { label: 'Total Offers', value: offers.totalOffers, icon: Tag, iconBg: 'bg-emerald-100', description: 'All offers on the platform' },
+        { label: 'Pending', value: offers.pendingOffers, icon: Clock, iconBg: 'bg-orange-100', description: 'Awaiting moderation' },
+        { label: 'Active', value: offers.activeOffers, icon: CheckCircle, iconBg: 'bg-green-100', description: 'Currently live' },
+        { label: 'Expired', value: offers.expiredOffers, icon: XCircle, iconBg: 'bg-rose-100', description: 'Past end date' },
     ];
 
     const barData = buildBarData(offers.totalOffers);
 
     const donutData = [
-        { name: 'Active',  value: offers.activeOffers  },
+        { name: 'Active', value: offers.activeOffers },
         { name: 'Pending', value: offers.pendingOffers },
         { name: 'Expired', value: offers.expiredOffers },
     ].filter((d) => d.value > 0);
@@ -213,7 +214,7 @@ function DashboardReportContent({ offers }: Props) {
 export default function DashboardOffersPage() {
     const { data, isLoading } = useDashboard();
 
-    if (isLoading) return <Loading />;
+    if (isLoading) return <LoadingSkeleton />;
     if (!data) {
         return (
             <section className="pt-14 px-6">

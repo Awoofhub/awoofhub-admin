@@ -2,6 +2,7 @@
 
 import DashboardDate from '@/components/dashboard/DashboardDate';
 import Loading from '@/components/loading/Loading';
+import LoadingSkeleton from '@/components/loading/LoadingSkeleton';
 import { useDashboard } from '@/features/dashboard/useDashboard';
 import { Users, Briefcase, ShieldAlert, Ban, PieChartIcon } from 'lucide-react';
 import { ResponsiveContainer, PieChart, Pie, Cell, Legend, Tooltip } from 'recharts';
@@ -11,7 +12,7 @@ const PIE_COLORS = ['#3B82F6', '#6366F1', '#F97316', '#EF4444'];
 export default function DashboardUsersPage() {
     const { data, isLoading } = useDashboard();
 
-    if (isLoading) return <Loading />;
+    if (isLoading) return <LoadingSkeleton />;
     if (!data) return <section className="pt-14 px-6 text-center text-gray-500">No data available.</section>;
 
     const stats = data.users;

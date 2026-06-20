@@ -3,7 +3,7 @@
 import { useUser } from "@/features/user/useUser";
 import { usePathname, useRouter } from "next/navigation";
 import { ReactNode, useEffect } from "react";
-import Loading from "../loading/Loading";
+import HomeLoadingSkeleton from "../loading/HomeLoadingSkeleton";
 
 type ProtectedProps = {
     children: ReactNode;
@@ -23,7 +23,7 @@ export default function Protected({ children }: ProtectedProps) {
     }, [user.data, user.isLoading, pathname, router]);
 
     if (user.isLoading) {
-        return <Loading />;
+        return <HomeLoadingSkeleton />;
     }
 
     if (user.data?.role !== REQUIRED_ROLE) {
