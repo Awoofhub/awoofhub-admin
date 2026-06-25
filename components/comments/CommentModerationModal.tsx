@@ -12,7 +12,7 @@ interface CommentModerationModalProps {
   onSubmitSuccess?: () => void;
 }
 
-type ActionType = "delete" | "warning" | "restore";
+type ActionType = "delete";
 
 export default function CommentModerationModal({
   isOpen,
@@ -75,7 +75,7 @@ export default function CommentModerationModal({
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[150] p-4 animate-fade-in">
       <div className="bg-white rounded-xl shadow-xl max-w-lg w-full overflow-hidden border border-gray-100 flex flex-col max-h-[90vh]">
-        {/* Header */}
+
         <div className="px-6 py-4 bg-slate-50 border-b border-gray-200 flex items-center justify-between">
           <div className="flex items-center gap-2.5 text-red-600">
             <ShieldAlert className="w-5 h-5" />
@@ -89,7 +89,7 @@ export default function CommentModerationModal({
           </button>
         </div>
 
-        {/* Form Content */}
+
         <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto p-6 space-y-4">
           {commentText && (
             <div className="bg-slate-50 border border-slate-200 rounded-lg p-3.5 text-sm text-slate-600">
@@ -105,24 +105,24 @@ export default function CommentModerationModal({
             </div>
           )}
 
-          {/* Action Type */}
+
           <div className="space-y-1">
             <label htmlFor="mod-action-type" className="block text-sm font-semibold text-slate-700">
               Action Type
             </label>
             <select
               id="mod-action-type"
+              disabled
               value={actionType}
               onChange={(e) => setActionType(e.target.value as ActionType)}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-slate-700 focus:ring-2 focus:ring-primary focus:border-transparent outline-none text-sm transition-shadow"
             >
               <option value="delete">Delete/Remove</option>
-              <option value="warning">Warning</option>
-              <option value="restore">Restore</option>
+
             </select>
           </div>
 
-          {/* Reason */}
+
           <div className="space-y-1">
             <label htmlFor="mod-reason" className="block text-sm font-semibold text-slate-700">
               Reason <span className="text-red-500">*</span>
@@ -138,7 +138,7 @@ export default function CommentModerationModal({
             />
           </div>
 
-          {/* Report ID */}
+
           <div className="space-y-1">
             <label htmlFor="mod-report-id" className="block text-sm font-semibold text-slate-700">
               Report ID (Optional)
@@ -153,10 +153,7 @@ export default function CommentModerationModal({
             />
           </div>
 
-          {/* Ends At (Conditional) */}
 
-
-          {/* Buttons */}
           <div className="pt-4 border-t border-gray-200 flex gap-3">
             <button
               type="button"
