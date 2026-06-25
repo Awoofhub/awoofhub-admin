@@ -7,7 +7,7 @@ import { notificationsStore } from "@/store/notifications/notifications";
 
 interface ModeratePayload {
   id: string;
-  status: "approved" | "rejected" | "pending";
+  status: "approved" | "rejected" | "pending" | "suspended";
   adminNote?: string;
   reportId?: string;
 }
@@ -26,6 +26,7 @@ export const useModerateOffer = () => {
         approved: "activate",
         rejected: "block",
         pending: "suspend",
+        suspended: "suspend",
       };
 
       const payload: any = {

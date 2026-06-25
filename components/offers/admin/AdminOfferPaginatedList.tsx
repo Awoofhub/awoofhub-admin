@@ -17,7 +17,7 @@ export default function AdminOfferPaginatedList({ offers, currentPage, totalPage
   const [modalState, setModalState] = useState<{
     isOpen: boolean;
     offerId: string | null;
-    action: 'approved' | 'rejected' | 'pending' | 'delete' | null;
+    action: 'approved' | 'rejected' | 'pending' | 'suspended' | 'delete' | null;
   }>({ isOpen: false, offerId: null, action: null });
 
   const [adminNote, setAdminNote] = useState('');
@@ -25,7 +25,7 @@ export default function AdminOfferPaginatedList({ offers, currentPage, totalPage
   const { mutate: moderateOffer, isPending: isModerating } = useModerateOffer();
   const { mutate: deleteOffer, isPending: isDeleting } = useDeleteOffer();
 
-  const handleModerateClick = (id: string, action: 'approved' | 'rejected' | 'pending' | 'delete') => {
+  const handleModerateClick = (id: string, action: 'approved' | 'rejected' | 'pending' | 'suspended' | 'delete') => {
     setModalState({ isOpen: true, offerId: id, action });
   };
 
@@ -83,16 +83,22 @@ export default function AdminOfferPaginatedList({ offers, currentPage, totalPage
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-150 p-4">
           <div className="bg-white rounded-lg p-6 sm:p-8 max-w-md w-full shadow-2xl">
             <h2 className="text-xl font-bold text-gray-900 mb-4 capitalize">
-              {modalState.action === 'approved' ? 'Approve' : modalState.action === 'rejected' ? 'Reject' : modalState.action === 'delete' ? 'Delete' : 'Mark as Pending'} Offer
+              {modalState.action === 'approved' ? 'Approve'
+                : modalState.action === 'rejected' ? 'Reject'
+                : modalState.action === 'suspended' ? 'Suspend'
+                : modalState.action === 'delete' ? 'Delete'
+                : 'Mark as Pending'} Offer
             </h2>
             <p className="text-gray-600 mb-6 text-sm">
               {modalState.action === 'approved'
                 ? 'Add any notes and approve this offer.'
                 : modalState.action === 'rejected'
                   ? 'Please explain why you are rejecting this offer.'
-                  : modalState.action === 'delete'
-                    ? 'Please provide a reason for permanently deleting this offer. This cannot be undone.'
-                    : 'Add a reason for marking this offer as pending review.'}
+                  : modalState.action === 'suspended'
+                    ? 'Please provide a reason for suspending this offer. It will be hidden from users.'
+                    : modalState.action === 'delete'
+                      ? 'Please provide a reason for permanently deleting this offer. This cannot be undone.'
+                      : 'Add a reason for marking this offer as pending review.'}
             </p>
             <textarea
               value={adminNote}
@@ -112,6 +118,7 @@ export default function AdminOfferPaginatedList({ offers, currentPage, totalPage
                 disabled={isPending || (!adminNote.trim() && modalState.action !== 'approved')}
                 className={`flex-1 px-4 py-2 text-white font-semibold rounded-lg disabled:opacity-50 ${modalState.action === 'approved' ? 'bg-green-600 hover:bg-green-700'
                     : modalState.action === 'rejected' || modalState.action === 'delete' ? 'bg-red-600 hover:bg-red-700'
+                    : modalState.action === 'suspended' ? 'bg-amber-500 hover:bg-amber-600'
                       : 'bg-orange-500 hover:bg-orange-600'
                   }`}
               >

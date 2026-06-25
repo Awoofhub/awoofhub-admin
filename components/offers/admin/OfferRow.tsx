@@ -2,7 +2,7 @@ import { Offer } from '@/types/offer';
 import { formatDateTime } from '@/utils/formatDateTime';
 import Rating from '@mui/material/Rating';
 import {
-  AlertTriangle, Check, Clock, RotateCcw,
+  AlertTriangle, Ban, Check, Clock, RotateCcw,
   XCircle
 } from 'lucide-react';
 import Image from 'next/image';
@@ -11,7 +11,7 @@ import RowActions from './RowActions';
 
 interface Props {
   offer: Offer;
-  onModerateClick: (id: string, action: 'approved' | 'rejected' | 'pending' | 'delete') => void;
+  onModerateClick: (id: string, action: 'approved' | 'rejected' | 'pending' | 'suspended' | 'delete') => void;
 }
 
 export function ExpiryBadge({ isExpired }: { isExpired: boolean }) {
@@ -32,6 +32,7 @@ function StatusBadge({ status }: { status: string }) {
     approved: "bg-green-50 text-green-600 border-green-100",
     pending: "bg-orange-50 text-orange-600 border-orange-100",
     rejected: "bg-red-50 text-red-600 border-red-100",
+    suspended: "bg-amber-50 text-amber-600 border-amber-100",
   };
 
   const currentClass = config[status] || "bg-gray-50 text-gray-600 border-gray-200";
@@ -41,6 +42,7 @@ function StatusBadge({ status }: { status: string }) {
       {status === 'approved' && <Check className="w-3 h-3" />}
       {status === 'pending' && <RotateCcw className="w-3 h-3" />}
       {status === 'rejected' && <XCircle className="w-3 h-3" />}
+      {status === 'suspended' && <Ban className="w-3 h-3" />}
       {status}
     </div>
   );

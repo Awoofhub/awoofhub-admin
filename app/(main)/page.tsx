@@ -2,7 +2,7 @@
 
 import DashboardDate from "@/components/dashboard/DashboardDate";
 import StatsCard from "@/components/dashboard/StatsCard";
-import Loading from "@/components/loading/Loading";
+// import Loading from "@/components/loading/Loading";
 import LoadingSkeleton from "@/components/loading/LoadingSkeleton";
 import { useDashboard } from "@/features/dashboard/useDashboard";
 import { AlertCircle, Briefcase, CalendarX, CheckCircle, CheckCircle2, Clock, FileText, MessageSquare, ShieldAlert, Tag, Users, UserX, XCircle } from 'lucide-react';
@@ -24,7 +24,7 @@ export default function Home() {
   }
 
   return (
-    <section className="max-w-[1440px] bg-white flex flex-col w-full overflow-auto">
+    <section className="max-w-360 bg-white flex flex-col w-full overflow-auto">
 
       <div className="py-8 px-4 mx-auto h-[90dvh] md:h-[88dvh]">
         <header className="mb-8 flex justify-between items-center">

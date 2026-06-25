@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { Eye, Trash2, Check, Clock, X } from "lucide-react";
+import { Eye, Trash2, Check, Clock, X, Ban } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { BsThreeDots } from "react-icons/bs";
@@ -7,7 +7,7 @@ import { BsThreeDots } from "react-icons/bs";
 interface Props {
   offerId: string;
   currentStatus: string;
-  onModerateClick: (id: string, action: 'approved' | 'rejected' | 'pending' | 'delete') => void;
+  onModerateClick: (id: string, action: 'approved' | 'rejected' | 'pending' | 'suspended' | 'delete') => void;
 }
 
 export default function RowActions({ offerId, currentStatus, onModerateClick }: Props) {
@@ -87,6 +87,19 @@ export default function RowActions({ offerId, currentStatus, onModerateClick }: 
             >
               <X size={18} />
               Reject
+            </button>
+          )}
+
+          {currentStatus !== 'suspended' && (
+            <button
+              onClick={() => {
+                onModerateClick(offerId, 'suspended');
+                setOpen(false);
+              }}
+              className="w-full flex items-center gap-2 px-4 py-3 hover:bg-amber-50 font-semibold text-amber-600 transition-colors"
+            >
+              <Ban size={18} />
+              Suspend
             </button>
           )}
 
