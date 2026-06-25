@@ -1,7 +1,7 @@
 'use client';
 
 import DashboardDate from '@/components/dashboard/DashboardDate';
-import Loading from '@/components/loading/Loading';
+// import Loading from '@/components/loading/Loading';
 import { useDashboard } from '@/features/dashboard/useDashboard';
 import {
     BarChart, Bar, ResponsiveContainer, XAxis, YAxis, Tooltip, CartesianGrid,
@@ -162,14 +162,14 @@ function DashboardReportContent({ offers }: Props) {
                                         verticalAlign="bottom"
                                         height={36}
                                         formatter={(value: string) => (
-                                            <span className="text-xs text-gray-600">{value}</span>
+                                            <span className="text-xs text-gray-600 ">{value}</span>
                                         )}
                                     />
                                     <Tooltip content={<CustomTooltip />} />
                                 </PieChart>
                             </ResponsiveContainer>
-                            <div className="text-center -mt-6">
-                                <p className="text-xs text-gray-400 uppercase tracking-wide font-bold">Total</p>
+                            <div className="text-center mt-2">
+                                <p className="text-xs text-gray-400 uppercase tracking-wide font-bold">Total :</p>
                                 <p className="text-xl font-bold text-slate-900">{offers.totalOffers.toLocaleString()}</p>
                             </div>
                         </div>

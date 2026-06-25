@@ -42,7 +42,7 @@ export default function OfferDetailPage() {
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
-  
+
     const { data: offer, isLoading, error } = useQuery({
         queryKey: ['offer', offerId],
         queryFn: async () => {
@@ -108,7 +108,7 @@ export default function OfferDetailPage() {
     };
 
 
-    const currentStatus = (offer.status || offer.moderationStatus || 'pending').toLowerCase();
+    const currentStatus = (offer.status || offer.status || 'pending').toLowerCase();
 
     return (
         <section className="w-full bg-white flex flex-col h-[90dvh] md:h-[88dvh] overflow-hidden relative">
@@ -125,16 +125,15 @@ export default function OfferDetailPage() {
                         <div className={`px-3 sm:px-4 py-2 rounded-lg font-bold text-xs sm:text-sm whitespace-nowrap capitalize ${statusConfig[currentStatus] || 'bg-gray-50 text-gray-500 border border-gray-200'}`}>
                             {currentStatus}
                         </div>
-                        
+
                         {/* Sticky Moderation Dropdown */}
                         <div className="relative" ref={dropdownRef}>
                             <button
                                 onClick={() => setIsModerationDropdownOpen(!isModerationDropdownOpen)}
-                                className={`flex items-center gap-2 px-3 sm:px-4 py-2 rounded-lg font-bold text-xs sm:text-sm transition-all ${
-                                    isModerationDropdownOpen
-                                        ? 'bg-amber-100 text-amber-900 border border-amber-300'
-                                        : 'bg-amber-50 text-amber-900 border border-amber-200 hover:bg-amber-100'
-                                }`}
+                                className={`flex items-center gap-2 px-3 sm:px-4 py-2 rounded-lg font-bold text-xs sm:text-sm transition-all ${isModerationDropdownOpen
+                                    ? 'bg-amber-100 text-amber-900 border border-amber-300'
+                                    : 'bg-amber-50 text-amber-900 border border-amber-200 hover:bg-amber-100'
+                                    }`}
                             >
                                 <Edit2 className="w-4 h-4" />
                                 <span className="hidden sm:inline">Actions</span>
@@ -176,16 +175,22 @@ export default function OfferDetailPage() {
                         {/* LEFT COLUMN */}
                         <div className="lg:col-span-1">
                             <div className="bg-gray-100 rounded-lg p-4 sm:p-6 mb-4 sm:mb-6 flex items-center justify-center">
-                                {/* unoptimized added to prevent Next.js image timeouts from cloud storage */}
                                 <Image unoptimized src={offer.imageUrl} alt={offer.title} width={200} height={200} className="aspect-square object-cover rounded-md" />
                             </div>
+
+                            {/* Updated from Business to Contributor & Brand! */}
                             <div className="bg-gray-50 rounded-lg p-4 mb-4 sm:mb-6">
-                                <h3 className="font-bold text-gray-900 mb-2 text-sm sm:text-base">Business</h3>
-                                <p className="text-gray-700 font-semibold text-sm sm:text-base">{offer.business?.name ?? '—'}</p>
+                                <h3 className="font-bold text-gray-900 mb-2 text-sm sm:text-base">Brand & Contributor</h3>
+                                <p className="text-gray-900 font-bold text-lg mb-1">{offer.brandName || 'Unknown Brand'}</p>
+                                <p className="text-gray-600 text-sm">Posted by: <span className="font-medium text-gray-800">{offer.contributor?.name ?? '—'}</span></p>
+                                <p className="text-gray-400 text-xs">@{offer.contributor?.username}</p>
                             </div>
+
                             <div className="bg-gray-50 rounded-lg p-4 space-y-4">
-                                <div><p className="text-xs text-gray-500 uppercase tracking-wide font-bold mb-1">Category</p><p className="text-gray-900 font-semibold text-sm sm:text-base">{offer.category.name}</p></div>
+                                <div><p className="text-xs text-gray-500 uppercase tracking-wide font-bold mb-1">Deal Type</p><p className="text-gray-900 font-semibold text-sm sm:text-base capitalize">{(offer.dealType || 'N/A').replace('_', ' ')}</p></div>
+                                <div><p className="text-xs text-gray-500 uppercase tracking-wide font-bold mb-1">Category</p><p className="text-gray-900 font-semibold text-sm sm:text-base">{offer.category?.name}</p></div>
                                 <div><p className="text-xs text-gray-500 uppercase tracking-wide font-bold mb-1">Location</p><p className="text-gray-900 font-semibold text-sm sm:text-base">{offer.location}</p></div>
+                                <div><p className="text-xs text-gray-500 uppercase tracking-wide font-bold mb-1">Clicks</p><p className="text-gray-900 font-semibold text-sm sm:text-base">{offer.clickCount || 0}</p></div>
                                 <div><p className="text-xs text-gray-500 uppercase tracking-wide font-bold mb-1">Created</p><p className="text-gray-900 font-semibold text-xs sm:text-sm">{formatDateTime(offer.createdAt)}</p></div>
                                 <div><p className="text-xs text-gray-500 uppercase tracking-wide font-bold mb-1">Expires</p><p className="text-gray-900 font-semibold text-xs sm:text-sm">{formatDateTime(offer.endDate)}</p></div>
                             </div>
@@ -214,10 +219,11 @@ export default function OfferDetailPage() {
                             </div>
 
                             <div className="bg-gray-50 rounded-lg p-4 sm:p-6">
-                                <Terms prop={offer.termsAndConditions} />
+
+                                <Terms prop={offer.termsAndConditions || "No terms and conditions specified."} />
                             </div>
 
-                         
+
                             <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 sm:p-6">
                                 <h2 className="text-lg font-bold text-blue-900 mb-4 flex items-center gap-2">
                                     <History className="w-5 h-5" /> Moderation History & Notes

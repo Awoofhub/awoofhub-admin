@@ -9,6 +9,7 @@ const statuses = [
     { value: 'approved', label: 'Approved' },
     { value: 'pending', label: 'Pending' },
     { value: 'rejected', label: 'Rejected' },
+    { value: 'suspended', label: 'Suspended' },
 ];
 
 export default function StatusSelect({ value, onChange }: Props) {

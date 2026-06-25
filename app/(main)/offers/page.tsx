@@ -3,10 +3,11 @@
 import AdminOfferListSkeleton from '@/components/offers/admin/AdminOfferListSkeleton';
 import AdminOfferPaginatedList from '@/components/offers/admin/AdminOfferPaginatedList';
 import CategorySelect from '@/components/offers/admin/CategorySelect';
+import DealTypeSelect from '@/components/offers/admin/DealTypeSelect';
 import SearchInput from '@/components/offers/admin/SearchInput';
 import StatusSelect from '@/components/offers/admin/StatusSelect';
 import { useOffersAdmin } from '@/features/offers/useOffersAdmin';
-import { RotateCcw } from 'lucide-react'; // Better Reset icon
+import { RotateCcw } from 'lucide-react';
 import { useCallback, useMemo, useState } from 'react';
 
 type FilterValue = string;
@@ -14,6 +15,7 @@ type FilterValue = string;
 interface Filters {
     search: FilterValue;
     category: FilterValue;
+    dealType: FilterValue;
     status: FilterValue;
     createdFrom: FilterValue;
     createdTo: FilterValue;
@@ -24,6 +26,7 @@ interface Filters {
 const initialFilters: Filters = {
     search: '',
     category: '',
+    dealType: '',
     status: '',
     createdFrom: '',
     createdTo: '',
@@ -39,8 +42,8 @@ export default function OffersPage() {
     const updateFilters = useCallback((partial: Partial<Filters>) => setFilters((prev) => ({ ...prev, ...partial })), []);
 
     const hasActiveFilters = useMemo(
-        () => Boolean(filters.search || filters.category || filters.status || filters.createdTo || filters.createdFrom),
-        [filters.search, filters.category, filters.status, filters.createdTo, filters.createdFrom],
+        () => Boolean(filters.search || filters.category || filters.dealType || filters.status || filters.createdTo || filters.createdFrom),
+        [filters.search, filters.category, filters.dealType, filters.status, filters.createdTo, filters.createdFrom],
     );
 
     if (error) {
@@ -79,6 +82,7 @@ export default function OffersPage() {
                     </div>
 
                     <CategorySelect value={filters.category} onChange={(value) => updateFilters({ category: value, page: 1 })} />
+                    <DealTypeSelect value={filters.dealType} onChange={(value) => updateFilters({ dealType: value, page: 1 })} />
                     <StatusSelect value={filters.status} onChange={(value) => updateFilters({ status: value, page: 1 })} />
 
                     {/* End Date Filter  */}

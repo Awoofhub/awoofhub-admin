@@ -1,32 +1,47 @@
 export interface Offer {
-  status: string;
   id: string;
   title: string;
   description: string;
   imageUrl: string;
-  termsAndConditions: string;
-  value: string;
-  dealUrl: string;
-  couponCode?: string;
-  business: {
+
+  contributor: {
     id: string;
     name: string;
+    username: string;
+    createdAt: string;
   };
+
   category: {
     id: string;
     name: string;
     slug: string;
   };
+
   location: string;
-  moderationStatus: "pending" | "approved" | "rejected" | "unknown";
-  adminNote: string | null;
-  statusUpdatedAt: string | null;
+  value: string;
+
+  externalLink: string;
+
+  // NEW fields added by backend
+  brandName: string;
+  dealType: string;
+  clickCount: number;
+
+  couponCode?: string;
+
+  status: string;
+
   createdAt: string;
   endDate: string;
   avgRating: number;
   reviewCount: number;
-  // eslint-disable-next-line @typescript-eslint/no-empty-object-type
-  ratingDistribution: {};
+
+  termsAndConditions?: string;
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ratingDistribution?: any;
+  adminNote?: string | null;
+  statusUpdatedAt?: string | null;
 }
 
 export interface Stats {
