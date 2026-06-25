@@ -1,7 +1,7 @@
 'use client'
 
 import DashboardDate from "@/components/dashboard/DashboardDate";
-import { Dashboardskeleton } from "@/components/dashboard/DashboardSkeleton";
+// import { Dashboardskeleton } from "@/components/dashboard/DashboardSkeleton";
 import StatsCard from "@/components/dashboard/StatsCard";
 // import Loading from "@/components/loading/Loading";
 import LoadingSkeleton from "@/components/loading/LoadingSkeleton";
