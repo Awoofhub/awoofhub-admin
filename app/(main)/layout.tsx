@@ -7,7 +7,7 @@ export default function MainLayout({ children }: { children: ReactNode }) {
     return (
         <Protected>
             <Sidebar />
-            <div className="md:ml-50">
+            <div className="md:ml-[280px]">
                 <Header />
                 {children}
             </div>

@@ -4,11 +4,9 @@ import { useUser } from "@/features/user/useUser";
 import { capitalizeFirstLetter } from "@/utils/truncate";
 import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from "react";
-import { BsChevronDown } from "react-icons/bs";
 import { FiLogOut } from "react-icons/fi";
-import { IoNotificationsOutline } from "react-icons/io5";
 
 
 
@@ -19,7 +17,6 @@ export default function Dropdown() {
     const { data: currentUser } = useUser();
 
     const router = useRouter();
-    const pathname = usePathname()
 
     useEffect(() => {
         window.addEventListener('click', handleClickOutSide);
@@ -54,20 +51,17 @@ export default function Dropdown() {
 
             {isLoggedIn &&
                 <>
-                    <li className="px-[10px] flex items-center text-[1.7rem] relative group border-r border-gray-300">
-                        <Link href="/notifications" className={`${pathname === '/notifications' ? 'text-primary' : ''}`}>
-                            <IoNotificationsOutline size={28} />
-                        </Link>
-                    </li>
-
-                    <li ref={dropdownRef} className="pl-[10px] flex items-center text-[1.7rem] relative">
+                    <li ref={dropdownRef} className="flex items-center relative">
                         <div
                             role="button"
                             tabIndex={-1}
-                            className="flex items-center gap-2 cursor-pointer"
+                            className="flex items-center gap-3 cursor-pointer hover:bg-white/10 py-1 pl-4 pr-1 rounded-full transition-all"
                             onClick={() => toggleDropdown()}
                         >
-                            <div className="w-10 h-10 rounded-full overflow-hidden">
+                            <span className="text-white text-base font-medium hidden sm:block">
+                                {capitalizeFirstLetter(currentUser.name)}
+                            </span>
+                            <div className="w-10 h-10 rounded-full overflow-hidden shadow-sm">
                                 {currentUser.profileImageUrl ? (
                                     <Image
                                         width={500}
@@ -77,12 +71,11 @@ export default function Dropdown() {
                                         className="w-full h-full object-cover"
                                     />
                                 ) : (
-                                    <div className="bg-green-500 text-white flex items-center justify-center w-full h-full">
+                                    <div className="bg-green-500 text-white flex items-center justify-center w-full h-full text-sm font-semibold">
                                         {capitalizeFirstLetter(currentUser.name)}
                                     </div>
                                 )}
                             </div>
-                            <BsChevronDown size={14} />
                         </div>
 
                         {/* Dropdown Menu */}
