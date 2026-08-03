@@ -1,14 +1,19 @@
 'use client'
 
-import DashboardDate from "@/components/dashboard/DashboardDate";
 import { Dashboardskeleton } from "@/components/dashboard/DashboardSkeleton";
 import StatsCard from "@/components/dashboard/StatsCard";
+import RecentSubmissionsTable from "@/components/dashboard/RecentSubmissionsTable";
+import ExpiringOffersTable from "@/components/dashboard/ExpiringOffersTable";
+import OffersPerWeekChart from "@/components/dashboard/OffersPerWeekChart";
 import { useDashboard } from "@/features/dashboard/useDashboard";
-import { AlertCircle, Briefcase, CalendarX, CheckCircle, CheckCircle2, Clock, FileText, MessageSquare, ShieldAlert, Tag, Users, UserX, XCircle } from 'lucide-react';
-
+import {
+  ChevronRight
+} from 'lucide-react';
+import SecondaryStatsRow from "@/components/dashboard/SecondaryStatsRow";
 
 export default function Home() {
   const { data, isLoading } = useDashboard()
+
 
   if (isLoading) {
     return <Dashboardskeleton />
@@ -23,62 +28,37 @@ export default function Home() {
   }
 
   return (
-    <section className="max-w-[1440px] bg-white flex flex-col w-full overflow-auto">
+    <section className="max-w-[1440px]flex flex-col w-full overflow-auto">
+      <div className="py-8 px-4 mx-auto w-full">
+        <div className="mb-4 flex items-center gap-1 text-xl text-black font-baloo font-semibold">
+          <ChevronRight size={18} className="hidden xs:inline" />
+          <span>Dashboard</span>
+        </div>
 
-      <div className="py-8 px-4 mx-auto h-[90dvh] md:h-[88dvh]">
-        <header className="mb-8 flex justify-between items-center">
-          <h1 className="text-3xl font-bold text-slate-800">Welcome Admin</h1>
-          <div className="flex gap-4">
-            <DashboardDate />
-          </div>
-        </header>
+        {/* Primary KPI row */}
+        <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 gap-2 mb-4">
+          <StatsCard label="Total Users" value={data.users.totalActive} iconSrc="/users.svg" iconBg="bg-[#48B7F3]/20" change={{ value: 15.1, trend: 'up' }} />
+          <StatsCard label="Live Offers" value={data.offers.activeOffers} iconSrc="/live.svg" iconBg="bg-[#4AD991]/20" change={{ value: 11.01, trend: 'up' }} />
+          <StatsCard label="Posted Offers" value={data.offers.totalOffers} iconSrc="/posted.svg" iconBg="bg-[#8280FF]/20" change={{ value: 15.1, trend: 'up' }} />
+          <StatsCard label="Pending Reviews" value={data.offers.pendingOffers} iconSrc="/pend.svg" iconBg="bg-[#FFC000]/20" change={{ value: 11.01, trend: 'up' }} />
+          <StatsCard label="Open Reports" value={data.reports.pendingReports} iconSrc="/report.svg" iconBg="bg-[#E70606]/20" change={{ value: 15.1, trend: 'up' }} />
+          <StatsCard label="Total Grabs" value={0} iconSrc="/grabs.svg" iconBg="bg-[#FAAE8E]/20" change={{ value: 11.01, trend: 'up' }} />
+        </div>
 
-        <nav className="mb-8">
-          <button className="bg-[#4E260C] text-white px-6 py-2 rounded-lg font-semibold">
-            Overview
-          </button>
-        </nav>
+        {/* Secondary stats row */}
+        <SecondaryStatsRow
+          expiredOffers={data.offers.expiredOffers}
+          bannedAccounts={data.users.banned}
+          totalComments={data.comments.totalComments}
+        />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 min-w-[450px] md:min-w-[900px]">
-          <section className="bg-gray-100 p-6 rounded-2xl">
-            <h2 className="text-2xl font-bold text-black mb-6">Users</h2>
-            <div className="grid grid-cols-2 gap-4">
-              <StatsCard label="Active Users" value={data.users.totalActive} icon={Users} iconBg="bg-green-200" />
-              <StatsCard label="Business Account" value={data.users.businessActive} icon={Briefcase} iconBg="bg-blue-200" />
-              <StatsCard label="Suspended" value={data.users.suspended} icon={ShieldAlert} iconBg="bg-amber-200" />
-              <StatsCard label="Banned" value={data.users.banned} icon={UserX} iconBg="bg-rose-200" />
-            </div>
-          </section>
+        <OffersPerWeekChart />
 
-          <section className="bg-gray-100 p-6 rounded-2xl">
-            <h2 className="text-2xl font-bold text-black mb-6">Offers</h2>
-            <div className="grid grid-cols-2 gap-4">
-              <StatsCard label="Total Offers" value={data.offers.totalOffers} icon={Tag} iconBg="bg-green-100" />
-              <StatsCard label="Pending" value={data.offers.pendingOffers} icon={Clock} iconBg="bg-blue-200" />
-              <StatsCard label="Active" value={data.offers.activeOffers} icon={CheckCircle} iconBg="bg-emerald-200" />
-              <StatsCard label="Expired" value={data.offers.expiredOffers} icon={CalendarX} iconBg="bg-rose-200" />
-            </div>
-          </section>
-
-          <section className="bg-gray-100 p-6 rounded-2xl">
-            <h2 className="text-2xl font-bold text-black mb-6">Reports</h2>
-            <div className="grid grid-cols-2 gap-4">
-              <StatsCard label="Active Reports" value={data.reports.totalReports} icon={FileText} iconBg="bg-green-200" />
-              <StatsCard label="Pending Review" value={data.reports.pendingReports} icon={AlertCircle} iconBg="bg-blue-200" />
-              <StatsCard label="Resolved" value={data.reports.activeReports} icon={CheckCircle2} iconBg="bg-amber-200" />
-              <StatsCard label="Dismissed" value={data.reports.expiredReports} icon={XCircle} iconBg="bg-rose-200" />
-            </div>
-          </section>
-
-          <section className="bg-gray-100 p-6 rounded-2xl">
-            <h2 className="text-2xl font-bold text-black mb-6">Comments</h2>
-            <div className="grid grid-cols-2 gap-4">
-              <StatsCard label="Total Comments" value={data.comments.totalComments} icon={MessageSquare} iconBg="bg-indigo-200" />
-            </div>
-          </section>
+        <div className="space-y-6">
+          <RecentSubmissionsTable />
+          <ExpiringOffersTable />
         </div>
       </div>
-    </section >
+    </section>
   );
 };
-
