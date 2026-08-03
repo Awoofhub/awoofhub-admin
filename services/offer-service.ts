@@ -3,6 +3,10 @@ import { ApiResponse } from "@/types/api-response";
 import { Offer } from "@/types/offer";
 
 async function offers(
+  location:string,
+  externalLink: string,
+  brandName: string,
+  dealType: string,
   search: string,
   category: string,
   minRating: number,
@@ -11,16 +15,27 @@ async function offers(
   page: number,
   limit: number,
 ): Promise<ApiResponse<Offer[]>> {
+  const rawParams = {
+    location,
+    externalLink,
+    brandName,
+    search,
+    category,
+    dealType,
+    minRating,
+    createdFrom,
+    createdTo,
+    page,
+    limit,
+  };
+
+  // Filter out empty strings, undefined, and null values to prevent 400 Validation Errors
+  const cleanParams = Object.fromEntries(
+    Object.entries(rawParams).filter(([_, v]) => v !== "" && v !== undefined && v !== null)
+  );
+
   const res: ApiResponse<Offer[]> = await apiClient.get("/offers/admin/", {
-    params: {
-      search,
-      category,
-      minRating,
-      createdFrom,
-      createdTo,
-      page,
-      limit,
-    },
+    params: cleanParams,
   });
 
   return res;
@@ -36,16 +51,22 @@ async function offersByUser(
   page: number,
   limit: number,
 ): Promise<ApiResponse<Offer[]>> {
+  const rawParams = {
+    search,
+    category,
+    minRating,
+    createdFrom,
+    createdTo,
+    page,
+    limit,
+  };
+
+  const cleanParams = Object.fromEntries(
+    Object.entries(rawParams).filter(([_, v]) => v !== "" && v !== undefined && v !== null)
+  );
+
   const res: ApiResponse<Offer[]> = await apiClient.get(`/offers/user/${id}`, {
-    params: {
-      search,
-      category,
-      minRating,
-      createdFrom,
-      createdTo,
-      page,
-      limit,
-    },
+    params: cleanParams,
   });
 
   return res;
