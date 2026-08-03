@@ -3,16 +3,16 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { 
-  FiHome, 
-  FiList, 
-  FiBox, 
-  FiUsers, 
-  FiFlag, 
-  FiHeadphones, 
-  FiGrid, 
-  FiChevronRight, 
-  FiLogOut 
+import {
+  FiHome,
+  FiList,
+  FiBox,
+  FiUsers,
+  FiFlag,
+  FiHeadphones,
+  FiGrid,
+  FiChevronRight,
+  FiLogOut,
 } from "react-icons/fi";
 import { BsMegaphone } from "react-icons/bs";
 
@@ -31,7 +31,7 @@ export default function Sidebar() {
   ];
 
   return (
-    <div className="fixed top-0 z-[100] w-[280px] h-screen hidden md:flex flex-col items-center justify-start border-r border-gray-200 bg-white">
+    <div className="fixed top-0 z-[100] w-[280px] h-screen hidden lg:flex flex-col items-center justify-start border-r border-gray-200 bg-white">
       {/* Logo */}
       <Link className="py-10 w-full flex justify-center" href="/">
         <Image
@@ -48,32 +48,46 @@ export default function Sidebar() {
       <div className="w-full flex-1 px-4 overflow-y-auto flex flex-col gap-2 scrollbar-hide pb-4">
         {navLinks.map((link) => {
           const Icon = link.icon;
-          const isActive = pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href));
-          
+          const isActive =
+            pathname === link.href ||
+            (link.href !== "/" && pathname.startsWith(link.href));
+
           return (
             <Link
               key={link.href}
               href={link.href}
               className={`group flex items-center justify-between px-4 py-3.5 rounded-xl transition-all ${
-                isActive 
-                  ? "bg-primary text-white shadow-md shadow-primary/20" 
+                isActive
+                  ? "bg-primary text-white shadow-md shadow-primary/20"
                   : "bg-transparent text-gray-500 hover:bg-gray-50"
               }`}
             >
               <div className="flex items-center gap-4">
-                <Icon size={22} className={isActive ? "text-white" : "text-primary"} />
-                <span className={`text-[15px] font-medium ${isActive ? "text-white" : "text-gray-600"}`}>
+                <Icon
+                  size={22}
+                  className={isActive ? "text-white" : "text-primary"}
+                />
+                <span
+                  className={`text-[15px] font-medium ${isActive ? "text-white" : "text-gray-600"}`}
+                >
                   {link.label}
                 </span>
               </div>
-              
+
               <div className="flex items-center gap-3">
                 {link.badge && (
                   <span className="flex items-center justify-center w-[22px] h-[22px] rounded-full bg-[#E53935] text-white text-[11px] font-bold">
                     {link.badge}
                   </span>
                 )}
-                <FiChevronRight size={18} className={isActive ? "text-white" : "text-gray-400 group-hover:text-gray-600"} />
+                <FiChevronRight
+                  size={18}
+                  className={
+                    isActive
+                      ? "text-white"
+                      : "text-gray-400 group-hover:text-gray-600"
+                  }
+                />
               </div>
             </Link>
           );
