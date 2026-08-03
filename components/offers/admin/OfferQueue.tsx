@@ -13,9 +13,8 @@ import { useCallback, useMemo, useState } from "react";
 type FilterValue = string;
 
 interface Filters {
-  search: FilterValue;
   category: FilterValue;
-  status: FilterValue;
+  dealType: FilterValue;
   createdFrom: FilterValue;
   createdTo: FilterValue;
   page: number;
@@ -23,9 +22,8 @@ interface Filters {
 }
 
 const initialFilters: Filters = {
-  search: "",
   category: "",
-  status: "",
+  dealType: "",
   createdFrom: "",
   createdTo: "",
   page: 1,
@@ -39,9 +37,8 @@ export default function OfferQueue() {
     isLoading: offersLoading,
     error,
   } = useOffersAdmin({
-    search: filters.search,
     category: filters.category,
-    status: filters.status,
+    dealType: filters.dealType,
     createdFrom: filters.createdFrom,
     createdTo: filters.createdTo,
     page: filters.page,
@@ -60,16 +57,14 @@ export default function OfferQueue() {
   const hasActiveFilters = useMemo(
     () =>
       Boolean(
-        filters.search ||
         filters.category ||
-        filters.status ||
+        filters.dealType ||
         filters.createdTo ||
         filters.createdFrom,
       ),
     [
-      filters.search,
       filters.category,
-      filters.status,
+      filters.dealType,
       filters.createdTo,
       filters.createdFrom,
     ],
@@ -119,14 +114,21 @@ export default function OfferQueue() {
               style={{ WebkitOverflowScrolling: "touch" }}
             >
               <OfferSelectDropdown
-                placeholder="Status"
+                placeholder="Deal type"
                 options={[
-                  { value: "approved", label: "Approved" },
-                  { value: "pending", label: "Pending" },
-                  { value: "rejected", label: "Rejected" },
+                  { value: "cashback", label: "cashback" },
+                  { value: "promo_code", label: "Promo code" },
+                  { value: "freebie", label: "freebie" },
+                  { value: "discount", label: "Discount" },
+                  { value: "bogo", label: "buy one get one" },
+                  { value: "free_trial", label: "Free Trial" },
+                  { value: "free_delivery", label: "Free Delivery" },
+                  { value: "price_drop", label: "Price Drop" },
                 ]}
-                value={filters.status}
-                onChange={(value) => updateFilters({ status: value, page: 1 })}
+                value={filters.dealType}
+                onChange={(value) =>
+                  updateFilters({ dealType: value, page: 1 })
+                }
                 width="w-[150px]"
                 dropdownWidth="w-[170px]"
                 primaryWhenEmpty
@@ -141,7 +143,9 @@ export default function OfferQueue() {
                   { value: "beauty", label: "Beauty" },
                 ]}
                 value={filters.category}
-                onChange={(value) => updateFilters({ category: value, page: 1 })}
+                onChange={(value) =>
+                  updateFilters({ category: value, page: 1 })
+                }
                 width="w-[170px]"
                 dropdownWidth="w-[200px]"
               />
@@ -152,16 +156,6 @@ export default function OfferQueue() {
                 onApply={({ createdFrom, createdTo }) =>
                   updateFilters({ createdFrom, createdTo, page: 1 })
                 }
-              />
-
-              <input
-                type="text"
-                value={filters.search}
-                onChange={(e) =>
-                  updateFilters({ search: e.target.value, page: 1 })
-                }
-                placeholder="Search offers"
-                className="px-3 py-2 text-sm border border-gray-200 rounded-full focus:ring-1 focus:ring-orange-500 focus:border-orange-500 outline-none bg-white text-gray-700 w-[180px]"
               />
             </div>
 
