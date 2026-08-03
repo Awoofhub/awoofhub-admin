@@ -2,6 +2,7 @@ export interface User {
   id: string;
   email: string;
   name: string;
+  username: string;
   profileImageUrl: string | null;
   role: string;
   bio: string | null;
@@ -10,4 +11,6 @@ export interface User {
   status: "active" | "suspended" | "banned";
   createdAt: string;
   updatedAt: string;
+  numOfDealPosted?: number;
+  offerClicks?: number;
 }

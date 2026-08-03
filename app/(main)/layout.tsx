@@ -4,13 +4,13 @@ import Protected from "@/components/protected/Protected";
 import { ReactNode } from "react";
 
 export default function MainLayout({ children }: { children: ReactNode }) {
-    return (
-        <Protected>
-            <Sidebar />
-            <div className="md:ml-50">
-                <Header />
-                {children}
-            </div>
-        </Protected>
-    )
-} 
+  return (
+    <Protected>
+      <Sidebar />
+      <div className="lg:ml-[280px]">
+        <Header />
+        {children}
+      </div>
+    </Protected>
+  );
+}

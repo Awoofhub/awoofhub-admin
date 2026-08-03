@@ -1,6 +1,5 @@
 'use client';
 
-import DashboardDate from '@/components/dashboard/DashboardDate';
 import Loading from '@/components/loading/Loading';
 import { useDashboard } from '@/features/dashboard/useDashboard';
 import { ResponsiveContainer, PieChart, Pie, Cell, Legend, Tooltip } from 'recharts';
@@ -77,7 +76,7 @@ export default function DashboardReportsPage() {
             <div className="py-4 sm:py-6 md:py-8 px-3 sm:px-4 md:px-6 mx-auto w-full max-w-360 flex flex-col h-full overflow-auto">
                 <header className="mb-6 sm:mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                     <h1 className="text-2xl sm:text-3xl font-bold text-slate-800">Reports Analytics</h1>
-                    <DashboardDate />
+                   
                 </header>
                 <ReportsAnalyticsContent reports={data.reports} />
             </div>

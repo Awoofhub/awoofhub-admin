@@ -104,7 +104,7 @@ export default function ReportDetailPage() {
                                         <Image unoptimized src={targetOffer.imageUrl} alt={targetOffer.title} width={100} height={100} className="rounded-md object-cover w-24 h-24 bg-gray-100" />
                                         <div className="flex-1">
                                             <h3 className="font-bold text-gray-900">{targetOffer.title}</h3>
-                                            <p className="text-sm text-gray-500 mb-2">Business: {targetOffer.business?.name}</p>
+                                            {/* <p className="text-sm text-gray-500 mb-2">Business: {targetOffer.business?.name}</p> */}
                                             <div className="flex gap-2">
                                                 <span className="text-xs px-2 py-1 bg-gray-100 rounded text-gray-600">{targetOffer.category.name}</span>
                                                 <span className="text-xs px-2 py-1 bg-orange-50 text-orange-600 border border-orange-100 rounded capitalize">{targetOffer.moderationStatus || 'Pending'}</span>
