@@ -1,4 +1,15 @@
 export interface Offer {
+  
+  brandName: string;
+  dealType:
+    | "cashback"
+    | "freebie"
+    | "discount"
+    | "bogo"
+    | "promo_code"
+    | "free_trial"
+    | "free_delivery"
+    | "price_drop";
   status: string;
   id: string;
   title: string;
@@ -6,7 +17,7 @@ export interface Offer {
   imageUrl: string;
   termsAndConditions: string;
   value: string;
-  dealUrl: string;
+  externalLink: string;
   couponCode?: string;
   business: {
     id: string;
