@@ -1,6 +1,5 @@
 'use client';
 
-import DashboardDate from '@/components/dashboard/DashboardDate';
 import Loading from '@/components/loading/Loading';
 import { useDashboard } from '@/features/dashboard/useDashboard';
 import { Users, Briefcase, ShieldAlert, Ban, PieChartIcon } from 'lucide-react';
@@ -38,7 +37,7 @@ export default function DashboardUsersPage() {
 
                 <header className="mb-6 sm:mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                     <h1 className="text-2xl sm:text-3xl font-bold text-slate-800">Users Analytics</h1>
-                    <DashboardDate />
+                   
                 </header>
 
                 <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
