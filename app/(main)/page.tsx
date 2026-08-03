@@ -10,13 +10,14 @@ import {
   ChevronRight
 } from 'lucide-react';
 import SecondaryStatsRow from "@/components/dashboard/SecondaryStatsRow";
+import Loading from "@/components/loading/Loading";
 
 export default function Home() {
   const { data, isLoading } = useDashboard()
 
 
   if (isLoading) {
-    return <Dashboardskeleton />
+    return <Loading/>
   }
 
   if (!data) {

@@ -8,7 +8,19 @@ export const useOfferInsights = () => {
     const { data, isLoading, error } = useQuery({
         queryKey: ["offer-insights-sample", SAMPLE_LIMIT],
         queryFn: async () => {
-            const response = await OfferService.offers("", "", 0, "", "", 1, SAMPLE_LIMIT);
+            const response = await OfferService.offers(
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                0,
+                "",
+                "",
+                1,
+                SAMPLE_LIMIT,
+            );
             return (response.data ?? []) as Offer[];
         },
         staleTime: 60_000,

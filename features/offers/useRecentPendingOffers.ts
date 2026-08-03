@@ -11,7 +11,19 @@ export const useRecentPendingOffers = ({ page = 1, limit = 3 }: UseRecentPending
   const { data, isLoading, error } = useQuery({
     queryKey: ["recent-pending-offers-all"],
     queryFn: async () => {
-      const response = await OfferService.offers("", "", 0, "", "", 1, 300);
+      const response = await OfferService.offers(
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        0,
+        "",
+        "",
+        1,
+        300,
+      );
       const offers: Offer[] = response.data ?? [];
 
       return offers

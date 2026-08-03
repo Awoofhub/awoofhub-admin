@@ -42,6 +42,9 @@ async function offers(
 }
 
 async function offersByUser(
+    location:string,
+  externalLink: string,
+  brandName: string,
   id: string,
   search: string,
   category: string,
@@ -52,6 +55,9 @@ async function offersByUser(
   limit: number,
 ): Promise<ApiResponse<Offer[]>> {
   const rawParams = {
+    location,
+    externalLink,
+    brandName,
     search,
     category,
     minRating,
