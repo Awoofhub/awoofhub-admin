@@ -181,7 +181,7 @@ export default function OfferDetailPage() {
                             </div>
                             <div className="bg-gray-50 rounded-lg p-4 mb-4 sm:mb-6">
                                 <h3 className="font-bold text-gray-900 mb-2 text-sm sm:text-base">Business</h3>
-                                <p className="text-gray-700 font-semibold text-sm sm:text-base">{offer.business?.name ?? '—'}</p>
+                                {/* <p className="text-gray-700 font-semibold text-sm sm:text-base">{offer.business?.name ?? '—'}</p> */}
                             </div>
                             <div className="bg-gray-50 rounded-lg p-4 space-y-4">
                                 <div><p className="text-xs text-gray-500 uppercase tracking-wide font-bold mb-1">Category</p><p className="text-gray-900 font-semibold text-sm sm:text-base">{offer.category.name}</p></div>

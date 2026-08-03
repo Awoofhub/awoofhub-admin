@@ -51,6 +51,7 @@ export default function OfferCard({ offer, onModerateClick }: Props) {
           src={offer.imageUrl}
           alt={offer.title}
           fill
+          priority
           className="object-cover"
         />
       </div>
@@ -62,7 +63,7 @@ export default function OfferCard({ offer, onModerateClick }: Props) {
           <div className="flex items-center gap-2">
             <span className="font-semibold text-gray-700 text-sm">
               @
-              {offer.business?.name?.replace(/\s+/g, "").toLowerCase() ||
+              {offer.contributor?.username?.replace(/\s+/g, "").toLowerCase() ||
                 "awoofqueen"}
             </span>
             <span className="bg-orange-50 text-orange-500 text-[10px] px-2 py-0.5 rounded-full font-medium flex items-center gap-1">

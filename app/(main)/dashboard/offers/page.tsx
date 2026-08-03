@@ -1,6 +1,5 @@
 'use client';
 
-import DashboardDate from '@/components/dashboard/DashboardDate';
 import Loading from '@/components/loading/Loading';
 import { useDashboard } from '@/features/dashboard/useDashboard';
 import {
@@ -227,7 +226,7 @@ export default function DashboardOffersPage() {
             <div className="py-4 sm:py-6 md:py-8 px-3 sm:px-4 md:px-6 mx-auto h-[90dvh] md:h-[88dvh]">
                 <header className="mb-6 sm:mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                     <h1 className="text-2xl sm:text-3xl font-bold text-slate-800">Offers Analytics</h1>
-                    <DashboardDate />
+                  
                 </header>
 
                 <DashboardReportContent offers={data.offers} />

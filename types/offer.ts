@@ -1,5 +1,11 @@
 export interface Offer {
-  
+  status: string;
+  id: string;
+  title: string;
+  description: string;
+  imageUrl: string;
+  termsAndConditions: string;
+  value: string;
   brandName: string;
   dealType:
     | "cashback"
@@ -10,18 +16,14 @@ export interface Offer {
     | "free_trial"
     | "free_delivery"
     | "price_drop";
-  status: string;
-  id: string;
-  title: string;
-  description: string;
-  imageUrl: string;
-  termsAndConditions: string;
-  value: string;
   externalLink: string;
   couponCode?: string;
-  business: {
+   contributor: {
     id: string;
     name: string;
+    username: string;
+    profileImageUrl?: string;
+    createdAt: string;
   };
   category: {
     id: string;
@@ -36,8 +38,9 @@ export interface Offer {
   endDate: string;
   avgRating: number;
   reviewCount: number;
-  // eslint-disable-next-line @typescript-eslint/no-empty-object-type
-  ratingDistribution: {};
+  clickCount: number;
+  isTrending: boolean;
+  ratingDistribution: any;
 }
 
 export interface Stats {

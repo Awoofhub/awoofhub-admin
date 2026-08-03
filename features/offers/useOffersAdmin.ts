@@ -16,7 +16,6 @@ interface UseOffersAdminParams {
 }
 
 interface OffersResponse {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   offers: any[];
   totalPages: number;
   currentPage: number;
@@ -74,7 +73,6 @@ export const useOffersAdmin = ({
       let offers = response.data || [];
 
       if (status) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         offers = offers.filter((offer: any) => {
           const offerStatus = offer.moderationStatus || offer.status;
           return offerStatus === status;

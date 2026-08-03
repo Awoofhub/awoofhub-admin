@@ -42,6 +42,9 @@ async function offers(
 }
 
 async function offersByUser(
+    location:string,
+  externalLink: string,
+  brandName: string,
   id: string,
   search: string,
   category: string,
@@ -52,6 +55,9 @@ async function offersByUser(
   limit: number,
 ): Promise<ApiResponse<Offer[]>> {
   const rawParams = {
+    location,
+    externalLink,
+    brandName,
     search,
     category,
     minRating,
@@ -111,6 +117,31 @@ async function moderateOffer(
   return res;
 }
 
+async function expiring(
+  search: string,
+  category: string,
+  dealType: string,
+  minRating: number,
+  createdFrom: string,
+  createdTo: string,
+  page: number,
+  limit: number,
+): Promise<ApiResponse<Offer[]>> {
+  const params: Record<string, any> = { page, limit };
+  if (search) params.search = search;
+  if (category) params.category = category;
+  if (dealType) params.dealType = dealType;
+  if (minRating) params.minRating = minRating;
+  if (createdFrom) params.createdFrom = createdFrom;
+  if (createdTo) params.createdTo = createdTo;
+
+  const res: ApiResponse<Offer[]> = await apiClient.get("/offers/expiring/", {
+    params,
+  });
+
+  return res;
+}
+
 const OfferService = {
   offers,
   offersByUser,
@@ -118,6 +149,7 @@ const OfferService = {
   offersByCategory,
   deleteOffer,
   moderateOffer,
+  expiring,
 };
 
 export default OfferService;
