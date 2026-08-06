@@ -100,7 +100,7 @@ export function OfferSelectDropdown({
         aria-expanded={isOpen}
         aria-haspopup="listbox"
         className={[
-          "flex cursor-pointer py-2 items-center justify-between gap-2 rounded-full border px-3 text-sm xs:text-base font-medium transition",
+          "flex cursor-pointer py-2 items-center  gap-7 rounded-full border px-3 text-sm xs:text-base font-medium transition",
           width,
           isPrimary || hasValue || isOpen
             ? "border-primary bg-primary text-white"

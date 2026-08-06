@@ -77,7 +77,7 @@ export default function CategoryPage() {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {data.categories.map((cat) => (
+                                        {data.categories.map((cat: any) => (
                                             <tr key={cat.id} className="hover:bg-gray-50 transition-colors border-b border-gray-100 text-sm">
                                                 <td className="px-4 py-4 font-bold text-gray-800">{cat.name}</td>
                                                 <td className="px-4 py-4 text-gray-500 font-mono text-xs">{cat.slug}</td>

@@ -135,8 +135,8 @@ export default function OfferCard({ offer, onModerateClick }: Props) {
               {format(new Date(offer.endDate), "d/M/yyyy")}
             </span>
           </span>
-          <span className="bg-red-50 text-red-500 text-xs px-4 py-1 rounded-full font-bold capitalize">
-            {dealType}
+          <span className=" text-red-500 text-xs px-4 py-1  font-bold capitalize max-w-[80px]">
+            {offer.value}
           </span>
         </div>
 

@@ -9,6 +9,7 @@ import { useOfferStats } from "@/features/offers/useOfferStats";
 import { RotateCcw, ListFilter } from "lucide-react";
 import { FiChevronRight } from "react-icons/fi";
 import { useCallback, useMemo, useState } from "react";
+import useOfferCategories from "@/features/category/useCategoriesAdmin";
 
 type FilterValue = string;
 
@@ -31,6 +32,7 @@ const initialFilters: Filters = {
 };
 
 export default function OfferQueue() {
+  const { data: categories } = useOfferCategories();
   const [filters, setFilters] = useState<Filters>(initialFilters);
   const {
     data,
@@ -52,6 +54,17 @@ export default function OfferQueue() {
     (partial: Partial<Filters>) =>
       setFilters((prev) => ({ ...prev, ...partial })),
     [],
+  );
+
+  // Map Category[] -> { value, label }[] expected by OfferSelectDropdown
+  // ⚠️ Adjust c.id / c.name below if your Category type uses different field names
+  const categoryOptions = useMemo(
+    () =>
+      (categories ?? []).map((c) => ({
+        value: c.id,
+        label: c.name,
+      })),
+    [categories],
   );
 
   const hasActiveFilters = useMemo(
@@ -131,22 +144,16 @@ export default function OfferQueue() {
                 }
                 width="w-[150px]"
                 dropdownWidth="w-[170px]"
-                primaryWhenEmpty
               />
 
               <OfferSelectDropdown
                 placeholder="Category"
-                options={[
-                  { value: "food", label: "Food" },
-                  { value: "fashion", label: "Fashion" },
-                  { value: "travel", label: "Travel" },
-                  { value: "beauty", label: "Beauty" },
-                ]}
+                options={categoryOptions}
                 value={filters.category}
                 onChange={(value) =>
                   updateFilters({ category: value, page: 1 })
                 }
-                width="w-[170px]"
+                width="w-[150px]"
                 dropdownWidth="w-[200px]"
               />
 
