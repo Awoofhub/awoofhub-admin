@@ -10,6 +10,7 @@ export interface OfferStats {
     pendingOffers: number,
     activeOffers: number,
     expiredOffers: number
+    suspendedOffers: number
 }
 
 export interface ReportStats {

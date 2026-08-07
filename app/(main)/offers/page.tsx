@@ -94,6 +94,7 @@ export default function OffersPage() {
   );
 
   if (error) {
+    console.log("DEBUG offers page:", { offersLoading, error, data, hasActiveFilters });
     return (
       <section className="pt-14 px-6">
         <div className="bg-red-50 border border-red-200 rounded-lg p-6">

@@ -22,7 +22,7 @@ export default function Sidebar() {
   const navLinks = [
     { href: "/", label: "Dashboard", icon: FiHome },
     { href: "/offer-queue", label: "Offer Queue", icon: FiList, badge: 5 },
-    { href: "/offers", label: "All Offers", icon: FiBox },
+    { href: "/all-offers", label: "All Offers", icon: FiBox },
     { href: "/users", label: "Users", icon: FiUsers },
     { href: "/reports", label: "Reports", icon: FiFlag, badge: 5 },
     { href: "/helpdesk", label: "Helpdesk", icon: FiHeadphones, badge: 5 },

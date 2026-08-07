@@ -31,7 +31,7 @@ export interface Offer {
     slug: string;
   };
   location: string;
-  moderationStatus: "pending" | "approved" | "rejected" | "unknown";
+  Status: string;
   adminNote: string | null;
   statusUpdatedAt: string | null;
   createdAt: string;
@@ -49,6 +49,7 @@ export interface Stats {
   pendingAds: number;
   rejectedAds: number;
   expiredAds: number;
+  suspendedAds: number;
 }
 
 export interface CategoryData {
