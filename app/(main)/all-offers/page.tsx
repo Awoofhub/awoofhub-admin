@@ -21,6 +21,16 @@ export default function AllOffersRoutePage() {
     queryClient.invalidateQueries({ queryKey: ["all-offers-admin"] });
   };
 
+  const handleApprove = async (offerId: string) => {
+    await OfferService.moderateOffer(offerId, "approved");
+    queryClient.invalidateQueries({ queryKey: ["all-offers-admin"] });
+  };
+
+  const handleReject = async (offerId: string) => {
+    await OfferService.moderateOffer(offerId, "rejected");
+    queryClient.invalidateQueries({ queryKey: ["all-offers-admin"] });
+  };
+
   if (error) {
     return <div className="p-6 text-red-600">Failed to load offers.</div>;
   }
@@ -35,6 +45,8 @@ export default function AllOffersRoutePage() {
       stats={data.stats}
       onView={handleView}
       onDelete={handleDelete}
+      onApprove={handleApprove}
+      onReject={handleReject}
     />
   );
 }

@@ -49,7 +49,7 @@ export default function SecondaryStatsRow({ bannedAccounts, totalComments, expir
         const filtered = offers.filter((o) => isWithinPeriod(o.createdAt, period));
         return {
             suspendedCount: filtered.filter((o) => o.status === 'suspended').length,
-            rejectedCount: filtered.filter((o) => o.moderationStatus === 'rejected').length,
+            rejectedCount: filtered.filter((o) => o.Status === 'rejected').length,
 
         };
     }, [offers, period]);

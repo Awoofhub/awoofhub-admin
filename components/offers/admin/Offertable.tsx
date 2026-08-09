@@ -41,9 +41,8 @@ interface OfferTableProps {
 
 export function OfferTable({ offers, onView, onDelete }: OfferTableProps) {
   return (
-    <>
-      {/* ── Desktop table (md+) ── */}
-      <table className="hidden md:table w-full border-collapse text-left">
+    <div className="overflow-x-auto">
+      <table className="w-full border-collapse text-left min-w-[800px]">
         <thead>
           <tr className="border-b border-gray-200 text-xs font-semibold uppercase tracking-wide text-gray-500">
             <th className="px-4 py-3">Title</th>
@@ -74,13 +73,13 @@ export function OfferTable({ offers, onView, onDelete }: OfferTableProps) {
                   </span>
                 </div>
               </td>
-              <td className="px-4 py-3 text-gray-600">
+              <td className="px-4 py-3 text-gray-600 whitespace-nowrap">
                 {offer.category.name}
               </td>
-              <td className="px-4 py-3 text-gray-600">
+              <td className="px-4 py-3 text-gray-600 whitespace-nowrap">
                 {DEAL_TYPE_LABELS[offer.dealType] ?? offer.dealType}
               </td>
-              <td className="px-4 py-3 text-gray-600">
+              <td className="px-4 py-3 text-gray-600 whitespace-nowrap">
                 @{offer.contributor.username}
               </td>
               <td className="px-4 py-3">
@@ -90,7 +89,7 @@ export function OfferTable({ offers, onView, onDelete }: OfferTableProps) {
                 {offer.saveCount ?? "—"}
               </td>
               <td className="px-4 py-3 text-gray-600">{offer.clickCount}</td>
-              <td className="px-4 py-3 text-gray-600">
+              <td className="px-4 py-3 text-gray-600 whitespace-nowrap">
                 {formatExpiry(offer.endDate)}
               </td>
               <td className="px-4 py-3">
@@ -117,81 +116,6 @@ export function OfferTable({ offers, onView, onDelete }: OfferTableProps) {
           ))}
         </tbody>
       </table>
-
-      {/* ── Mobile card list (below md) ── */}
-      <div className="md:hidden divide-y divide-gray-100">
-        {offers.map((offer) => (
-          <div key={offer.id} className="p-4 space-y-3">
-            {/* Top row: image + title + status */}
-            <div className="flex items-start gap-3">
-              <Image
-                src={offer.imageUrl}
-                alt={offer.title}
-                width={48}
-                height={48}
-                className="h-12 w-12 shrink-0 rounded-lg object-cover"
-              />
-              <div className="flex-1 min-w-0">
-                <p className="font-medium text-gray-900 text-sm line-clamp-2 leading-snug">
-                  {offer.title}
-                </p>
-                <p className="text-xs text-gray-500 mt-0.5">
-                  @{offer.contributor.username}
-                </p>
-              </div>
-              <StatusBadge status={offer.status} />
-            </div>
-
-            {/* Meta row */}
-            <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-gray-500">
-              <span>
-                <span className="font-medium text-gray-600">Category:</span>{" "}
-                {offer.category.name}
-              </span>
-              <span>
-                <span className="font-medium text-gray-600">Type:</span>{" "}
-                {DEAL_TYPE_LABELS[offer.dealType] ?? offer.dealType}
-              </span>
-              <span>
-                <span className="font-medium text-gray-600">Expires:</span>{" "}
-                {formatExpiry(offer.endDate)}
-              </span>
-            </div>
-
-            {/* Stats + actions row */}
-            <div className="flex items-center justify-between">
-              <div className="flex gap-4 text-xs text-gray-500">
-                <span>
-                  <span className="font-medium text-gray-600">Saves:</span>{" "}
-                  {offer.saveCount ?? "—"}
-                </span>
-                <span>
-                  <span className="font-medium text-gray-600">Grabs:</span>{" "}
-                  {offer.clickCount}
-                </span>
-              </div>
-              <div className="flex items-center gap-3">
-                <button
-                  type="button"
-                  onClick={() => onView(offer.id)}
-                  aria-label={`View ${offer.title}`}
-                  className="rounded-full p-1.5 text-gray-500 hover:bg-gray-100 hover:text-gray-800 transition-colors"
-                >
-                  <Eye className="h-4 w-4" />
-                </button>
-                <button
-                  type="button"
-                  onClick={() => onDelete(offer.id)}
-                  aria-label={`Delete ${offer.title}`}
-                  className="rounded-full p-1.5 text-gray-500 hover:bg-red-50 hover:text-red-600 transition-colors"
-                >
-                  <Trash2 className="h-4 w-4" />
-                </button>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </>
+    </div>
   );
 }

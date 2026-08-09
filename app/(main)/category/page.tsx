@@ -5,7 +5,7 @@ import { Plus, Edit2, Trash2 } from 'lucide-react';
 import { formatDateTime } from '@/utils/formatDateTime';
 import PaginationButtons from '@/components/button/PaginationButtons';
 import SearchInput from '@/components/offers/admin/SearchInput';
-import { useCategoriesAdmin } from '@/features/category/useCategoriesAdmin';
+import  useCategoriesAdmin  from '@/features/category/useCategoriesAdmin';
 import { useCategoryMutations } from '@/features/category/useCategoryMutations';
 
 export default function CategoryPage() {

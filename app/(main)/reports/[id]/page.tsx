@@ -107,7 +107,7 @@ export default function ReportDetailPage() {
                                             {/* <p className="text-sm text-gray-500 mb-2">Business: {targetOffer.business?.name}</p> */}
                                             <div className="flex gap-2">
                                                 <span className="text-xs px-2 py-1 bg-gray-100 rounded text-gray-600">{targetOffer.category.name}</span>
-                                                <span className="text-xs px-2 py-1 bg-orange-50 text-orange-600 border border-orange-100 rounded capitalize">{targetOffer.moderationStatus || 'Pending'}</span>
+                                                <span className="text-xs px-2 py-1 bg-orange-50 text-orange-600 border border-orange-100 rounded capitalize">{targetOffer.Status || 'Pending'}</span>
                                             </div>
                                             <button onClick={() => router.push(`/offers/${targetOffer.id}`)} className="mt-3 text-xs text-primary font-semibold flex items-center gap-1 hover:underline">
                                                 View Full Offer <ExternalLink className="w-3 h-3" />

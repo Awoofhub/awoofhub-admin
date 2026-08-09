@@ -28,7 +28,7 @@ export const useOfferInsights = () => {
 
     const offers = data ?? [];
 
-    const rejectedCount = offers.filter((o) => o.moderationStatus === "rejected").length;
+    const rejectedCount = offers.filter((o) => o.Status === "rejected").length;
     const suspendedCount = offers.filter((o) => o.status === "suspended").length;
 
     return { offers, rejectedCount, suspendedCount, isLoading, error };

@@ -32,7 +32,7 @@ const initialFilters: Filters = {
 };
 
 export default function OfferQueue() {
-  const { data: categories } = useOfferCategories();
+  const { data: categoriesData } = useOfferCategories();
   const [filters, setFilters] = useState<Filters>(initialFilters);
   const {
     data,
@@ -60,11 +60,11 @@ export default function OfferQueue() {
   // ⚠️ Adjust c.id / c.name below if your Category type uses different field names
   const categoryOptions = useMemo(
     () =>
-      (categories ?? []).map((c) => ({
+      (categoriesData?.categories ?? []).map((c) => ({
         value: c.id,
         label: c.name,
       })),
-    [categories],
+    [categoriesData],
   );
 
   const hasActiveFilters = useMemo(

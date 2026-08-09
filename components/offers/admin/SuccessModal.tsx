@@ -30,11 +30,13 @@ export default function SuccessModal({
   if (!isOpen || !action) return null;
 
   const isApprove = action === "approved";
-  const color = isApprove ? "#00a651" : "#e30613";
-  const hoverColor = isApprove ? "#009045" : "#c20510";
-  const message = isApprove
-    ? "Ad approved successfully and now live."
-    : "Ad rejected successfully.";
+  const isSuspend = action === "suspended";
+  const color = isApprove ? "#00a651" : isSuspend ? "#f97316" : "#e30613";
+  const hoverColor = isApprove ? "#009045" : isSuspend ? "#ea580c" : "#c20510";
+  
+  let message = "Ad rejected successfully.";
+  if (isApprove) message = "Ad approved successfully and now live.";
+  if (isSuspend) message = "Ad suspended successfully.";
 
   return (
     <div

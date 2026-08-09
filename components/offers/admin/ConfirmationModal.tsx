@@ -1,4 +1,4 @@
-export type ActionType = "approved" | "rejected";
+export type ActionType = "approved" | "rejected" | "suspended";
 
 type ModalIconProps = {
   color: string;
@@ -9,7 +9,7 @@ function ModalIcon({ color }: ModalIconProps) {
     <div className="relative w-[110px] h-[100px] flex items-center justify-center shrink-0">
       <img
         src={color === "#00a651" ? "/Successs.png" : "/reject.png"}
-        alt={color === "#00a651" ? "Success" : "Reject"}
+        alt={color === "#00a651" ? "Success" : "Warning"}
         className="w-24 h-24 object-contain"
       />
     </div>
@@ -32,9 +32,10 @@ export default function ConfirmationModal({
   if (!isOpen || !action) return null;
 
   const isApprove = action === "approved";
-  const color = isApprove ? "#00a651" : "#e30613";
-  const hoverColor = isApprove ? "#009045" : "#c20510";
-  const label = isApprove ? "approve" : "reject";
+  const isSuspend = action === "suspended";
+  const color = isApprove ? "#00a651" : isSuspend ? "#f97316" : "#e30613";
+  const hoverColor = isApprove ? "#009045" : isSuspend ? "#ea580c" : "#c20510";
+  const label = isApprove ? "approve" : isSuspend ? "suspend" : "reject";
 
   return (
     <div

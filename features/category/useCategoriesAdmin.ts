@@ -13,7 +13,11 @@ export default function useCategoriesAdmin(
     queryKey: ["categories", search, page, limit],
     queryFn: async () => {
       const res = await getCategoriesService(search, page, limit);
-      return res.data;
+      return {
+        categories: res.data,
+        currentPage: res.meta?.page ?? page,
+        totalPages: res.meta?.totalPages ?? 1,
+      };
     },
   });
 }

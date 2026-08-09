@@ -10,6 +10,13 @@ import { SearchFilterBar, type FilterOption } from "./Searchfilterbar";
 import { StatusTabs, type OfferTabKey } from "./Statustabs";
 import { OfferTable } from "./Offertable";
 import { Pagination } from "./Pagination";
+import PendingOfferModal from "./PendingOfferModal";
+import ActiveOfferModal from "./ActiveOfferModal";
+import RejectedOfferModal from "./RejectedOfferModal";
+import ConfirmationModal from "./ConfirmationModal";
+import SuccessModal from "./SuccessModal";
+import { FiChevronRight } from "react-icons/fi";
+
 import type { Offer, Stats } from "../../../types/offer"; // adjust to your real path
 
 const PAGE_SIZE = 10;
@@ -30,6 +37,9 @@ interface AllOffersPageProps {
   stats: Stats;
   onView: (offerId: string) => void;
   onDelete: (offerId: string) => void;
+  onApprove: (offerId: string) => void;
+  onReject: (offerId: string) => void;
+  onSuspend?: (offerId: string) => void;
 }
 
 // Maps each status tab to the real fields on Offer.
@@ -66,12 +76,20 @@ export function AllOffersPage({
   stats,
   onView,
   onDelete,
+  onApprove,
+  onReject,
+  onSuspend,
 }: AllOffersPageProps) {
   const [search, setSearch] = useState("");
   const [categoryValue, setCategoryValue] = useState("");
   const [dealTypeValue, setDealTypeValue] = useState("");
   const [activeTab, setActiveTab] = useState<OfferTabKey>("all");
   const [currentPage, setCurrentPage] = useState(1);
+
+  // ── Modal state ──
+  const [selectedOffer, setSelectedOffer] = useState<Offer | null>(null);
+  const [pendingAction, setPendingAction] = useState<"approved" | "rejected" | "suspended" | null>(null);
+  const [completedAction, setCompletedAction] = useState<"approved" | "rejected" | "suspended" | null>(null);
 
   // Category options are dynamic (user-created), so derive them from the
   // offers you already have rather than hardcoding like deal type.
@@ -123,6 +141,51 @@ export function AllOffersPage({
     setCurrentPage(1);
   }
 
+  // If the viewed offer is pending, approved, or rejected, show the corresponding preview modal.
+  // Otherwise fall through to the parent's default onView (e.g. navigate).
+  function handleView(offerId: string) {
+    const offer = offers.find((o) => o.id === offerId);
+    if (offer && (offer.status === "pending" || offer.status === "approved" || offer.status === "rejected")) {
+      setSelectedOffer(offer);
+    } else {
+      onView(offerId);
+    }
+  }
+
+  function handleModalApprove(offerId: string) {
+    setPendingAction("approved");
+  }
+
+  function handleModalReject(offerId: string) {
+    setPendingAction("rejected");
+  }
+
+  function handleModalSuspend(offerId: string) {
+    setPendingAction("suspended");
+  }
+
+  function handleConfirm() {
+    if (!pendingAction || !selectedOffer) return;
+    if (pendingAction === "approved") {
+      onApprove(selectedOffer.id);
+    } else if (pendingAction === "rejected") {
+      onReject(selectedOffer.id);
+    } else if (pendingAction === "suspended") {
+      onSuspend?.(selectedOffer.id);
+    }
+    setCompletedAction(pendingAction);
+    setPendingAction(null);
+  }
+
+  function handleCancelConfirmation() {
+    setPendingAction(null);
+  }
+
+  function handleSuccessBack() {
+    setCompletedAction(null);
+    setSelectedOffer(null);
+  }
+
   // Backend dashboard stats don't include a rejected count, so derive it
   // from the same offers data driving the table — keeps the tab count and
   // the actual filtered rows guaranteed to agree.
@@ -138,6 +201,14 @@ export function AllOffersPage({
   return (
     <div className="rounded-2xl border border-gray-100 bg-white shadow-sm">
       <div className="space-y-4 p-3 sm:p-4 md:p-6">
+         <h1 className="text-[16px] sm:text-[20px] font-bold text-slate-900 flex items-center gap-1.5 sm:gap-2">
+                    <FiChevronRight
+                      size={16}
+                      strokeWidth={2.5}
+                      className="text-slate-600 hidden sm:block"
+                    />
+                    All Offers
+                  </h1>
         <SearchFilterBar
           searchValue={search}
           onSearchChange={handleSearchChange}
@@ -156,7 +227,7 @@ export function AllOffersPage({
       </div>
 
       <div className="overflow-x-auto border-t border-gray-100">
-        <OfferTable offers={pagedOffers} onView={onView} onDelete={onDelete} />
+        <OfferTable offers={pagedOffers} onView={handleView} onDelete={onDelete} />
       </div>
 
       <div className="border-t border-gray-100">
@@ -168,6 +239,60 @@ export function AllOffersPage({
           onNext={() => setCurrentPage((p) => p + 1)}
         />
       </div>
+
+      {/* ── Pending offer preview modal ── */}
+      {selectedOffer && selectedOffer.status === "pending" && !pendingAction && !completedAction && (
+        <PendingOfferModal
+          offer={selectedOffer}
+          onClose={() => setSelectedOffer(null)}
+          onApprove={handleModalApprove}
+          onReject={handleModalReject}
+          onViewMore={(id) => {
+            setSelectedOffer(null);
+            onView(id);
+          }}
+        />
+      )}
+
+      {/* ── Active offer preview modal ── */}
+      {selectedOffer && selectedOffer.status === "approved" && !pendingAction && !completedAction && (
+        <ActiveOfferModal
+          offer={selectedOffer}
+          onClose={() => setSelectedOffer(null)}
+          onSuspend={handleModalSuspend}
+          onViewMore={(id) => {
+            setSelectedOffer(null);
+            onView(id);
+          }}
+        />
+      )}
+
+      {/* ── Rejected offer preview modal ── */}
+      {selectedOffer && selectedOffer.status === "rejected" && !pendingAction && !completedAction && (
+        <RejectedOfferModal
+          offer={selectedOffer}
+          onClose={() => setSelectedOffer(null)}
+          onViewMore={(id) => {
+            setSelectedOffer(null);
+            onView(id);
+          }}
+        />
+      )}
+
+      {/* Confirmation step */}
+      <ConfirmationModal
+        isOpen={pendingAction !== null}
+        action={pendingAction}
+        onConfirm={handleConfirm}
+        onCancel={handleCancelConfirmation}
+      />
+
+      {/* Success step */}
+      <SuccessModal
+        isOpen={completedAction !== null}
+        action={completedAction}
+        onBack={handleSuccessBack}
+      />
     </div>
   );
 }
