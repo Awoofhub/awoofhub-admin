@@ -1,17 +1,17 @@
 'use client'
 
 import DashboardDate from "@/components/dashboard/DashboardDate";
-import { Dashboardskeleton } from "@/components/dashboard/DashboardSkeleton";
+import DashboardSkeleton from "@/components/dashboard/DashboardSkeleton";
 import StatsCard from "@/components/dashboard/StatsCard";
 import { useDashboard } from "@/features/dashboard/useDashboard";
-import { AlertCircle, Briefcase, CalendarX, CheckCircle, CheckCircle2, Clock, FileText, MessageSquare, ShieldAlert, Tag, Users, UserX, XCircle } from 'lucide-react';
+import { AlertCircle, Briefcase, CalendarX, CheckCircle, CheckCircle2, Clock, FileText, ShieldAlert, Tag, Users, UserX, XCircle } from 'lucide-react';
 
 
 export default function Home() {
   const { data, isLoading } = useDashboard()
 
   if (isLoading) {
-    return <Dashboardskeleton />
+    return <DashboardSkeleton />
   }
 
   if (!data) {
@@ -67,13 +67,6 @@ export default function Home() {
               <StatsCard label="Pending Review" value={data.reports.pendingReports} icon={AlertCircle} iconBg="bg-blue-200" />
               <StatsCard label="Resolved" value={data.reports.activeReports} icon={CheckCircle2} iconBg="bg-amber-200" />
               <StatsCard label="Dismissed" value={data.reports.expiredReports} icon={XCircle} iconBg="bg-rose-200" />
-            </div>
-          </section>
-
-          <section className="bg-gray-100 p-6 rounded-2xl">
-            <h2 className="text-2xl font-bold text-black mb-6">Comments</h2>
-            <div className="grid grid-cols-2 gap-4">
-              <StatsCard label="Total Comments" value={data.comments.totalComments} icon={MessageSquare} iconBg="bg-indigo-200" />
             </div>
           </section>
         </div>

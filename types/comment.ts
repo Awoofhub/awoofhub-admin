@@ -1,11 +1,5 @@
 import { Offer } from "./offer";
 
-
-export interface commentData {
-  comment: string;
-};
-
-
 export interface Comment {
     id: string,
     comment: string,
