@@ -17,7 +17,7 @@ function Login() {
   }
 
   return (
-    <div className="space-y-6 px-4 md:px-0">
+    <div className="mx-auto w-full max-w-2xl">
       <Seo title="Sign In" />
       <LoginForm onSuccess={onSuccess} />
     </div>
