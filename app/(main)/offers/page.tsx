@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 "use client";
 
 import AdminOfferListSkeleton from "@/components/offers/admin/AdminOfferListSkeleton";
@@ -207,3 +208,12 @@ export default function OffersPage() {
     </section>
   );
 }
+=======
+'use client';
+
+
+export default function OffersPage() {
+  
+   
+}
+>>>>>>> f07c862dc9c084da96367328113a39dc67211a2b

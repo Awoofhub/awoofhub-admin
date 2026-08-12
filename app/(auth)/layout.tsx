@@ -12,7 +12,11 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
                 style={{ backgroundImage: "url('/Shape.png')" }}
             />
 
+<<<<<<< HEAD
             <div className="relative z-10 mx-auto flex min-h-[calc(100vh-5rem)] max-w-5xl flex-col items-center">
+=======
+            <div className="mb-6">
+>>>>>>> f07c862dc9c084da96367328113a39dc67211a2b
                 <Link href="/">
                     <Image
                         src="/LogoWhite.png"

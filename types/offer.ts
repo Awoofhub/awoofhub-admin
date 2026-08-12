@@ -1,11 +1,10 @@
 export interface Offer {
-  status: string;
   id: string;
   title: string;
   description: string;
   imageUrl: string;
-  termsAndConditions: string;
   value: string;
+<<<<<<< HEAD
   brandName: string;
   dealType:
     | "cashback"
@@ -19,6 +18,12 @@ export interface Offer {
   externalLink: string;
   couponCode?: string;
    contributor: {
+=======
+  dealType: "cashback" | "freebie" | "discount" | "bogo" | "promo_code" | "free_trial" | "free_delivery" | "price_drop";
+  externalLink: string;
+  couponCode?: string;
+  contributor: {
+>>>>>>> f07c862dc9c084da96367328113a39dc67211a2b
     id: string;
     name: string;
     username: string;
@@ -31,9 +36,8 @@ export interface Offer {
     slug: string;
   };
   location: string;
-  moderationStatus: "pending" | "approved" | "rejected" | "unknown";
-  adminNote: string | null;
-  statusUpdatedAt: string | null;
+  brandName: string;
+  status: "pending" | "approved" | "rejected" | "suspended";
   createdAt: string;
   endDate: string;
   avgRating: number;
@@ -41,6 +45,7 @@ export interface Offer {
   clickCount: number;
   isTrending: boolean;
   ratingDistribution: any;
+<<<<<<< HEAD
 }
 
 export interface Stats {
@@ -76,4 +81,6 @@ export interface OffersDashboard {
     offersByMonth: OffersByMonthData[];
     expiringOffers: ExpiringOffers;
   };
+=======
+>>>>>>> f07c862dc9c084da96367328113a39dc67211a2b
 }

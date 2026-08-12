@@ -1,50 +1,9 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-'use client';
 
-import { useParams, useRouter } from 'next/navigation';
-import { useQuery } from '@tanstack/react-query';
-import ReportService from '@/services/report-service';
-import { formatDateTime } from '@/utils/formatDateTime';
-import OfferDetailSkeleton from '@/components/offers/OfferDetailsSkeleton';
-import { ShieldAlert, Check, X, History, ExternalLink, AlertTriangle } from 'lucide-react';
-import { useModerateReport } from '@/features/reports/useModerateReport';
-import { useReportContext } from '@/features/reports/useReportContext';
-import Image from 'next/image';
 
 export default function ReportDetailPage() {
-    const params = useParams();
-    const router = useRouter();
-    const reportId = params.id as string;
-
-    const { mutate: moderateReport, isPending } = useModerateReport();
-
-    const { data: report, isLoading, error } = useQuery({
-        queryKey: ['report', reportId],
-        queryFn: async () => {
-            const response = await ReportService.reportById(reportId);
-            return response.data;
-        },
-    });
-
-    const { targetUser, targetOffer, isLoadingTarget, moderationHistory, isLoadingHistory } = useReportContext(report);
-
-    if (isLoading) return  <section className="w-full bg-white px-4 py-8 max-w-360 mx-auto h-[90dvh] md:h-[88dvh]">
-            <OfferDetailSkeleton />
-        </section>;
-    if (error || !report) return <div className="p-8 text-center text-red-500">Failed to load report.</div>;
-
-    const handleAction = (status: 'resolved' | 'dismissed') => {
-        moderateReport({ id: reportId, status });
-    };
-
-
-    const reporterData = typeof report.reporter === 'object' ? report.reporter : null;
-    const reporterName = reporterData?.name || 'Unknown User';
-    const reporterEmail = reporterData?.email || '';
-    const reporterId = reporterData?.id || (typeof report.reporter === 'string' ? report.reporter : 'N/A');
-    const reporterImg = reporterData?.profileImageUrl || null;
-
+    
     return (
+<<<<<<< HEAD
         <section className="w-full bg-white flex flex-col h-[90dvh] md:h-[88dvh] overflow-hidden">
             <div className="py-4 sm:py-6 md:py-8 px-3 sm:px-4 md:px-6 mx-auto w-full max-w-300 flex flex-col h-full">
 
@@ -201,5 +160,8 @@ export default function ReportDetailPage() {
                 </div>
             </div>
         </section>
+=======
+        <></>
+>>>>>>> f07c862dc9c084da96367328113a39dc67211a2b
     );
 }

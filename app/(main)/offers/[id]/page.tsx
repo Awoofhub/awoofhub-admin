@@ -1,56 +1,10 @@
-'use client';
 
-import Image from 'next/image';
-import { useParams, useRouter } from 'next/navigation';
-import { useQuery } from '@tanstack/react-query';
-import { useEffect, useRef } from 'react';
-import OfferService from '@/services/offer-service';
-import { apiClient } from '@/lib/api-client';
-import Terms from '@/components/offer/Terms';
-import OfferDetailSkeleton from '@/components/offers/OfferDetailsSkeleton';
-import { formatDateTime } from '@/utils/formatDateTime';
-import Rating from '@mui/material/Rating';
-import {
-    Check, X,
-    Edit2, History,
-    Clock, ChevronDown
-} from 'lucide-react';
-import { useState } from 'react';
-import { useModerateOffer } from '@/features/offers/useModerateOffer';
+
 
 export default function OfferDetailPage() {
-    const params = useParams();
-    const router = useRouter();
-    const offerId = params.id as string;
-
-    const [showModerationModal, setShowModerationModal] = useState(false);
-    const [adminNote, setAdminNote] = useState('');
-    const [moderationAction, setModerationAction] = useState<'approved' | 'rejected' | 'pending' | null>(null);
-    const [isModerationDropdownOpen, setIsModerationDropdownOpen] = useState(false);
-
-    const { mutate: moderateOffer, isPending: isModerating } = useModerateOffer();
-
-
-    const dropdownRef = useRef<HTMLDivElement>(null);
-    useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-                setIsModerationDropdownOpen(false);
-            }
-        };
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => document.removeEventListener('mousedown', handleClickOutside);
-    }, []);
-
   
-    const { data: offer, isLoading, error } = useQuery({
-        queryKey: ['offer', offerId],
-        queryFn: async () => {
-            const response = await OfferService.offerById(offerId);
-            return response.data;
-        },
-    });
 
+<<<<<<< HEAD
     const { data: moderationHistory, isLoading: isLoadingHistory } = useQuery({
         queryKey: ['moderation-history', offerId],
         queryFn: async () => {
@@ -292,4 +246,6 @@ export default function OfferDetailPage() {
             </div>
         </section>
     );
+=======
+>>>>>>> f07c862dc9c084da96367328113a39dc67211a2b
 }
