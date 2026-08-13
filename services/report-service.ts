@@ -14,9 +14,11 @@ async function reportById(id: string): Promise<ApiResponse<Report>> {
   return res;
 }
 
+
 const ReportService = {
   reports,
   reportById,
+  
 };
 
 export default ReportService;

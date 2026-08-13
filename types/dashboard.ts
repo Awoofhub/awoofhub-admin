@@ -1,31 +1,23 @@
 export interface UserStats {
-    totalActive: number,
-    businessActive: number,
-    suspended: number,
-    banned: number
+  totalUsers: number;
 }
 
 export interface OfferStats {
-    totalOffers: number,
-    pendingOffers: number,
-    activeOffers: number,
-    expiredOffers: number
+  activeOffers: number;
+  totalOffers: number;
 }
 
 export interface ReportStats {
-    totalReports: number,
-    pendingReports: number,
-    activeReports: number,
-    expiredReports: number
+  pendingReports: number;
 }
 
-export interface CommentStats {
-    totalComments: number
+export interface ClickStats {
+  totalClicks: number;
 }
 
 export interface Dashboard {
-    users: UserStats,
-    offers: OfferStats,
-    reports: ReportStats,
-    comments: CommentStats,
-};
+  users: UserStats;
+  offers: OfferStats;
+  reports: ReportStats;
+  clicks: ClickStats;
+}
