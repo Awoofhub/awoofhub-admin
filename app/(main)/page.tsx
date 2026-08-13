@@ -4,7 +4,7 @@ import DashboardDate from "@/components/dashboard/DashboardDate";
 import DashboardSkeleton from "@/components/dashboard/DashboardSkeleton";
 import StatsCard from "@/components/dashboard/StatsCard";
 import { useDashboard } from "@/features/dashboard/useDashboard";
-import { AlertCircle, Briefcase, CalendarX, CheckCircle, CheckCircle2, Clock, FileText, ShieldAlert, Tag, Users, UserX, XCircle } from 'lucide-react';
+import { CalendarX, CheckCircle, Clock, Tag } from 'lucide-react';
 
 
 export default function Home() {
@@ -42,12 +42,7 @@ export default function Home() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 min-w-[450px] md:min-w-[900px]">
           <section className="bg-gray-100 p-6 rounded-2xl">
             <h2 className="text-2xl font-bold text-black mb-6">Users</h2>
-            <div className="grid grid-cols-2 gap-4">
-              <StatsCard label="Active Users" value={data.users.totalActive} icon={Users} iconBg="bg-green-200" />
-              <StatsCard label="Business Account" value={data.users.businessActive} icon={Briefcase} iconBg="bg-blue-200" />
-              <StatsCard label="Suspended" value={data.users.suspended} icon={ShieldAlert} iconBg="bg-amber-200" />
-              <StatsCard label="Banned" value={data.users.banned} icon={UserX} iconBg="bg-rose-200" />
-            </div>
+            
           </section>
 
           <section className="bg-gray-100 p-6 rounded-2xl">
@@ -62,12 +57,7 @@ export default function Home() {
 
           <section className="bg-gray-100 p-6 rounded-2xl">
             <h2 className="text-2xl font-bold text-black mb-6">Reports</h2>
-            <div className="grid grid-cols-2 gap-4">
-              <StatsCard label="Active Reports" value={data.reports.totalReports} icon={FileText} iconBg="bg-green-200" />
-              <StatsCard label="Pending Review" value={data.reports.pendingReports} icon={AlertCircle} iconBg="bg-blue-200" />
-              <StatsCard label="Resolved" value={data.reports.activeReports} icon={CheckCircle2} iconBg="bg-amber-200" />
-              <StatsCard label="Dismissed" value={data.reports.expiredReports} icon={XCircle} iconBg="bg-rose-200" />
-            </div>
+          
           </section>
         </div>
       </div>
