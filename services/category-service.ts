@@ -2,10 +2,8 @@ import { apiClient } from "@/lib/api-client";
 import { ApiResponse } from "@/types/api-response";
 import { Category } from "@/types/category";
 
-export async function getCategoriesService(search: string, page: number = 1, limit: number = 10): Promise<ApiResponse<Category[]>> {
-  const res: ApiResponse<Category[]> = await apiClient.get("/category", {
-    params: { search, page, limit },
-  });
+export async function getCategoriesService(): Promise<ApiResponse<Category[]>> {
+  const res: ApiResponse<Category[]> = await apiClient.get("/category");
 
   return res;
 }
