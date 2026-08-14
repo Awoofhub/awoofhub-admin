@@ -21,13 +21,13 @@ export default function Table<T>({
   onRowClick,
 }: DataTableProps<T>) {
   return (
-    <table className="w-full min-w-[1283px] text-left shadow-sm">
+    <table className=" w-full min-w-[1000px] text-left shadow-sm">
       <thead>
-        <tr className="text-[11px] uppercase tracking-wider whitespace-nowrap bg-gray-100 text-gray-600 border-y border-gray-200">
+        <tr className="text-sm text-left font-baloo uppercase tracking-wide whitespace-nowrap bg-[#F9F9F9] text-black border-b border-muted">
           {columns.map((column) => (
             <th
               key={column.key}
-              className={`px-3 py-4 font-bold ${column.className ?? ""}`}
+              className={` py-4 px-3 font-bold ${column.className ?? ""}`}
             >
               {column.header}
             </th>
@@ -41,14 +41,14 @@ export default function Table<T>({
             key={rowKey(item)}
             onClick={() => onRowClick?.(item)}
             className={`
-              border-y border-gray-200 transition-colors
-              ${onRowClick ? "cursor-pointer hover:bg-gray-50" : ""}
+              border-b border-muted/20 transition-colors
+              ${onRowClick ? "cursor-pointer hover:bg-orange-50" : ""}
             `}
           >
             {columns.map((column) => (
               <td
                 key={column.key}
-                className={`px-3 py-5 text-xs text-gray-600 ${column.className ?? ""}`}
+                className={`px-3 py-5 text-left text-sm text-black ${column.className ?? ""}`}
               >
                 {column.render
                   ? column.render(item)

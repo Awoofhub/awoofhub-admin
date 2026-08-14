@@ -1,22 +1,29 @@
-import { LucideIcon } from 'lucide-react';
+import Image from 'next/image';
 
 interface Props {
     label: string;
-    value: number;
-    icon: LucideIcon;
+    value: number | string;
+    iconSrc?: string;
     iconBg: string;
 }
 
-export default function StatsCard({ label, value, icon: Icon, iconBg }: Props) {
+export default function StatsCard({
+    label,
+    value,
+    iconSrc,
+    iconBg
+}: Props) {
     return (
-        <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex flex-col gap-4">
-            <div className="flex items-center gap-3">
-                <div className={`p-2 rounded-lg ${iconBg} text-white`}>
-                    <Icon className="w-7 h-7 text-gray-700" />
+        <div className="bg-white px-4 py-4 xs:py-8 rounded-3xl shadow-sm border border-gray-100 flex flex-col gap-1 xs:gap-4">
+            <div className="flex justify-between items-center gap-3">
+                <p className="text-muted font-baloo text-base xs:text-lg font-medium">{label}</p>
+                <div className={`p-2 rounded-xl flex items-center justify-center  ${iconBg}`}>
+                    {iconSrc ? (
+                        <Image src={iconSrc} alt="" width={28} height={28} className="w-5 h-5" />
+                    ) : null}
                 </div>
-                <p className="text-gray-600 font-medium">{label}</p>
             </div>
-            <div className="text-2xl font-bold text-slate-900">{value}</div>
+            <div className="font-baloo text-xl xs:text-2xl lg:text-3xl font-bold text-gray-900">{value}</div>
         </div>
     );
 }

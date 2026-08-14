@@ -9,7 +9,7 @@ export async function dashboardService(): Promise<ApiResponse<DashboardData>> {
 }
 
 export async function dashboardOfferChartService(month?: string): Promise<ApiResponse<DashboardOfferChartData>> {
-  const res: ApiResponse<DashboardOfferChartData> = await apiClient.get('dashboard/offers-chart', {
+  const res: ApiResponse<DashboardOfferChartData> = await apiClient.get('/stats/dashboard/offers-chart', {
     params: { month },
   })
 

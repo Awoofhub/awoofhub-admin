@@ -9,8 +9,8 @@ interface PaginatedTableProps<T> {
   totalPages: number;
   onPageChange: (page: number) => void;
   onRowClick?: (item: T) => void;
+  title?: string; 
 }
-
 
 export default function PaginatedTable<T>({
   data,
@@ -20,10 +20,15 @@ export default function PaginatedTable<T>({
   totalPages,
   onPageChange,
   onRowClick,
+  title,
 }: PaginatedTableProps<T>) {
   return (
-    <>
-      <div className="overflow-x-auto min-h-[455px] rounded-lg">
+    <div className="bg-white px-4 py-6 rounded-2xl">
+      {title && (
+        <h2 className="font-bold text-black text-lg mb-4">{title}</h2>
+      )}
+
+      <div className="overflow-x-auto">
         <Table
           data={data}
           columns={columns}
@@ -33,6 +38,6 @@ export default function PaginatedTable<T>({
       </div>
 
       <PaginationButtons currentPage={currentPage} totalPages={totalPages} onPageChange={onPageChange} />
-    </>
+    </div>
   );
 }
