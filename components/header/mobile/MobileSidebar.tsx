@@ -1,11 +1,15 @@
+"use client";
+
 import Image from "next/image";
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { AiOutlineDashboard } from 'react-icons/ai';
-import { FiUsers } from 'react-icons/fi';
-import { MdOutlineCategory } from 'react-icons/md';
-import { SiSimpleanalytics } from 'react-icons/si';
-import { TbReportAnalytics } from 'react-icons/tb';
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { BiCategoryAlt } from "react-icons/bi";
+import { FaListUl } from "react-icons/fa6";
+import { FiBox, FiFlag, FiLogOut, FiSidebar, FiUsers } from "react-icons/fi";
+import { GoHome } from "react-icons/go";
+import { GrAnnounce } from "react-icons/gr";
+import { MdArrowForwardIos } from "react-icons/md";
+import { TbHeadset } from "react-icons/tb";
 
 interface Props {
     isOpen: boolean;
@@ -15,90 +19,68 @@ interface Props {
 export default function MobileSidebar({ isOpen, onClose }: Props) {
 
     const pathname = usePathname();
-    const navSections = [
-        {
-            title: "General",
-            links: [
-                { href: "/", label: "Dashboard", icon: AiOutlineDashboard },
-            ],
-        },
-        {
-            title: "Offers",
-            links: [
-                { href: "/offers", label: "Offers", icon: SiSimpleanalytics },
-                { href: "/category", label: "Categories", icon: MdOutlineCategory },
-            ],
-        },
-        {
-            title: "Users",
-            links: [
-                { href: "/users", label: "Users", icon: FiUsers },
-            ],
-        },
-        {
-            title: "Reports",
-            links: [
-                { href: "/reports", label: "Reports", icon: TbReportAnalytics },
-            ],
-        },
-        {
-            title: "Analytics",
-            links: [
-                { href: "/dashboard/offers", label: "Offers", icon: SiSimpleanalytics },
-                { href: "/dashboard/users", label: "Users", icon: FiUsers },
-                { href: "/dashboard/reports", label: "Reports", icon: TbReportAnalytics },
-            ],
-        },
+    const navLinks = [
+        { href: "/", label: "Dashboard", icon: GoHome },
+        { href: "/queue", label: "Offer Queue", icon: FaListUl },
+        { href: "/offers", label: "Offers", icon: FiBox },
+        { href: "/users", label: "Users", icon: FiUsers },
+        { href: "/reports", label: "Reports", icon: FiFlag, },
+        { href: "/helpdesk", label: "Helpdesk", icon: TbHeadset },
+        { href: "/announcements", label: "Announcement", icon: GrAnnounce },
+        { href: "/categories", label: "Categories", icon: BiCategoryAlt },
     ];
 
     return (
         <>
-            <div className={`fixed top-0 left-0 h-full w-[50%] bg-orange-500 z-[100] flex flex-col items-center justify-start transform transition-transform duration-300 ease-in ${isOpen ? "translate-x-0 visible" : "-translate-x-full invisible"}`}>
+            <div className={`fixed top-0 left-0 h-full w-[70%] xxs:w-[50%] bg-white z-[100] flex flex-col items-center justify-start transform transition-transform duration-300 ease-in ${isOpen ? "translate-x-0 visible" : "-translate-x-full invisible"}`}>
 
-                {/* Logo */}
-                <Link className="py-5" href="/">
-                    <Image
-                        src="/LogoWhite.png"
-                        alt="Logo"
-                        width={180}
-                        height={60}
-                        priority
-                        className="w-[120px] sm:w-[160px] h-auto"
-                    />
-                </Link>
-
-                <hr className="h-[1px] w-full bg-white border-none my-2" />
-                {navSections.map((section, index) => (
-                    <div key={section.title} className="w-full text-white">
-
-                        <span className="px-3 text-sm font-bold">
-                            {section.title}
-                        </span>
-
-                        <div>
-                            {section.links.map((link) => {
-                                const Icon = link.icon;
-                                const isActive = pathname === link.href;
-
-                                return (
-                                    <Link
-                                        key={link.href}
-                                        href={link.href}
-                                        className={`px-3 py-2 flex items-center gap-2 transition-all ${isActive ? "bg-white/40" : "hover:bg-white/20"
-                                            }`}
-                                    >
-                                        <Icon size={18} />
-                                        <span className="text-base font-medium">{link.label}</span>
-                                    </Link>
-                                );
-                            })}
-                        </div>
-
-                        {index !== navSections.length - 1 && (
-                            <hr className="h-[1px] w-full bg-white border-none my-2" />
-                        )}
+                <div className="w-full px-6 mt-4 mb-9 flex justify-between items-center">
+                    <Link href="/">
+                        <Image
+                            src="/Logo.png"
+                            alt="Logo"
+                            width={180}
+                            height={60}
+                            priority
+                            className="w-[120px] sm:w-[130px] h-auto"
+                        />
+                    </Link>
+                    < div onClick={onClose}>
+                        <FiSidebar size={24} className="text-primary" />
                     </div>
-                ))}
+                </div>
+
+
+                <div className="w-full text-black flex flex-col px-4 gap-2">
+                    {navLinks.map((link) => {
+                        const Icon = link.icon;
+                        const isActive = pathname === link.href;
+
+                        return (
+                            <Link
+                                key={link.href}
+                                href={link.href}
+                                className={`px-3 py-2 flex items-center gap-2 transition-all rounded-md ${isActive ? "bg-primary text-white font-medium" : "hover:bg-orange-100 font-light"
+                                    }`}
+                            >
+                                <Icon size={18} className={`${isActive ? "text-white stroke-1" : "text-primary"}`} />
+                                <span className="text-base font-baloo">{link.label}</span>
+
+                                <MdArrowForwardIos size={12} className="ml-auto" />
+                            </Link>
+                        );
+                    })}
+                </div>
+
+
+
+                <div className="w-full px-2 pb-16 mt-auto">
+                    <div className="w-full border-t border-gray-300 "></div>
+                    <button className="flex items-center justify-center gap-2 w-full transition-all text-primary hover:bg-primary/8 rounded-xl py-3">
+                        <FiLogOut size={18} />
+                        <span className="text-[16px] font-baloo font-medium">Log out</span>
+                    </button>
+                </div>
             </div>
 
             {isOpen && (

@@ -73,7 +73,7 @@ export default function OffersPerWeekChart() {
     const { ceiling, ticks } = useMemo(() => getYAxisScale(chartData), [chartData]);
 
     return (
-        <div className="bg-white p-4 sm:p-6 rounded-xl border border-gray-100 shadow-sm mb-8">
+        <div className="bg-white p-4 sm:p-6 rounded-xl border border-gray-100 shadow-sm mb-4">
             <div className="flex items-center gap-2 justify-between mb-1">
                 <div>
                     <h2 className="font-semibold text-black text-sm xs:text-base lg:text-lg">Offers Posted Per Week</h2>

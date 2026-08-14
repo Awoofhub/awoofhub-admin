@@ -26,9 +26,9 @@ export default function Home() {
   }
 
   return (
-    <section className="max-w-[1440px]  flex flex-col w-full overflow-auto">
+    <section className=" flex flex-col w-full overflow-auto">
 
-      <div className="py-8 px-4 mx-auto w-full">
+      <div className="pt-6 pb-10 px-4 max-w-[1440px] mx-auto w-full">
 
         <div className="mb-4 flex items-center gap-1 text-xl text-black font-baloo font-semibold">
           <ChevronRight size={18} className="hidden xs:inline" />
@@ -43,12 +43,11 @@ export default function Home() {
           <StatsCard label="Total Grabs" value={data.clicks.totalClicks} iconSrc="/grabs.svg" iconBg="bg-[#FAAE8E]/20" />
         </div>
 
-        {/* Secondary stats row */}
         <SecondaryStatsRow />
 
         <OffersPerWeekChart />
         
-        <div className="space-y-6">
+        <div className="space-y-4">
           <TrendingTable />
           <ExpiringTable />
         </div>
