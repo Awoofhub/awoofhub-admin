@@ -10,6 +10,8 @@ export interface Column<T> {
 interface DataTableProps<T> {
   data: T[];
   columns: Column<T>[];
+  isFetching: boolean,
+  limit: number,
   rowKey: (item: T) => string;
   onRowClick?: (item: T) => void;
 }
@@ -17,9 +19,12 @@ interface DataTableProps<T> {
 export default function Table<T>({
   data,
   columns,
+  limit,
+  isFetching,
   rowKey,
   onRowClick,
 }: DataTableProps<T>) {
+  const rows = Array.from({ length: limit }, (_, index) => index);
   return (
     <table className=" w-full min-w-[1000px] text-left shadow-sm">
       <thead>
@@ -35,29 +40,49 @@ export default function Table<T>({
         </tr>
       </thead>
 
-      <tbody>
-        {data.map((item) => (
-          <tr
-            key={rowKey(item)}
-            onClick={() => onRowClick?.(item)}
-            className={`
+      {isFetching ? (
+        <tbody>
+          {rows.map((rowIndex) => (
+            <tr
+              key={rowIndex}
+              className="border-b border-muted/20"
+            >
+              {columns.map((column) => (
+                <td
+                  key={column.key}
+                  className={`px-3 py-5 text-left text-sm ${column.className ?? ""}`}
+                >
+                  <div className="h-6 bg-gray-200 rounded w-full max-w-[150px]" />
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      ) : (
+        <tbody>
+          {data.map((item) => (
+            <tr
+              key={rowKey(item)}
+              onClick={() => onRowClick?.(item)}
+              className={`
               border-b border-muted/20 transition-colors
               ${onRowClick ? "cursor-pointer hover:bg-orange-50" : ""}
             `}
-          >
-            {columns.map((column) => (
-              <td
-                key={column.key}
-                className={`px-3 py-5 text-left text-sm text-black ${column.className ?? ""}`}
-              >
-                {column.render
-                  ? column.render(item)
-                  : (item[column.key as keyof T] as React.ReactNode)}
-              </td>
-            ))}
-          </tr>
-        ))}
-      </tbody>
+            >
+              {columns.map((column) => (
+                <td
+                  key={column.key}
+                  className={`px-3 py-5 text-left text-sm text-black ${column.className ?? ""}`}
+                >
+                  {column.render
+                    ? column.render(item)
+                    : (item[column.key as keyof T] as React.ReactNode)}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      )}
     </table>
   );
 }

@@ -1,9 +1,9 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
 import { useDashboardOfferChart } from '@/features/dashboard/useDashboardOfferChart';
 import { DashboardOfferChartData } from '@/types/dashboard';
-import { BarChart, Bar, ResponsiveContainer, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts';
+import { useEffect, useMemo, useState } from 'react';
+import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import MonthYearPicker from './MonthYearPicker';
 
 const SMALL_SCREEN_BREAKPOINT = 640;
@@ -68,7 +68,7 @@ export default function OffersPerWeekChart() {
 
     const selectedMonth = toQueryMonth(monthIndex, year);
 
-    const { data, isLoading } = useDashboardOfferChart({ month: selectedMonth });
+    const { data } = useDashboardOfferChart({ month: selectedMonth });
     const chartData = useMemo(() => toChartData(data, monthIndex, year), [data, monthIndex, year]);
     const { ceiling, ticks } = useMemo(() => getYAxisScale(chartData), [chartData]);
 
@@ -91,27 +91,24 @@ export default function OffersPerWeekChart() {
                 />
             </div>
 
-            {isLoading ? (
-                <div className="h-56 flex items-center justify-center text-gray-400 text-sm">Loading...</div>
-            ) : (
-                <div className="h-100 mt-4">
-                    <ResponsiveContainer width="100%" height="100%">
-                        <BarChart data={chartData} margin={{ top: 5, right: 10, bottom: 0, left: -10 }}>
-                            <CartesianGrid strokeDasharray="4 4" vertical={false} stroke="#eee" />
-                            <XAxis
-                                dataKey="label"
-                                tick={{ fontSize: isSmallScreen ? 10 : 12, fill: '#666' }}
-                                tickLine={false}
-                                interval={0}
-                                tickFormatter={(value: string) => (isSmallScreen ? abbreviateLabel(value) : value)}
-                            />
-                            <YAxis domain={[0, ceiling]} ticks={ticks} tick={{ fontSize: 12, fill: '#666' }} tickLine={false} width={32} />
-                            <Tooltip cursor={{ fill: 'rgba(0,0,0,0.04)' }} />
-                            <Bar dataKey="offers" name="Offers" fill="#FE4F04" maxBarSize={150} />
-                        </BarChart>
-                    </ResponsiveContainer>
-                </div>
-            )}
+            <div className="h-100 mt-4">
+                <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={chartData} margin={{ top: 5, right: 10, bottom: 0, left: -10 }}>
+                        <CartesianGrid strokeDasharray="4 4" vertical={false} stroke="#eee" />
+                        <XAxis
+                            dataKey="label"
+                            tick={{ fontSize: isSmallScreen ? 10 : 12, fill: '#666' }}
+                            tickLine={false}
+                            interval={0}
+                            tickFormatter={(value: string) => (isSmallScreen ? abbreviateLabel(value) : value)}
+                        />
+                        <YAxis domain={[0, ceiling]} ticks={ticks} tick={{ fontSize: 12, fill: '#666' }} tickLine={false} width={32} />
+                        <Tooltip cursor={{ fill: 'rgba(0,0,0,0.04)' }} />
+                        <Bar dataKey="offers" name="Offers" fill="#FE4F04" maxBarSize={150} />
+                    </BarChart>
+                </ResponsiveContainer>
+            </div>
+
         </div>
     );
 }

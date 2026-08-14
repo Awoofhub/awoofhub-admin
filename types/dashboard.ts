@@ -5,7 +5,6 @@ export interface UserStats {
 
 export interface OfferStats {
   totalOffers: number;
-  pendingOffers: number;
   activeOffers: number;
   rejectedOffers: number;
   expiredOffers: number;

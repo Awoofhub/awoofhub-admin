@@ -1,41 +1,32 @@
 import { useTrendingOffers } from "@/features/offers/useTrendingOffers";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import PaginatedTable from "../table/PaginatedTable";
 import { TrendingColumns } from "./TrendingColumns";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
 
 
 export default function TrendingTable() {
     const router = useRouter();
     const [page, setPage] = useState(1);
+    const limit = 3
 
-    const { data: offers, totalPages, isLoading } = useTrendingOffers({
+    const { data: offers, isFetched, isFetching } = useTrendingOffers({
         page,
-        limit: 3,
+        limit,
     });
 
-    if (isLoading) {
-        return (
-            <div className="bg-white p-4 sm:p-6 rounded-xl border border-gray-100 shadow-sm">
-                <div className="text-center text-gray-400 py-8 text-sm">Loading...</div>
-            </div>
-        );
-    }
-
-    if (offers.length === 0 && page === 1) {
-        return null;
-    }
-
     return (
-        <div >
+        <div>
             <PaginatedTable
-                data={offers}
+                response={offers}
                 columns={TrendingColumns}
+                limit={limit}
                 rowKey={(offer) => offer.id}
                 currentPage={page}
-                totalPages={totalPages}
                 onPageChange={setPage}
                 onRowClick={(offer) => router.push(`offers/${offer.id}`)}
+                isFetching={isFetching}
+                isFetched={isFetched}
                 title="Trending Offers"
             />
         </div>

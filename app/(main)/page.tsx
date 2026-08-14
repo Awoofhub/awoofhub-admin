@@ -1,7 +1,5 @@
 'use client'
 
-import DashboardDate from "@/components/dashboard/DashboardDate";
-import DashboardSkeleton from "@/components/dashboard/DashboardSkeleton";
 import ExpiringTable from "@/components/dashboard/ExpiringTable";
 import OffersPerWeekChart from "@/components/dashboard/OffersPerWeekChart";
 import SecondaryStatsRow from "@/components/dashboard/SecondaryStatsRow";
@@ -9,7 +7,7 @@ import StatsCard from "@/components/dashboard/StatsCard";
 import TrendingTable from "@/components/dashboard/TrendingTable";
 import Loading from "@/components/loading/Loading";
 import { useDashboard } from "@/features/dashboard/useDashboard";
-import { CalendarX, CheckCircle, ChevronRight, Clock, Tag } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 
 
 export default function Home() {

@@ -1,7 +1,5 @@
 'use client';
 
-import { offerColumns } from "@/components/offers/OfferColumns";
-import PaginatedTable from "@/components/table/PaginatedTable";
 import { useCategory } from "@/features/category/useCategory";
 import { useFilter } from "@/features/offers/useFilter";
 import { useOffers } from "@/features/offers/useOffers";
@@ -45,15 +43,7 @@ export default function OffersPage({ searchParams }: FilterProps) {
 
 
     return (
-        <PaginatedTable
-            data={data?.data ?? []}
-            columns={offerColumns}
-            rowKey={(offer) => offer.id}
-            currentPage={page}
-            totalPages={data?.meta?.totalPages ?? 0}
-            onPageChange={setPage}
-            onRowClick={(offer) => router.push(`offers/${offer.id}`)}
-        />
+      <></>
     )
 
 }
