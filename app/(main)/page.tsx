@@ -2,16 +2,21 @@
 
 import DashboardDate from "@/components/dashboard/DashboardDate";
 import DashboardSkeleton from "@/components/dashboard/DashboardSkeleton";
+import ExpiringTable from "@/components/dashboard/ExpiringTable";
+import OffersPerWeekChart from "@/components/dashboard/OffersPerWeekChart";
+import SecondaryStatsRow from "@/components/dashboard/SecondaryStatsRow";
 import StatsCard from "@/components/dashboard/StatsCard";
+import TrendingTable from "@/components/dashboard/TrendingTable";
+import Loading from "@/components/loading/Loading";
 import { useDashboard } from "@/features/dashboard/useDashboard";
-import { CalendarX, CheckCircle, Clock, Tag } from 'lucide-react';
+import { CalendarX, CheckCircle, ChevronRight, Clock, Tag } from 'lucide-react';
 
 
 export default function Home() {
   const { data, isLoading } = useDashboard()
 
   if (isLoading) {
-    return <DashboardSkeleton />
+    return <Loading />
   }
 
   if (!data) {
@@ -23,43 +28,33 @@ export default function Home() {
   }
 
   return (
-    <section className="max-w-[1440px] bg-white flex flex-col w-full overflow-auto">
+    <section className="max-w-[1440px]  flex flex-col w-full overflow-auto">
 
-      <div className="py-8 px-4 mx-auto h-[90dvh] md:h-[88dvh]">
-        <header className="mb-8 flex justify-between items-center">
-          <h1 className="text-3xl font-bold text-slate-800">Welcome Admin</h1>
-          <div className="flex gap-4">
-            <DashboardDate />
-          </div>
-        </header>
+      <div className="py-8 px-4 mx-auto w-full">
 
-        <nav className="mb-8">
-          <button className="bg-[#4E260C] text-white px-6 py-2 rounded-lg font-semibold">
-            Overview
-          </button>
-        </nav>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 min-w-[450px] md:min-w-[900px]">
-          <section className="bg-gray-100 p-6 rounded-2xl">
-            <h2 className="text-2xl font-bold text-black mb-6">Users</h2>
-            
-          </section>
-
-          <section className="bg-gray-100 p-6 rounded-2xl">
-            <h2 className="text-2xl font-bold text-black mb-6">Offers</h2>
-            <div className="grid grid-cols-2 gap-4">
-              <StatsCard label="Total Offers" value={data.offers.totalOffers} icon={Tag} iconBg="bg-green-100" />
-              <StatsCard label="Pending" value={data.offers.pendingOffers} icon={Clock} iconBg="bg-blue-200" />
-              <StatsCard label="Active" value={data.offers.activeOffers} icon={CheckCircle} iconBg="bg-emerald-200" />
-              <StatsCard label="Expired" value={data.offers.expiredOffers} icon={CalendarX} iconBg="bg-rose-200" />
-            </div>
-          </section>
-
-          <section className="bg-gray-100 p-6 rounded-2xl">
-            <h2 className="text-2xl font-bold text-black mb-6">Reports</h2>
-          
-          </section>
+        <div className="mb-4 flex items-center gap-1 text-xl text-black font-baloo font-semibold">
+          <ChevronRight size={18} className="hidden xs:inline" />
+          <span>Dashboard</span>
         </div>
+
+        {/* Primary KPI row */}
+        <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-4 gap-2 mb-4">
+          <StatsCard label="Total Users" value={data.users.totalUsers} iconSrc="/users.svg" iconBg="bg-[#48B7F3]/20" />
+          <StatsCard label="Live Offers" value={data.offers.activeOffers} iconSrc="/live.svg" iconBg="bg-[#4AD991]/20" />
+          <StatsCard label="Posted Offers" value={data.offers.totalOffers} iconSrc="/posted.svg" iconBg="bg-[#8280FF]/20" />
+          <StatsCard label="Total Grabs" value={data.clicks.totalClicks} iconSrc="/grabs.svg" iconBg="bg-[#FAAE8E]/20" />
+        </div>
+
+        {/* Secondary stats row */}
+        <SecondaryStatsRow />
+
+        <OffersPerWeekChart />
+        
+        <div className="space-y-6">
+          <TrendingTable />
+          <ExpiringTable />
+        </div>
+
       </div>
     </section >
   );

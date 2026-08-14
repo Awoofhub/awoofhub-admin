@@ -1,41 +1,41 @@
 export interface UserStats {
-    totalUsers: number;
-    bannedUsers: number;
+  totalUsers: number;
+  bannedUsers: number;
 }
 
 export interface OfferStats {
-    totalOffers: number;
-    pendingOffers: number;
-    activeOffers: number;
-    rejectedOffers: number;
-    expiredOffers: number;
+  totalOffers: number;
+  pendingOffers: number;
+  activeOffers: number;
+  rejectedOffers: number;
+  expiredOffers: number;
+  suspendedOffers: number;
 }
 
 export interface ReportStats {
-    pendingReports: number;
+  pendingReports: number;
 }
 
 export interface ClickStats {
-    totalClicks: number;
+  totalClicks: number;
 }
 
 export interface SupportStats {
-    supportTickets: number;
+  supportTickets: number;
 }
 
 export interface DashboardData {
-    users: UserStats;
-    offers: OfferStats;
-    reports: ReportStats;
-    clicks: ClickStats;
-    support: SupportStats;
+  users: UserStats;
+  offers: OfferStats;
+  reports: ReportStats;
+  clicks: ClickStats;
+  support: SupportStats;
 }
 
-
 export interface DashboardOfferChartData {
-    weekOne: number;
-    weekTwo: number;
-    weekThree: number;
-    weekFour: number;
-    weekFive: number;
+  weekOne: number;
+  weekTwo: number;
+  weekThree: number;
+  weekFour: number;
+  weekFive: number;
 }

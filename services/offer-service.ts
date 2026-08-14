@@ -25,10 +25,28 @@ async function offerById(id: string): Promise<ApiResponse<Offer>> {
   return res;
 }
 
+async function trendingOffers(search: string, category: string, minRating: number, createdFrom: string, createdTo: string, page: number, limit: number,): Promise<ApiResponse<Offer[]>> {
+  const res: ApiResponse<Offer[]> = await apiClient.get('/offers/trending', {
+    params: { search, category, minRating, createdFrom, createdTo, page, limit },
+  })
+
+  return res;
+}
+
+async function expiringOffers(search: string, category: string, minRating: number, createdFrom: string, createdTo: string, page: number, limit: number,): Promise<ApiResponse<Offer[]>> {
+  const res: ApiResponse<Offer[]> = await apiClient.get('/offers/expiring', {
+    params: { search, category, minRating, createdFrom, createdTo, page, limit },
+  })
+
+  return res;
+}
+
 const OfferService = {
   offers,
   offersByUsername,
   offerById,
+  expiringOffers,
+  trendingOffers,
 };
 
 export default OfferService;
