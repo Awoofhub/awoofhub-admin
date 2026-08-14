@@ -22,11 +22,11 @@ export const LoginForm = ({
     return (
         <div className="w-full mx-auto">
             <div className="text-center mb-5">
-                <h1 className="text-2xl font-bold tracking-tight text-slate-900">
+                <h1 className="text-3xl font-bold tracking-tight text-slate-900 md:text-[35px]">
                     Admin Login
                 </h1>
-                <p className="text-sm mt-1 text-slate-500">
-                    Please enter your email and password to continue
+                <p className="text-sm mt-1 text-slate-500 md:text-[22px] font-medium">
+                     Please enter your email address or <br /> username and password to continue
                 </p>
             </div>
 
@@ -37,7 +37,7 @@ export const LoginForm = ({
                     placeholder="johndebby@email.com"
                     compulsory={true}
                     type="email"
-                    icon={<Mail size={18} color={"gray"} />}
+                    icon={<Mail size={18} color={"#FE4F04"} />}
                     {...register('email')}
                     error={formState.errors['email']}
                 />
@@ -46,7 +46,7 @@ export const LoginForm = ({
                     label="Password"
                     type="password"
                     compulsory={true}
-                    icon={<Lock size={18} color={"gray"} />}
+                    icon={<Lock size={18} color={"#FE4F04"} />}
                     placeholder="***************"
                     {...register('password', {
                         required: 'Password field cannot be empty',
