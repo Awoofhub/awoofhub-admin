@@ -22,10 +22,10 @@ export const LoginForm = ({
     return (
         <div className="w-full mx-auto">
             <div className="text-center mb-5">
-                <h1 className="text-3xl font-bold tracking-tight text-slate-900 md:text-[35px]">
+                <h1 className="text-2xl font-bold tracking-tight text-slate-900 md:text-3xl">
                     Admin Login
                 </h1>
-                <p className="text-sm mt-1 text-slate-500 md:text-[22px] font-medium">
+                <p className="text-sm xxs:text-base mt-1 text-slate-500 md:text-lg font-medium">
                      Please enter your email address or <br /> username and password to continue
                 </p>
             </div>
