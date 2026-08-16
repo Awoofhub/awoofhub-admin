@@ -15,3 +15,14 @@ export interface User {
   usernameChangeLockedUntil: string;
 }
 
+export interface UserStats {
+  offers: {
+    totalUserOffers: number;
+    activeUserOffers: number;
+    expiredUserOffers: number;
+    rejectedUserOffers: number;
+  };
+  comments: {
+    totalUserComments: number;
+  };
+}
