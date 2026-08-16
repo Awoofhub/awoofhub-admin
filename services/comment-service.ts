@@ -2,16 +2,25 @@ import { apiClient } from "@/lib/api-client";
 import { ApiResponse } from "@/types/api-response";
 import { Comment } from "@/types/comment";
 
-async function getAllComments(page: number = 1, limit: number = 5): Promise<ApiResponse<Comment[]>> {
+async function comments(page: number = 1, limit: number = 5): Promise<ApiResponse<Comment[]>> {
   const res: ApiResponse<Comment[]> = await apiClient.get("/comments", {
-    params: { page, limit, },
+    params: { page, limit },
   });
 
   return res;
 }
 
+async function commentsByUser(userid: string): Promise<ApiResponse<Comment[]>> {
+  const res: ApiResponse<Comment[]> = await apiClient.get(`/comments/user/${userid}`);
+
+  return res;
+}
+
+
 const CommentService = {
-  getAllComments,
+  comments,
+  commentsByUser,
 };
 
 export default CommentService;
+

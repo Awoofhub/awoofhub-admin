@@ -31,6 +31,19 @@ export interface DashboardData {
   support: SupportStats;
 }
 
+
+export interface UserDashboard {
+  offers: {
+    totalUserOffers: number;
+    activeUserOffers: number;
+    expiredUserOffers: number;
+    rejectedUserOffers: number;
+  };
+  comments: {
+    totalUserComments: number;
+  };
+}
+
 export interface DashboardOfferChartData {
   weekOne: number;
   weekTwo: number;
