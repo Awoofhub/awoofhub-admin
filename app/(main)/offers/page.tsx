@@ -37,6 +37,7 @@ export default function OffersPage({ searchParams }: FilterProps) {
         minRating: 0,
         createdFrom: "",
         createdTo: "",
+        status: "",
         page,
         limit: 8,
     });

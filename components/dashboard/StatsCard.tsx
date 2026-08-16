@@ -3,7 +3,7 @@ import Image from 'next/image';
 interface Props {
     label: string;
     value: number | string;
-    iconSrc?: string;
+    iconSrc: string;
     iconBg: string;
 }
 
@@ -18,9 +18,7 @@ export default function StatsCard({
             <div className="flex justify-between items-center gap-3">
                 <p className="text-muted font-baloo text-base xs:text-lg font-medium">{label}</p>
                 <div className={`p-2 rounded-xl flex items-center justify-center  ${iconBg}`}>
-                    {iconSrc ? (
-                        <Image src={iconSrc} alt="" width={28} height={28} className="w-5 h-5" />
-                    ) : null}
+                    <Image src={iconSrc} alt="" width={28} height={28} className="w-5 h-5" />
                 </div>
             </div>
             <div className="font-baloo text-xl xs:text-2xl lg:text-3xl font-bold text-gray-900">{value}</div>

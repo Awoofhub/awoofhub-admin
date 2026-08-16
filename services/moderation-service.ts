@@ -8,15 +8,22 @@ async function create(payload: CreateModerationData): Promise<ApiResponse<Modera
   return res;
 }
 
-async function history(id: string): Promise<ApiResponse<Moderation>> {
-  const res: ApiResponse<Moderation> = await apiClient.get(`/moderation/history/${id}`)
+async function latestModerationHistory(id: string): Promise<ApiResponse<Moderation>> {
+  const res: ApiResponse<Moderation> = await apiClient.get(`/moderation/history/${id}/latest`)
+
+  return res;
+}
+
+async function moderationHistory(id: string): Promise<ApiResponse<Moderation[]>> {
+  const res: ApiResponse<Moderation[]> = await apiClient.get(`/moderation/history/${id}`)
 
   return res;
 }
 
 const ModerationService = {
   create,
-  history,
+  moderationHistory,
+  latestModerationHistory
 };
 
 export default ModerationService;

@@ -14,9 +14,15 @@ async function reportById(id: string): Promise<ApiResponse<Report>> {
   return res;
 }
 
+async function getPendingReportCount(): Promise<ApiResponse<{count: number}>> {
+    const res: ApiResponse<{count: number}> = await apiClient.get("/reports/pending/count")
+    return res;
+}
+
 const ReportService = {
   reports,
   reportById,
+  getPendingReportCount,
 };
 
 export default ReportService;
