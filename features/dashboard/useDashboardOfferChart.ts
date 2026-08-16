@@ -1,4 +1,4 @@
-import { dashboardOfferChartService } from '@/services/dashboard-service';
+import DashboardService from '@/services/dashboard-service';
 import { DashboardOfferChartData } from '@/types/dashboard';
 import { useQuery } from '@tanstack/react-query';
 
@@ -8,7 +8,7 @@ type GetDashboardOfferChartOption = {
 };
 
 export const GetDashboardOfferChart = async ({ month } :GetDashboardOfferChartOption): Promise<DashboardOfferChartData> => {
-    const result = await dashboardOfferChartService(month)
+    const result = await DashboardService.dashboardOfferChart(month)
     return result.data;
 };
 
