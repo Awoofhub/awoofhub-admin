@@ -1,5 +1,8 @@
 "use client";
 
+import { useOpenSupportCount } from "@/features/help-and-support/useOpenSupportCount";
+import { usePendingOffersCount } from "@/features/offers/usePendingOffersCount";
+import { usePendingReportsCount } from "@/features/reports/usePendingReportsCount";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -18,6 +21,11 @@ interface Props {
 
 export default function MobileSidebar({ isOpen, onClose }: Props) {
 
+    const { data: pendingOffersCount } = usePendingOffersCount()
+    const { data: pendingReportsCount } = usePendingReportsCount()
+    const { data: openSupportCount } = useOpenSupportCount()
+
+
     const pathname = usePathname();
     const navLinks = [
         { href: "/", label: "Dashboard", icon: GoHome },
@@ -32,7 +40,7 @@ export default function MobileSidebar({ isOpen, onClose }: Props) {
 
     return (
         <>
-            <div className={`fixed top-0 left-0 h-full w-[70%] xxs:w-[50%] bg-white z-[100] flex flex-col items-center justify-start transform transition-transform duration-300 ease-in ${isOpen ? "translate-x-0 visible" : "-translate-x-full invisible"}`}>
+            <div className={`fixed top-0 left-0 h-full w-[70%] xxs:w-[50%] md:w-[30%] bg-white z-[100] flex flex-col items-center justify-start transform transition-transform duration-300 ease-in ${isOpen ? "translate-x-0 visible" : "-translate-x-full invisible"}`}>
 
                 <div className="w-full px-6 mt-4 mb-9 flex justify-between items-center">
                     <Link href="/">
@@ -46,7 +54,7 @@ export default function MobileSidebar({ isOpen, onClose }: Props) {
                         />
                     </Link>
                     < div onClick={onClose}>
-                        <FiSidebar size={24} className="text-primary" />
+                        <FiSidebar size={24} className="text-primary cursor-pointer" />
                     </div>
                 </div>
 
@@ -55,6 +63,14 @@ export default function MobileSidebar({ isOpen, onClose }: Props) {
                     {navLinks.map((link) => {
                         const Icon = link.icon;
                         const isActive = pathname === link.href;
+                        const count =
+                            link.label === "Offer Queue"
+                                ? pendingOffersCount
+                                : link.label === "Reports"
+                                    ? pendingReportsCount
+                                    : link.label === "Helpdesk"
+                                        ? openSupportCount
+                                        : 0;
 
                         return (
                             <Link
@@ -66,7 +82,15 @@ export default function MobileSidebar({ isOpen, onClose }: Props) {
                                 <Icon size={18} className={`${isActive ? "text-white stroke-1" : "text-primary"}`} />
                                 <span className="text-base font-baloo">{link.label}</span>
 
-                                <MdArrowForwardIos size={12} className="ml-auto" />
+                                <div className="ml-auto flex items-center gap-[1.5px]">
+                                    {!!count && count > 0 && (
+                                        <div className="min-w-6 h-6 px-[2px] bg-red-500 text-white text-[12px] font-bold flex items-center justify-center rounded-full border-2 border-white">
+                                            {count > 99 ? "99+" : count}
+                                        </div>
+                                    )}
+
+                                    <MdArrowForwardIos size={12} />
+                                </div>
                             </Link>
                         );
                     })}

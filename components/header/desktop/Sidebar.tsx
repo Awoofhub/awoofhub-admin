@@ -25,7 +25,7 @@ export default function Sidebar() {
 
   const navLinks = [
     { href: "/", label: "Dashboard", icon: GoHome },
-    { href: "/queue", label: "Offer Queue", icon: FaListUl },
+    { href: "/offers/queue", label: "Offer Queue", icon: FaListUl },
     { href: "/offers", label: "Offers", icon: FiBox },
     { href: "/users", label: "Users", icon: FiUsers },
     { href: "/reports", label: "Reports", icon: FiFlag, },
@@ -35,7 +35,7 @@ export default function Sidebar() {
   ];
 
   return (
-    <div className="fixed top-0 z-[100] w-50 h-screen hidden md:flex flex-col items-center justify-start border border-gray-300 bg-white">
+    <div className="fixed top-0 z-[100] w-60 lg:w-50 xl:w-60 h-screen hidden lg:flex flex-col items-center justify-start border border-gray-300 bg-white">
 
       {/* Logo */}
       <Link className="mt-4 mb-9" href="/">
