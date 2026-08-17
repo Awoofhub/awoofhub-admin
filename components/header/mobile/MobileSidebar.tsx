@@ -29,7 +29,7 @@ export default function MobileSidebar({ isOpen, onClose }: Props) {
     const pathname = usePathname();
     const navLinks = [
         { href: "/", label: "Dashboard", icon: GoHome },
-        { href: "/queue", label: "Offer Queue", icon: FaListUl },
+        { href: "/offers/queue", label: "Offer Queue", icon: FaListUl },
         { href: "/offers", label: "Offers", icon: FiBox },
         { href: "/users", label: "Users", icon: FiUsers },
         { href: "/reports", label: "Reports", icon: FiFlag, },
