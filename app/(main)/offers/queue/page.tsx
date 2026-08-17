@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
-import { useOffers } from '@/features/offers/useOffers';
+import { usePendingOffers } from '@/features/offers/usePendingOffers';
 import { useModeration } from '@/features/moderation/useModeration';
 import { usePendingOffersCount } from '@/features/offers/usePendingOffersCount';
 import OfferQueueCard from '@/components/offers/OfferQueueCard';
@@ -10,44 +10,22 @@ import OfferQueueCardSkeleton from '@/components/offers/OfferQueueCardSkeleton';
 import RejectOfferModal from '@/components/modals/RejectOfferModal';
 import ApproveOfferModal from '@/components/modals/ApproveOfferModal';
 import { ChevronRight, Loader2 } from 'lucide-react';
-import { Offer } from '@/types/offer';
-
-const PAGE_SIZE = 5;
 
 export default function OfferQueuePage() {
-    const [limit, setLimit] = useState(PAGE_SIZE);
     const [rejectingOfferId, setRejectingOfferId] = useState<string | null>(null);
     const [rejectReason, setRejectReason] = useState('');
     const [approvingOfferId, setApprovingOfferId] = useState<string | null>(null);
 
-    const { data, isFetching } = useOffers({
-        search: '',
-        dealType: '',
-        category: '',
-        minRating: 0,
-        createdFrom: '',
-        createdTo: '',
-        status: 'pending',
-        page: 1,
-        limit,
-    });
+    const {
+        data,
+        isLoading,
+        isFetchingNextPage,
+        hasNextPage,
+        fetchNextPage,
+    } = usePendingOffers({ limit: 8 });
 
-    const [lastResult, setLastResult] = useState<{ offers: Offer[]; limit: number } | null>(null);
-    const [prevData, setPrevData] = useState(data);
-
-    if (data !== prevData) {
-        setPrevData(data);
-        if (data?.data) {
-            setLastResult({ offers: data.data, limit });
-        }
-    }
-
-    const displayedOffers = lastResult?.offers ?? [];
-    const hasLoadedOnce = lastResult !== null;
-    const hasMore = lastResult
-        ? lastResult.offers.length >= lastResult.limit
-        : true;
-    const isLoadingMore = hasLoadedOnce && isFetching;
+    const displayedOffers = data?.pages.flatMap((page) => page.data) ?? [];
+    const hasLoadedOnce = !isLoading;
 
     const { data: pendingCount } = usePendingOffersCount();
 
@@ -74,12 +52,12 @@ export default function OfferQueuePage() {
 
     useEffect(() => {
         const el = sentinelRef.current;
-        if (!el || !hasMore || !hasLoadedOnce) return;
+        if (!el || !hasNextPage) return;
 
         const observer = new IntersectionObserver(
             (entries) => {
-                if (entries[0].isIntersecting && !isFetching) {
-                    setLimit((l) => l + PAGE_SIZE);
+                if (entries[0].isIntersecting && !isFetchingNextPage) {
+                    fetchNextPage();
                 }
             },
             { rootMargin: '200px' }
@@ -87,7 +65,7 @@ export default function OfferQueuePage() {
 
         observer.observe(el);
         return () => observer.disconnect();
-    }, [hasMore, hasLoadedOnce, isFetching]);
+    }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
     const handleApproveConfirm = () => {
         if (!approvingOfferId) return;
@@ -127,7 +105,7 @@ export default function OfferQueuePage() {
 
             <div ref={sentinelRef} className="h-1" />
 
-            {isLoadingMore && (
+            {isFetchingNextPage && (
                 <div className="flex justify-center py-6">
                     <Loader2 className="animate-spin text-primary" size={24} />
                 </div>

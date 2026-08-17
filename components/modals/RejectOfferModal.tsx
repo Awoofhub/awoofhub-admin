@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import { Loader2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 interface RejectOfferModalProps {
@@ -15,7 +16,7 @@ interface RejectOfferModalProps {
 
 type Step = 'confirm' | 'reason' | 'success';
 
-const AUTO_CLOSE_DELAY_MS = 2500;
+const AUTO_CLOSE_DELAY_MS = 2000;
 
 export default function RejectOfferModal({
     isOpen,
@@ -96,20 +97,29 @@ export default function RejectOfferModal({
                             onChange={(e) => onReasonChange(e.target.value)}
                             placeholder="Briefly describe the situation."
                             rows={4}
-                            className="w-full border border-gray-200 rounded-lg p-3 text-sm resize-none"
+                            disabled={isPending}
+                            className="w-full border border-gray-200 rounded-lg p-3 text-sm resize-none disabled:bg-gray-50 disabled:text-gray-400"
                         />
                         <button
                             type="button"
                             disabled={isPending || !reason.trim()}
                             onClick={onSubmit}
-                            className="w-full cursor-pointer bg-[#CD0F0F] text-white rounded-sm py-1 font-baloo font-semibold text-base xs:text-lg mt-4 hover:bg-red-700 disabled:opacity-50"
+                            className="w-full cursor-pointer bg-[#CD0F0F] text-white rounded-sm py-1 font-baloo font-semibold text-base xs:text-lg mt-4 hover:bg-red-700 disabled:opacity-50 flex items-center justify-center gap-2"
                         >
-                            Reject
+                            {isPending ? (
+                                <>
+                                    <Loader2 className="animate-spin" size={18} />
+                                    Rejecting...
+                                </>
+                            ) : (
+                                'Reject'
+                            )}
                         </button>
                         <button
                             type="button"
                             onClick={onClose}
-                            className="w-full cursor-pointer border border-black rounded-sm py-1 font-semibold font-baloo text-base xs:text-lg mt-2"
+                            disabled={isPending}
+                            className="w-full cursor-pointer border border-black rounded-sm py-1 font-semibold font-baloo text-base xs:text-lg mt-2 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                             Cancel
                         </button>

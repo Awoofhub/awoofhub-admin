@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import { Loader2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 interface ApproveOfferModalProps {
@@ -13,7 +14,7 @@ interface ApproveOfferModalProps {
 
 type Step = 'confirm' | 'success';
 
-const AUTO_CLOSE_DELAY_MS = 2500;
+const AUTO_CLOSE_DELAY_MS = 2000;
 
 export default function ApproveOfferModal({
     isOpen,
@@ -71,14 +72,22 @@ export default function ApproveOfferModal({
                             type="button"
                             disabled={isPending}
                             onClick={onConfirm}
-                            className="w-full cursor-pointer bg-[#00A95D] text-white text-base xs:text-lg rounded-sm font-baloo py-1 font-semibold  hover:bg-green-700 disabled:opacity-50"
+                            className="w-full cursor-pointer bg-[#00A95D] text-white text-base xs:text-lg rounded-sm font-baloo py-1 font-semibold  hover:bg-green-700 disabled:opacity-50 flex items-center justify-center gap-2"
                         >
-                            Approve Now
+                            {isPending ? (
+                                <>
+                                    <Loader2 className="animate-spin" size={18} />
+                                    Approving...
+                                </>
+                            ) : (
+                                'Approve Now'
+                            )}
                         </button>
                         <button
                             type="button"
                             onClick={onClose}
-                            className="w-full border cursor-pointer border-black text-base xs:text-lg rounded-sm py-1 font-semibold font-baloo mt-2"
+                            disabled={isPending}
+                            className="w-full border cursor-pointer border-black text-base xs:text-lg rounded-sm py-1 font-semibold font-baloo mt-2 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                             Cancel
                         </button>
