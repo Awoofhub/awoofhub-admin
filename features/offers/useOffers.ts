@@ -11,18 +11,19 @@ type GetOffersOptions = {
     minRating: number,
     createdFrom: string,
     createdTo: string,
+    status: string,
     page: number,
     limit: number,
 };
 
-export const getOffers = ({ search, dealType, category, minRating, createdFrom, createdTo, page, limit, }: GetOffersOptions): Promise<ApiResponse<Offer[]>> => {
-    return OfferService.offers(search,  dealType, category, minRating, createdFrom, createdTo, page, limit );
+export const getOffers = ({ search, dealType, category, minRating, createdFrom, createdTo, status, page, limit, }: GetOffersOptions): Promise<ApiResponse<Offer[]>> => {
+    return OfferService.offers(search,  dealType, category, minRating, createdFrom, createdTo, status, page, limit );
 };
 
-export const useOffers = ({ search,  dealType, category, minRating, createdFrom, createdTo, page, limit = 8, }: GetOffersOptions) => {
+export const useOffers = ({ search,  dealType, category, minRating, createdFrom, createdTo, status, page, limit = 8, }: GetOffersOptions) => {
     const { data, isFetching, isFetched, isLoading,  isError, error } = useQuery({
-        queryKey: ['offers', search, dealType, category, minRating, createdFrom, createdTo, page, limit],
-        queryFn: () => getOffers({ search, dealType, category, minRating, createdFrom, createdTo, page, limit }),
+        queryKey: ['offers', search, dealType, category, minRating, createdFrom, createdTo, status, page, limit],
+        queryFn: () => getOffers({ search, dealType, category, minRating, createdFrom, createdTo, status, page, limit }),
 
     });
 

@@ -14,4 +14,3 @@ export interface User {
   offerClicks?: number;
   usernameChangeLockedUntil: string;
 }
-

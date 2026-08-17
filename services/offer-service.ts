@@ -3,9 +3,9 @@ import { ApiResponse } from "@/types/api-response";
 import { Offer } from "@/types/offer";
 
 
-async function offers(search: string, dealType:string, category: string, minRating: number, createdFrom: string, createdTo: string, page: number, limit: number,): Promise<ApiResponse<Offer[]>> {
+async function offers(search: string, dealType:string, category: string, minRating: number, createdFrom: string, createdTo: string, status: string, page: number, limit: number,): Promise<ApiResponse<Offer[]>> {
   const res: ApiResponse<Offer[]> = await apiClient.get("/offers/admin/", {
-    params: { search, dealType, category, minRating, createdFrom, createdTo, page, limit, },
+    params: { search, dealType, category, minRating, createdFrom, createdTo, status, page, limit },
   });
 
   return res;
@@ -41,12 +41,18 @@ async function expiringOffers( page: number, limit: number,): Promise<ApiRespons
   return res;
 }
 
+async function getPendingOffersCount(): Promise<ApiResponse<{count: number}>> {
+    const res: ApiResponse<{count: number}> = await apiClient.get("/offers/admin/count")
+    return res;
+}
+
 const OfferService = {
   offers,
   offersByUsername,
   offerById,
   expiringOffers,
   trendingOffers,
+  getPendingOffersCount,
 };
 
 export default OfferService;

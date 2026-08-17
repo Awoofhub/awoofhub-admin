@@ -1,9 +1,9 @@
-import { dashboardService } from '@/services/dashboard-service';
+import DashboardService from '@/services/dashboard-service';
 import { DashboardData } from '@/types/dashboard';
 import { useQuery } from '@tanstack/react-query';
 
 export const GetDashboard = async (): Promise<DashboardData> => {
-    const result = await dashboardService()
+    const result = await DashboardService.dashboard()
     return result.data;
 };
 
