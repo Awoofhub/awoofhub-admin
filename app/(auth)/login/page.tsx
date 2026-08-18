@@ -1,15 +1,25 @@
 'use client'
 import { LoginForm } from '@/components/login/LoginForm';
 import { Seo } from '@/components/seo/Seo';
+import { useUser } from '@/features/user/useUser';
 
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Suspense } from 'react';
+import { Suspense, useEffect } from 'react';
 
 
 function Login() {
 
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { data: user, isLoading: isCheckingUser } = useUser();
+
+  useEffect(() => {
+    if (!isCheckingUser && user) {
+      if (user.role === "admin") {
+        router.replace("/");
+      }
+    }
+  }, [isCheckingUser, user, router]);
 
   const onSuccess = () => {
     const redirect = searchParams.get("redirect") || "/";

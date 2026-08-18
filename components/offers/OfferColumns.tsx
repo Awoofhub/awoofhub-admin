@@ -38,6 +38,7 @@ export const OfferColumns: Column<Offer>[] = [
                     width={500}
                     height={500}
                     src={offer.imageUrl}
+                    unoptimized
                     alt=""
                     className="w-10 h-10 object-cover"
                 />

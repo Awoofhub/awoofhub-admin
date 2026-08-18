@@ -2,7 +2,7 @@ interface OfferQueueCardSkeletonProps {
     count?: number;
 }
 
-export default function OfferQueueCardSkeleton({ count = 3 }: OfferQueueCardSkeletonProps) {
+export default function OfferQueueListSkeleton({ count = 3 }: OfferQueueCardSkeletonProps) {
     return (
         <>
             {Array.from({ length: count }).map((_, i) => (

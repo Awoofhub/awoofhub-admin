@@ -1,7 +1,7 @@
 "use client"
 import ModerationService from '@/services/moderation-service';
 import { CreateModerationData, Moderation } from '@/types/moderation';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 export const moderation = async (data: CreateModerationData): Promise<Moderation> => {
   const result = await ModerationService.create(data);
@@ -13,13 +13,18 @@ type UseModerationOptions = {
 };
 
 export const useModeration = ({ onSuccess }: UseModerationOptions = {}) => {
+  
+  const queryClient = useQueryClient();
 
-  const { mutate: submit, isPending, isSuccess, reset } = useMutation({
+  const { mutate: submit, isPending, reset } = useMutation({
     mutationFn: moderation,
     onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ['offers'] });
+      queryClient.invalidateQueries({ queryKey: ['users'] });
+      queryClient.invalidateQueries({ queryKey: ['comments'] });
       onSuccess?.(data);
     },
   });
 
-  return { submit, isPending, isSuccess, reset };
+  return { submit, isPending, reset };
 };
