@@ -1,9 +1,9 @@
 import { Offer } from "@/types/offer";
+import { formatDate } from "@/utils/formatDate";
+import { formatDateTime } from "@/utils/formatDateTime";
+import { formatExpiresIn, isExpiringSoon } from "@/utils/formatExpiresIn";
 import Image from "next/image";
 import { Column } from "../table/Table";
-import { formatDateTime } from "@/utils/formatDateTime";
-import { formatDate } from "@/utils/formatDate";
-import { formatExpiresIn, isExpiringSoon } from "@/utils/formatExpiresIn";
 
 
 
@@ -16,6 +16,7 @@ export const TrendingColumns: Column<Offer>[] = [
                 <Image
                     width={500}
                     height={500}
+                    unoptimized
                     src={offer.imageUrl}
                     alt=""
                     className="w-10 h-10 object-cover rounded-lg"
@@ -65,14 +66,14 @@ export const TrendingColumns: Column<Offer>[] = [
     },
 
     {
-    key: "endDate",
-    header: "Expiry",
-    className: "text-nowrap text-left",
-    render: (offer) => (
-        <span className={isExpiringSoon(offer.endDate) ? "text-[#E70606] font-semibold" : ""}>
-            {isExpiringSoon(offer.endDate) ? formatExpiresIn(offer.endDate) : formatDate(offer.endDate)}
-        </span>
-    ),
-},
+        key: "endDate",
+        header: "Expiry",
+        className: "text-nowrap text-left",
+        render: (offer) => (
+            <span className={isExpiringSoon(offer.endDate) ? "text-[#E70606] font-semibold" : ""}>
+                {isExpiringSoon(offer.endDate) ? formatExpiresIn(offer.endDate) : formatDate(offer.endDate)}
+            </span>
+        ),
+    },
 
 ];

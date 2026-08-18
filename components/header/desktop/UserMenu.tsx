@@ -5,7 +5,7 @@ import Image from 'next/image';
 
 
 
-export default function Dropdown() {
+export default function UserMenu() {
 
     const { data: currentUser } = useUser();
 
@@ -29,6 +29,7 @@ export default function Dropdown() {
                                     height={500}
                                     src={currentUser.profileImageUrl}
                                     alt={currentUser.name}
+                                    unoptimized
                                     className="w-full h-full object-cover"
                                 />
                             ) : (

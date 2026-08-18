@@ -16,7 +16,7 @@ export const useModeration = ({ onSuccess }: UseModerationOptions = {}) => {
   
   const queryClient = useQueryClient();
 
-  const { mutate: submit, isPending, isSuccess, reset } = useMutation({
+  const { mutate: submit, isPending, reset } = useMutation({
     mutationFn: moderation,
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['offers'] });
@@ -26,5 +26,5 @@ export const useModeration = ({ onSuccess }: UseModerationOptions = {}) => {
     },
   });
 
-  return { submit, isPending, isSuccess, reset };
+  return { submit, isPending, reset };
 };

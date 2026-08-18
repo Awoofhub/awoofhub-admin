@@ -1,7 +1,7 @@
 import { Offer } from "@/types/offer";
+import { formatExpiresIn } from "@/utils/formatExpiresIn";
 import Image from "next/image";
 import { Column } from "../table/Table";
-import { formatExpiresIn } from "@/utils/formatExpiresIn";
 
 
 
@@ -15,6 +15,7 @@ export const ExpiringColumns: Column<Offer>[] = [
                     width={500}
                     height={500}
                     src={offer.imageUrl}
+                    unoptimized
                     alt=""
                     className="w-10 h-10 object-cover rounded-lg"
                 />
@@ -26,7 +27,7 @@ export const ExpiringColumns: Column<Offer>[] = [
         ),
     },
 
-      {
+    {
         key: "brandName",
         header: "Brand Name",
         className: "text-left",
@@ -40,7 +41,7 @@ export const ExpiringColumns: Column<Offer>[] = [
         render: (offer) => offer.category.name,
     },
 
-     {
+    {
         key: "dealType",
         header: "Deal Type",
         className: "text-left",
@@ -51,11 +52,11 @@ export const ExpiringColumns: Column<Offer>[] = [
         key: "endDate",
         header: "Expires In",
         className: "text-nowrap text-left",
-         render: (offer) => (
-        <span className= "text-[#E70606] font-semibold" >
-           { formatExpiresIn(offer.endDate)} 
-        </span>
-    ),
+        render: (offer) => (
+            <span className="text-[#E70606] font-semibold" >
+                {formatExpiresIn(offer.endDate)}
+            </span>
+        ),
     },
 
 ];
