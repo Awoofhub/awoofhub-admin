@@ -26,7 +26,6 @@ export const usePendingOffers = ({ limit = 8 }: GetPendingOffersOptions) => {
             return currentPage < totalPages ? currentPage + 1 : undefined;
         },
         initialPageParam: 1,
-
         refetchInterval: 5000
 
     });
