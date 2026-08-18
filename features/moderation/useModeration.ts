@@ -13,13 +13,13 @@ type UseModerationOptions = {
 };
 
 export const useModeration = ({ onSuccess }: UseModerationOptions = {}) => {
-    
-  const { mutate: submit, isPending } = useMutation({
+
+  const { mutate: submit, isPending, isSuccess, reset } = useMutation({
     mutationFn: moderation,
     onSuccess: (data) => {
       onSuccess?.(data);
     },
   });
 
-  return { submit, isPending};
+  return { submit, isPending, isSuccess, reset };
 };
