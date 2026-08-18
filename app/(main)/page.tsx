@@ -30,7 +30,7 @@ export default function Home() {
 
       <div className="pt-6 pb-10 px-4 max-w-[1440px] mx-auto w-full">
 
-        <div className="mb-4 flex items-center gap-1 text-xl text-black font-baloo font-semibold">
+        <div className="mb-4 flex items-center gap-2 text-xl text-black font-baloo font-semibold">
           <ChevronRight size={18} className="hidden xs:inline" />
           <span>Dashboard</span>
         </div>
