@@ -1,41 +1,30 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-import { useQueryClient } from '@tanstack/react-query';
-import { usePendingOffers } from '@/features/offers/usePendingOffers';
-import { useModeration } from '@/features/moderation/useModeration';
-import { usePendingOffersCount } from '@/features/offers/usePendingOffersCount';
+import ApproveOfferModal from '@/components/modals/ApproveOfferModal';
+import RejectOfferModal from '@/components/modals/RejectOfferModal';
 import OfferQueueCard from '@/components/offers/OfferQueueCard';
 import OfferQueueCardSkeleton from '@/components/offers/OfferQueueCardSkeleton';
-import RejectOfferModal from '@/components/modals/RejectOfferModal';
-import ApproveOfferModal from '@/components/modals/ApproveOfferModal';
+import { useModeration } from '@/features/moderation/useModeration';
+import { usePendingOffers } from '@/features/offers/usePendingOffers';
+import { usePendingOffersCount } from '@/features/offers/usePendingOffersCount';
 import { ChevronRight, Loader2 } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { useInView } from "react-intersection-observer";
 
 export default function OfferQueuePage() {
     const [rejectingOfferId, setRejectingOfferId] = useState<string | null>(null);
     const [rejectReason, setRejectReason] = useState('');
     const [approvingOfferId, setApprovingOfferId] = useState<string | null>(null);
 
-    const {
-        data,
-        isLoading,
-        isFetchingNextPage,
-        hasNextPage,
-        fetchNextPage,
-    } = usePendingOffers({ limit: 8 });
+    const { data, isLoading, isFetchingNextPage, hasNextPage, fetchNextPage, } = usePendingOffers({ limit: 8 });
 
     const displayedOffers = data?.pages.flatMap((page) => page.data) ?? [];
     const hasLoadedOnce = !isLoading;
 
     const { data: pendingCount } = usePendingOffersCount();
 
-    const queryClient = useQueryClient();
+    const { submit, isPending, isSuccess, reset } = useModeration();
 
-    const { submit, isPending, isSuccess, reset } = useModeration({
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['offers'] });
-        },
-    });
 
     const closeApproveModal = () => {
         setApprovingOfferId(null);
@@ -48,24 +37,14 @@ export default function OfferQueuePage() {
         reset();
     };
 
-    const sentinelRef = useRef<HTMLDivElement>(null);
+    const [ref, inView] = useInView();
 
     useEffect(() => {
-        const el = sentinelRef.current;
-        if (!el || !hasNextPage) return;
+        if (inView && hasNextPage && !isFetchingNextPage) {
+            fetchNextPage();
+        }
+    }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
-        const observer = new IntersectionObserver(
-            (entries) => {
-                if (entries[0].isIntersecting && !isFetchingNextPage) {
-                    fetchNextPage();
-                }
-            },
-            { rootMargin: '200px' }
-        );
-
-        observer.observe(el);
-        return () => observer.disconnect();
-    }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
     const handleApproveConfirm = () => {
         if (!approvingOfferId) return;
@@ -103,7 +82,7 @@ export default function OfferQueuePage() {
                     ))}
             </div>
 
-            <div ref={sentinelRef} className="h-1" />
+            <div ref={ref} className="h-1" />
 
             {isFetchingNextPage && (
                 <div className="flex justify-center py-6">
