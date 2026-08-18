@@ -95,7 +95,6 @@ export default function OffersPage({ searchParams }: FilterProps) {
 
             <OffersTable search={search} status={status} dealType={dealType} category={category} />
 
-
         </div>
     )
 

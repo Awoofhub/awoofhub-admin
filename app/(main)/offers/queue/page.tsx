@@ -1,81 +1,17 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-import { useQueryClient } from '@tanstack/react-query';
+import OfferQueueList from '@/components/offers/OfferQueueList';
+import OfferQueueListSkeleton from '@/components/offers/OfferQueueListSkeleton';
 import { usePendingOffers } from '@/features/offers/usePendingOffers';
-import { useModeration } from '@/features/moderation/useModeration';
 import { usePendingOffersCount } from '@/features/offers/usePendingOffersCount';
-import OfferQueueCard from '@/components/offers/OfferQueueCard';
-import OfferQueueCardSkeleton from '@/components/offers/OfferQueueCardSkeleton';
-import RejectOfferModal from '@/components/modals/RejectOfferModal';
-import ApproveOfferModal from '@/components/modals/ApproveOfferModal';
-import { ChevronRight, Loader2 } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 
 export default function OfferQueuePage() {
-    const [rejectingOfferId, setRejectingOfferId] = useState<string | null>(null);
-    const [rejectReason, setRejectReason] = useState('');
-    const [approvingOfferId, setApprovingOfferId] = useState<string | null>(null);
 
-    const {
-        data,
-        isLoading,
-        isFetchingNextPage,
-        hasNextPage,
-        fetchNextPage,
-    } = usePendingOffers({ limit: 8 });
-
-    const displayedOffers = data?.pages.flatMap((page) => page.data) ?? [];
-    const hasLoadedOnce = !isLoading;
-
+    const { data, isLoading, isFetchingNextPage, hasNextPage, fetchNextPage, } = usePendingOffers({ limit: 8 });
     const { data: pendingCount } = usePendingOffersCount();
 
-    const queryClient = useQueryClient();
-
-    const { submit, isPending, isSuccess, reset } = useModeration({
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['offers'] });
-        },
-    });
-
-    const closeApproveModal = () => {
-        setApprovingOfferId(null);
-        reset();
-    };
-
-    const closeRejectModal = () => {
-        setRejectingOfferId(null);
-        setRejectReason('');
-        reset();
-    };
-
-    const sentinelRef = useRef<HTMLDivElement>(null);
-
-    useEffect(() => {
-        const el = sentinelRef.current;
-        if (!el || !hasNextPage) return;
-
-        const observer = new IntersectionObserver(
-            (entries) => {
-                if (entries[0].isIntersecting && !isFetchingNextPage) {
-                    fetchNextPage();
-                }
-            },
-            { rootMargin: '200px' }
-        );
-
-        observer.observe(el);
-        return () => observer.disconnect();
-    }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
-
-    const handleApproveConfirm = () => {
-        if (!approvingOfferId) return;
-        submit({ targetType: 'offer', targetId: approvingOfferId, actionType: 'activate' });
-    };
-
-    const handleRejectSubmit = () => {
-        if (!rejectingOfferId) return;
-        submit({ targetType: 'offer', targetId: rejectingOfferId, actionType: 'block', reason: rejectReason });
-    };
+    const Offers = data?.pages.flatMap((page) => page.data) ?? [];
 
     return (
         <div className="pt-6 pb-10 px-3 xs:px-4 max-w-[1440px] mx-auto w-full">
@@ -85,49 +21,21 @@ export default function OfferQueuePage() {
                     <span>Deal Review Queue</span>
                 </div>
                 {pendingCount !== undefined && (
-                    <span className="text-primary font-baloo font-medium text-base lg:text-lg">{pendingCount} pending reviews</span>
+                    <span className="text-primary font-baloo font-medium text-base lg:text-lg">{pendingCount} pending review&#40;s&#41;</span>
                 )}
             </div>
 
-            <div className="space-y-3 sm:space-y-4">
-                {!hasLoadedOnce
-                    ? <OfferQueueCardSkeleton />
-                    : displayedOffers.map((offer) => (
-                        <OfferQueueCard
-                            key={offer.id}
-                            offer={offer}
-                            isPending={isPending}
-                            onApprove={setApprovingOfferId}
-                            onReject={setRejectingOfferId}
-                        />
-                    ))}
-            </div>
+            {isLoading && <OfferQueueListSkeleton />}
 
-            <div ref={sentinelRef} className="h-1" />
-
-            {isFetchingNextPage && (
-                <div className="flex justify-center py-6">
-                    <Loader2 className="animate-spin text-primary" size={24} />
-                </div>
+            {!isLoading && Offers.length > 0 && (
+                <OfferQueueList
+                    offers={Offers}
+                    hasNextPage={hasNextPage}
+                    isFetchingNextPage={isFetchingNextPage}
+                    fetchNextPage={fetchNextPage}
+                />
             )}
 
-            <ApproveOfferModal
-                isOpen={approvingOfferId !== null}
-                isPending={isPending}
-                isSuccess={isSuccess}
-                onConfirm={handleApproveConfirm}
-                onClose={closeApproveModal}
-            />
-
-            <RejectOfferModal
-                isOpen={rejectingOfferId !== null}
-                reason={rejectReason}
-                isPending={isPending}
-                isSuccess={isSuccess}
-                onReasonChange={setRejectReason}
-                onSubmit={handleRejectSubmit}
-                onClose={closeRejectModal}
-            />
         </div>
     );
 }

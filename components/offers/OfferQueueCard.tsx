@@ -1,95 +1,27 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-import Image from 'next/image';
 import { Offer } from '@/types/offer';
-import { UserRound } from 'lucide-react';
 import { formatRelativeTime } from '@/utils/formatRelativeTime';
-import { LocationIconFor, ValueIconFor } from '@/components/offers/OfferCardIcons';
+import { UserRound } from 'lucide-react';
+import Image from 'next/image';
+import { useState } from 'react';
+import ApproveOfferModal from '../modals/ApproveOfferModal';
+import RejectOfferModal from '../modals/RejectOfferModal';
+import { LocationIconFor, ValueIconFor } from './OfferCardIcons';
+import OfferDetails from './OfferQueueDetail';
 
-interface OfferQueueCardProps {
+interface Props {
     offer: Offer;
-    isPending: boolean;
-    onApprove: (offerId: string) => void;
-    onReject: (offerId: string) => void;
 }
 
-function DetailsAndActions({
-    offer, isPending, onApprove, onReject,
-}: OfferQueueCardProps) {
-    const [expanded, setExpanded] = useState(false);
-    const [canExpand, setCanExpand] = useState(false);
-    const [collapsedHeight, setCollapsedHeight] = useState<number>();
-    const [fullHeight, setFullHeight] = useState<number>();
-    const textRef = useRef<HTMLParagraphElement>(null);
 
-useEffect(() => {
-    const el = textRef.current;
-    if (!el || expanded) return;
+export default function OfferQueueCard({ offer }: Props) {
 
-    const measure = () => {
-        const BUFFER = 4;
-        setCollapsedHeight(el.clientHeight + BUFFER);
-        setFullHeight(el.scrollHeight + BUFFER);
-        setCanExpand(el.scrollHeight > el.clientHeight);
-    };
 
-    measure();
+    const [openApproveModal, setOpenApproveModal] = useState(false);
+    const [openRejectModal, setOpenRejectModal] = useState(false);
 
-    const observer = new ResizeObserver(measure);
-    observer.observe(el);
-    return () => observer.disconnect();
-}, [offer.description, expanded]);
 
-    return (
-        <>
-            <div className="mt-2">
-                <h4 className="text-sm font-semibold text-gray-900">Details</h4>
-                <div
-                    className="overflow-hidden transition-[max-height] duration-300 ease-in-out"
-                    style={{ maxHeight: expanded ? fullHeight : collapsedHeight }}
-                >
-                    <p
-                        ref={textRef}
-                        className={`text-xs xs:text-sm lg:text-base text-muted mt-1 ${expanded ? '' : 'line-clamp-1'}`}
-                    >
-                        {offer.description}
-                    </p>
-                </div>
-                {canExpand && (
-                    <button
-                        type="button"
-                        onClick={() => setExpanded((v) => !v)}
-                        className="text-primary text-xs sm:text-sm font-medium cursor-pointer"
-                    >
-                        {expanded ? 'less' : 'more'}
-                    </button>
-                )}
-            </div>
-
-            <div className="flex flex-col xs:flex-row gap-2 mt-2">
-                <button
-                    type="button"
-                    disabled={isPending}
-                    onClick={() => onApprove(offer.id)}
-                    className="flex-1 bg-[#00A95D] text-white rounded-sm py-1.5 font-baloo cursor-pointer font-semibold text-sm xs:text-base lg:text-lg hover:bg-green-700 disabled:opacity-50"
-                >
-                    Approve
-                </button>
-                <button
-                    type="button"
-                    disabled={isPending}
-                    onClick={() => onReject(offer.id)}
-                    className="flex-1 bg-[#E70606] text-white rounded-sm py-1.5 font-baloo cursor-pointer font-semibold text-sm xs:text-base lg:text-lg hover:bg-red-700 disabled:opacity-50"
-                >
-                    Reject
-                </button>
-            </div>
-        </>
-    );
-}
-
-export default function OfferQueueCard({ offer, isPending, onApprove, onReject }: OfferQueueCardProps) {
     return (
         <div className="bg-white rounded-xl shadow-sm p-3 xs:p-4 lg:p-5">
             <div className="flex flex-col xs:flex-row gap-3">
@@ -97,6 +29,7 @@ export default function OfferQueueCard({ offer, isPending, onApprove, onReject }
                     <Image
                         src={offer.imageUrl}
                         alt={offer.title}
+                        unoptimized
                         fill
                         className="object-cover"
                     />
@@ -154,15 +87,51 @@ export default function OfferQueueCard({ offer, isPending, onApprove, onReject }
 
                     <hr className="border border-muted/20 mt-4 lg:mt-4 block xs:hidden lg:block" />
 
+                    <OfferDetails description={offer.description} />
+
                     <div className="hidden lg:block">
-                        <DetailsAndActions offer={offer} isPending={isPending} onApprove={onApprove} onReject={onReject} />
+                        <div className="flex flex-col xs:flex-row gap-2 mt-2">
+                            <button
+                                type="button"
+                                onClick={() => setOpenApproveModal(true)}
+                                className="flex-1 bg-[#00A95D] text-white rounded-sm py-1.5 font-baloo cursor-pointer font-semibold text-sm xs:text-base lg:text-lg hover:bg-green-700 disabled:opacity-50"
+                            >
+                                Approve
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => setOpenRejectModal(true)}
+                                className="flex-1 bg-[#E70606] text-white rounded-sm py-1.5 font-baloo cursor-pointer font-semibold text-sm xs:text-base lg:text-lg hover:bg-red-700 disabled:opacity-50"
+                            >
+                                Reject
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div className="lg:hidden">
-                <DetailsAndActions offer={offer} isPending={isPending} onApprove={onApprove} onReject={onReject} />
+                <div className="flex flex-col xs:flex-row gap-2 mt-2">
+                    <button
+                        type="button"
+                        onClick={() => setOpenApproveModal(true)}
+                        className="flex-1 bg-[#00A95D] text-white rounded-sm py-1.5 font-baloo cursor-pointer font-semibold text-sm xs:text-base lg:text-lg hover:bg-green-700 disabled:opacity-50"
+                    >
+                        Approve
+                    </button>
+                    <button
+                        type="button"
+                        onClick={() => setOpenRejectModal(true)}
+                        className="flex-1 bg-[#E70606] text-white rounded-sm py-1.5 font-baloo cursor-pointer font-semibold text-sm xs:text-base lg:text-lg hover:bg-red-700 disabled:opacity-50"
+                    >
+                        Reject
+                    </button>
+                </div>
             </div>
+
+
+            <ApproveOfferModal offerId={offer.id} isOpen={openApproveModal} onClose={() => setOpenApproveModal(false)} />
+            <RejectOfferModal offerId={offer.id} isOpen={openRejectModal} onClose={() => setOpenRejectModal(false)} />
         </div>
     );
 }
