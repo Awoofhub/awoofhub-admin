@@ -1,11 +1,37 @@
-import { createCategoryService } from '@/services/category-service';
-import { CreateCategoryData } from '@/types/category';
-import { useMutation } from '@tanstack/react-query';
+import { createCategoryService } from "@/services/category-service";
+import { Category } from "@/types/category";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-export default function useCreateCategory() {
-    return useMutation({
-        mutationFn: function(data: CreateCategoryData){
-            return createCategoryService(data.name);
-        },
-    });
+export const CreateCategory = async (data: string): Promise<Category> => {
+  const result = await createCategoryService(data);
+  return result.data;
+};
+
+type UseCategoryOptions = {
+  onSuccess?: (category: Category) => void;
+};
+
+export function useCreateCategory({ onSuccess }: UseCategoryOptions) {
+  const queryClient = useQueryClient();
+
+  const { mutate, isPending, isError, error } = useMutation({
+    mutationFn: CreateCategory,
+
+    onSuccess: (data) => {
+      queryClient.setQueryData(["category", data.id], data);
+
+      queryClient.invalidateQueries({
+        queryKey: ["category"],
+      });
+
+      onSuccess?.(data);
+    },
+  });
+
+  return {
+    createCategory: mutate,
+    isPending,
+    isError,
+    error,
+  };
 }
