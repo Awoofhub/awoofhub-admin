@@ -8,9 +8,9 @@ export interface User {
   bio: string | null;
   address: string | null;
   website: string | null;
+  status: 'active' | 'suspended' | 'blocked' | 'deleted'
   createdAt: string;
   updatedAt: string;
-  numOfDealPosted?: number;
-  offerClicks?: number;
+  offerPosted?: number;
   usernameChangeLockedUntil: string;
 }

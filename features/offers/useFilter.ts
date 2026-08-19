@@ -3,7 +3,7 @@ import { useCallback } from 'react';
 
 type FilterValue = string | number | undefined | null;
 
-export function useFilter(basePath: string) {
+export function useFilter() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -28,9 +28,9 @@ export function useFilter(basePath: string) {
       }
 
       params.delete('page');
-      router.replace(`${basePath}?${params.toString()}`);
+      router.replace(`?${params.toString()}`);
     },
-    [searchParams, router, basePath]
+    [searchParams, router]
   );
 
   return updateFilter;
