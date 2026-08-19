@@ -1,4 +1,4 @@
-import { updateCategoryService } from "@/services/category-service";
+import CategoryService from "@/services/category-service";
 import { Category } from "@/types/category";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -8,7 +8,7 @@ type UpdateCategoryInput = {
 };
 
 export const UpdateCategory = async ( { id, name }: UpdateCategoryInput): Promise<Category> => {
-  const result = await updateCategoryService(id, name);
+  const result = await CategoryService.updateCategory(id, name);
   return result.data;
 };
 
