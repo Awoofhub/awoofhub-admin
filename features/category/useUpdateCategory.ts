@@ -1,33 +1,26 @@
 import CategoryService from "@/services/category-service";
-import { Category } from "@/types/category";
+import { Category, UpdateCategoryData } from "@/types/category";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-type UpdateCategoryInput = {
+type UpdateCategoryOptions = {
   id: string;
-  name: string;
-};
-
-export const UpdateCategory = async ( { id, name }: UpdateCategoryInput): Promise<Category> => {
-  const result = await CategoryService.updateCategory(id, name);
-  return result.data;
-};
-
-type UseCategoryOptions = {
   onSuccess?: (category: Category) => void;
 };
 
-export function useUpdateCategory({ onSuccess }: UseCategoryOptions = {}) {
+export const UpdateCategory = async ({ id }: UpdateCategoryOptions, data: UpdateCategoryData): Promise<Category> => {
+  const result = await CategoryService.update(id, data);
+  return result.data;
+};
+
+export const useUpdateCategory = ({ id, onSuccess }: UpdateCategoryOptions) => {
   const queryClient = useQueryClient();
 
   const { mutate, isPending, isError, error } = useMutation({
-    mutationFn: UpdateCategory,
+    mutationFn: (payload: UpdateCategoryData) => UpdateCategory({ id }, payload),
 
     onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["category"] });
       queryClient.setQueryData(["category", data.id], data);
-
-      queryClient.invalidateQueries({
-        queryKey: ["category"],
-      });
 
       onSuccess?.(data);
     },

@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 
 
 export const getCategory = async (): Promise<Category[]> => {
-    const result = await CategoryService.getCategory();
+    const result = await CategoryService.get();
     return result.data;
 };
 
@@ -13,7 +13,6 @@ export const useCategory = () => {
     const { data, isFetching, isFetched } = useQuery({
         queryKey: ['category'],
         queryFn: () => getCategory(),
-        initialData: []
     });
 
     return {

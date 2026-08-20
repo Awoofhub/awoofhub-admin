@@ -1,4 +1,7 @@
 
+export interface UpdateCategoryData {
+  name: string;
+};
 
 
 export interface Category {
