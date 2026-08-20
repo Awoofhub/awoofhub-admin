@@ -1,10 +1,10 @@
-import { getCategoriesService } from '@/services/category-service';
+import CategoryService from '@/services/category-service';
 import { Category } from '@/types/category';
 import { useQuery } from '@tanstack/react-query';
 
 
 export const getCategory = async (): Promise<Category[]> => {
-    const result = await getCategoriesService();
+    const result = await CategoryService.getCategory();
     return result.data;
 };
 

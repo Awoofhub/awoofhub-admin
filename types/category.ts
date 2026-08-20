@@ -1,10 +1,4 @@
-export interface CreateCategoryData {
-  name: string;
-}
 
-export interface UpdateCategoryData {
-  name?: string;
-};
 
 
 export interface Category {
@@ -14,3 +8,4 @@ export interface Category {
   createdAt: string;
   updatedAt: string;
 }
+
