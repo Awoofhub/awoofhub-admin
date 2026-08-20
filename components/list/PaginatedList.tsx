@@ -1,34 +1,30 @@
 import { ApiResponse } from "@/types/api-response";
 import PaginationButtons from "../button/PaginationButtons";
-import BaseTable, { Column } from "./BaseTable";
+import List, { ListItem } from "./List";
 
-
-interface PaginatedTableProps<T> {
+interface PaginatedListProps<T> {
   response?: ApiResponse<T[]>;
-  columns: Column<T>[];
-  limit: number,
+  limit: number;
   rowKey: (item: T) => string;
   currentPage: number;
   onPageChange: (page: number) => void;
-  onRowClick?: (item: T) => void;
+  renderItem: ListItem<T>;
   isFetching: boolean;
   isFetched: boolean;
   title?: string;
 }
 
-export default function PaginatedTable<T>({
+export default function PaginatedList<T>({
   response,
-  columns,
-  rowKey,
   limit,
+  rowKey,
   currentPage,
   onPageChange,
-  onRowClick,
+  renderItem,
   isFetching,
   isFetched,
   title,
-}: PaginatedTableProps<T>) {
-
+}: PaginatedListProps<T>) {
   const data = response?.data ?? [];
   const totalPages = response?.meta?.totalPages ?? 0;
 
@@ -43,7 +39,6 @@ export default function PaginatedTable<T>({
         </h2>
       )}
 
-      {/* Empty state */}
       {hasNoData && (
         <div className="flex items-center justify-center py-12">
           <p className="text-sm text-gray-400">
@@ -52,18 +47,14 @@ export default function PaginatedTable<T>({
         </div>
       )}
 
-      {/* Table */}
       {(hasData || isFetching) && (
-        <div className="overflow-x-auto">
-          <BaseTable
-            data={data}
-            isFetching={isFetching}
-            limit={limit}
-            columns={columns}
-            rowKey={rowKey}
-            onRowClick={onRowClick}
-          />
-        </div>
+        <List
+          data={data}
+          isFetching={isFetching}
+          limit={limit}
+          rowKey={rowKey}
+          item={renderItem}
+        />
       )}
 
       {!isFetching && hasData && totalPages > 1 && (

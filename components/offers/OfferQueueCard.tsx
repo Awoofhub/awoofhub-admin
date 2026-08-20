@@ -5,8 +5,8 @@ import { formatRelativeTime } from '@/utils/formatRelativeTime';
 import { UserRound } from 'lucide-react';
 import Image from 'next/image';
 import { useState } from 'react';
-import ApproveOfferModal from '../modals/ApproveOfferModal';
-import RejectOfferModal from '../modals/RejectOfferModal';
+import ApproveOfferModal from '../modals/offer/ApproveOfferModal';
+import RejectOfferModal from '../modals/offer/RejectOfferModal';
 import { LocationIconFor, ValueIconFor } from './OfferCardIcons';
 import OfferDetails from './OfferQueueDetail';
 

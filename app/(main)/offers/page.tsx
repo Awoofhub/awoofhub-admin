@@ -1,15 +1,12 @@
 'use client';
 
-import { OfferSelectDropdown } from "@/components/offers/OfferSelectDropdown";
+import { SelectDropdown } from "@/components/form/SelectDropdown";
 import OffersTable from "@/components/offers/OfferTable";
 import SearchInput from "@/components/search/SearchInput";
 import { useCategory } from "@/features/category/useCategory";
 import { useFilter } from "@/features/offers/useFilter";
 import { ChevronRight } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { use, useState } from "react";
-
-
+import { use } from "react";
 
 type FilterParams = {
     search?: string,
@@ -27,31 +24,35 @@ export default function OffersPage({ searchParams }: FilterProps) {
     const params = use(searchParams);
     const { search, status, dealType, category, } = params;
 
-    const router = useRouter();
-
-    const { data: categories } = useCategory();
-
+    const { data: categoryData } = useCategory();
     const updateFilter = useFilter();
 
-    const [page, setPage] = useState(1);
+    const DealTypes = [
+        { value: undefined, label: "All Deals" },
+        { value: "cashback", label: "Cash Back" },
+        { value: "freebie", label: "Freebie" },
+        { value: "discount", label: "Discount" },
+        { value: "bogo", label: "Buy One Get One" },
+        { value: "promo_code", label: "Promo Code" },
+        { value: "free_trial", label: "Free Trial" },
+        { value: "free_delivery", label: "Free Delivery" },
+        { value: "price_drop", label: "Price Drop" },
+    ]
 
-    const DEAL_TYPES = [
-        ["cashback", "Cash Back"],
-        ["freebie", "Freebie"],
-        ["discount", "Discount"],
-        ["bogo", "Buy One Get One"],
-        ["promo_code", "Promo Code"],
-        ["free_trial", "Free Trial"],
-        ["free_delivery", "Free Delivery"],
-        ["price_drop", "Price Drop"],
-    ] as const;
+    const Categories = [
+        { value: undefined, label: "All Categories" },
+        ...(categoryData?.map((category) => ({
+            value: category.slug,
+            label: category.name,
+        })) ?? []),
+    ];
 
-    const STATUS = [
-        ["approved", "Approved"],
-        ["suspended", "Suspended"],
-        ["rejected", "Rejected"],
-
-    ] as const;
+    const Status = [
+        { value: undefined, label: "All Status" },
+        { value: "approved", label: "Approved" },
+        { value: "suspended", label: "Suspended" },
+        { value: "rejected", label: "Rejected" },
+    ]
 
     return (
         <div className="p-4">
@@ -63,31 +64,22 @@ export default function OffersPage({ searchParams }: FilterProps) {
 
             <div className="flex flex-col bg-white px-8 py-4 my-6 gap-3 rounded-2xl">
                 <div className="flex items-center gap-3">
-                    <OfferSelectDropdown
-                        placeholder="Deal type"
-                        options={DEAL_TYPES.map(([value, label]) => ({ value, label }))}
-                        value={dealType ?? ""}
+                    <SelectDropdown
+                        data={DealTypes}
+                        value={dealType}
                         onChange={(value) => updateFilter("dealType", value)}
-                        width="shrink-0"
-                        dropdownWidth="w-50"
                     />
 
-                    <OfferSelectDropdown
-                        placeholder="Category"
-                        options={categories?.map((cat) => ({ value: cat.slug, label: cat.name })) ?? []}
-                        value={category ?? ""}
+                    <SelectDropdown
+                        data={Categories}
+                        value={category}
                         onChange={(value) => updateFilter("category", value)}
-                        width="shrink-0"
-                        dropdownWidth="w-60"
                     />
 
-                    <OfferSelectDropdown
-                        placeholder="Status"
-                        options={STATUS.map(([value, label]) => ({ value, label }))}
-                        value={status ?? ""}
+                    <SelectDropdown
+                        data={Status}
+                        value={status}
                         onChange={(value) => updateFilter("status", value)}
-                        width="shrink-0"
-                        dropdownWidth="w-60"
                     />
                 </div>
                 <SearchInput />

@@ -24,7 +24,6 @@ export const useOffers = ({ search,  dealType, category, minRating, createdFrom,
     const { data, isFetching, isFetched, isLoading,  isError, error } = useQuery({
         queryKey: ['offers', search, dealType, category, minRating, createdFrom, createdTo, status, page, limit],
         queryFn: () => getOffers({ search, dealType, category, minRating, createdFrom, createdTo, status, page, limit }),
-
     });
 
     return {

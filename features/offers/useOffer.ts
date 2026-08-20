@@ -14,7 +14,7 @@ export const getOffer = async ({ id }: GetOfferOptions): Promise<Offer> => {
 export const useOffer = ({ id }: GetOfferOptions) => {
     const { data, isLoading } = useQuery({
         queryKey: ['offers', id],
-        queryFn: () => getOffer({ id }),
+        queryFn: () => getOffer({id}),
     });
 
     return { data, isLoading };

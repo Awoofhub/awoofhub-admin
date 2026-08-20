@@ -1,14 +1,14 @@
 import { apiClient } from "@/lib/api-client";
 import { ApiResponse } from "@/types/api-response";
-import { Category } from "@/types/category";
+import { Category, UpdateCategoryData } from "@/types/category";
 
-export async function getCategoriesService(): Promise<ApiResponse<Category[]>> {
+async function get(): Promise<ApiResponse<Category[]>> {
   const res: ApiResponse<Category[]> = await apiClient.get("/category");
 
   return res;
 }
 
-export async function createCategoryService(name: string,): Promise<ApiResponse<Category>> {
+async function create(name: string): Promise<ApiResponse<Category>> {
   const res: ApiResponse<Category> = await apiClient.post("/category", {
     name,
   });
@@ -16,16 +16,31 @@ export async function createCategoryService(name: string,): Promise<ApiResponse<
   return res;
 }
 
-export async function updateCategoryService(id: string, name: string,): Promise<ApiResponse<Category>> {
-  const res: ApiResponse<Category> = await apiClient.patch(`/category/${id}`, {
-    name,
-  });
+async function update(id: string, payload: UpdateCategoryData): Promise<ApiResponse<Category>> {
+  const res: ApiResponse<Category> = await apiClient.patch(`/category/${id}`, payload);
 
   return res;
 }
 
-export async function deleteCategoryService(id: string,): Promise<ApiResponse<any>> {
+async function deleteById(id: string): Promise < ApiResponse < any >> {
   const res: ApiResponse<any> = await apiClient.delete(`/category/${id}`);
 
   return res;
 }
+
+async function getById(id: string): Promise<ApiResponse<Category>> {
+  const res: ApiResponse<Category> = await apiClient.get(`/category/${id}`);
+
+  return res;
+}
+
+
+const CategoryService = {
+  get,
+  create,
+  update,
+  deleteById,
+  getById,
+};
+
+export default CategoryService;
