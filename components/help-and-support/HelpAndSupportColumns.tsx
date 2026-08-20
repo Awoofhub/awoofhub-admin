@@ -2,8 +2,8 @@ import { HelpAndSupport } from "@/types/help-and-support";
 import { Check, RotateCcw, XCircle } from "lucide-react";
 import { useState } from "react";
 import { BsThreeDots } from "react-icons/bs";
-import HelpAndSupportModal from "../modals/HelpAndSupportModal";
-import { Column } from "../table/Table";
+import HelpAndSupportModal from "../modals/help-and-support/HelpAndSupportModal";
+import { Column } from "../table/BaseTable";
 
 function HelpAndSupportActions({ data }: { data: HelpAndSupport }) {
     const [openModal, setOpenModal] = useState(false);

@@ -1,6 +1,6 @@
 'use client';
 
-import HelpAndSupportTable from "@/components/helpdesk/HelpAndSupportTable";
+import HelpAndSupportTable from "@/components/help-and-support/HelpAndSupportTable";
 import SearchInput from "@/components/search/SearchInput";
 import { ChevronRight } from "lucide-react";
 import { use } from "react";

@@ -26,11 +26,11 @@ export default function OfferCommentTable({ id }: Props) {
                 onPageChange={setPage}
                 renderItem={{
                     key: "id",
-                    render: (comment) => {
+                    render: (comment) => (
                         <div>
                             {comment.comment} 
                         </div>
-                    }
+                    )
                 }}
                 isFetching={isFetching}
                 isFetched={isFetched}

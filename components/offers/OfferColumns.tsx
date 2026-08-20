@@ -4,8 +4,8 @@ import { AlertTriangle, Clock } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 import { BsThreeDots } from "react-icons/bs";
-import OfferModal from "../modals/OfferModal";
-import { Column } from "../table/Table";
+import OfferModal from "../modals/offer/OfferModal";
+import { Column } from "../table/BaseTable";
 
 
 function OfferActions({ offer }: { offer: Offer }) {

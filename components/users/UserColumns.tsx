@@ -5,8 +5,8 @@ import { Check, RotateCcw, XCircle } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 import { BsThreeDots } from "react-icons/bs";
-import UserModal from "../modals/UserModal";
-import { Column } from "../table/Table";
+import UserModal from "../modals/user/UserModal";
+import { Column } from "../table/BaseTable";
 
 function UserActions({ user }: { user: User }) {
     const [openModal, setOpenModal] = useState(false);
