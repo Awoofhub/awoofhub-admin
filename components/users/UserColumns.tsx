@@ -5,7 +5,7 @@ import { Check, RotateCcw, XCircle } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 import { BsThreeDots } from "react-icons/bs";
-import UserModal from "../modals/user/UserModal";
+import UserModal from "../user/UserModal";
 import { Column } from "../table/BaseTable";
 
 function UserActions({ user }: { user: User }) {

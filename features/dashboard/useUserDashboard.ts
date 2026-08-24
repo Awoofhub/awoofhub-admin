@@ -18,6 +18,7 @@ export const useUserDashboard = ({ id }: GetUserDashboardOptions) => {
     const { data, isLoading } = useQuery({
         queryKey: ['dashboard', "user", id],
         queryFn: () => getUserDashboard({ id }),
+        enabled: !!id,
     });
 
     return { data, isLoading };

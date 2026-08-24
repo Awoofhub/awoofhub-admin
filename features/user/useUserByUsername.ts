@@ -17,6 +17,7 @@ export const useUserByUsername = ({username}: GetUserOptions) => {
     const { data, isLoading } = useQuery({
         queryKey: ["user", username],
         queryFn: () => getUserByUsername({username}),
+        enabled: !!username,
     });
     
     return { data, isLoading };

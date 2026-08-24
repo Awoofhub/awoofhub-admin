@@ -15,6 +15,7 @@ export const useModerationHistory = ({ id }: GetModerationHistoryOptions) => {
     const { data, isLoading } = useQuery({
         queryKey: ['moderation', 'history', id],
         queryFn: () => getModerationHistory({ id }),
+        enabled: !!id,
     });
 
     return { data, isLoading };
