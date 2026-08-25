@@ -22,6 +22,7 @@ export const useModeration = ({ onSuccess }: UseModerationOptions = {}) => {
       queryClient.invalidateQueries({ queryKey: ['offers'] });
       queryClient.invalidateQueries({ queryKey: ['users'] });
       queryClient.invalidateQueries({ queryKey: ['comments'] });
+      queryClient.invalidateQueries({ queryKey: ['user'] });
       onSuccess?.(data);
     },
   });

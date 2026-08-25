@@ -5,12 +5,17 @@ import { formatDate } from "@/utils/formatDate";
 import StatusBadge from "../button/StatusBadge";
 import { User } from "@/types/user";
 import UserAvatar from "./UserAvatar";
+import UserDashboardCard from "./UserDashboardCard";
+import ModerationActions from "../moderation/ModerationActions";
+import { useUserDashboard } from "@/features/dashboard/useUserDashboard";
 
 interface UserProfileHeaderProps {
   username: User;
 }
 
 export default function UserProfileHeader({ username }: UserProfileHeaderProps) {
+  const { data: stats } = useUserDashboard({ id: username.id });
+
   const isBlocked = username.status === "blocked";
   const isSuspended = username.status === "suspended";
 
@@ -45,6 +50,15 @@ export default function UserProfileHeader({ username }: UserProfileHeaderProps) 
           <p className="text-gray-500 mb-2">Joined {formatDate(username.createdAt)}</p>
         </div>
       </div>
+
+      {stats && <UserDashboardCard stats={stats} />}
+
+      <ModerationActions
+        targetType="user"
+        targetId={username.id}
+        isBlocked={isBlocked}
+        isSuspended={isSuspended}
+      />
     </div>
   );
 }
