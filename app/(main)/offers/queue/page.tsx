@@ -8,7 +8,7 @@ import { ChevronRight } from 'lucide-react';
 
 export default function OfferQueuePage() {
 
-    const { data, isLoading, isFetchingNextPage, hasNextPage, fetchNextPage, } = usePendingOffers({ limit: 8 });
+    const { data, isLoading, isFetching, isFetchingNextPage, hasNextPage, fetchNextPage, } = usePendingOffers({ limit: 8 });
     const { data: pendingCount } = usePendingOffersCount();
 
     const Offers = data?.pages.flatMap((page) => page.data) ?? [];
@@ -24,6 +24,10 @@ export default function OfferQueuePage() {
                     <span className="text-primary font-baloo font-medium text-base lg:text-lg">{pendingCount} pending review&#40;s&#41;</span>
                 )}
             </div>
+
+            {!isLoading && !isFetching && Offers.length === 0 && (
+                <p className="text-center text-sm md:text-base text-gray-500">No Offers Pending</p>
+            )}
 
             {isLoading && <OfferQueueListSkeleton />}
 
