@@ -4,6 +4,7 @@ import { useState } from "react";
 import { FiEdit3 } from "react-icons/fi";
 import CategoryModal from "../modals/category/CategoryModal";
 import { Column } from "../table/BaseTable";
+import { formatHistoryDateTime } from "@/utils/formatHistoryDateTime";
 
 
 function CategoryActions({ category }: { category: Category }) {
@@ -37,7 +38,7 @@ export const CategoryColumns: Column<Category>[] = [
         key: "name",
         header: "Name",
         render: (category) => (
-            <span className="font-bold text-xs line-clamp-1">
+            <span className="font-semibold text-sm">
                 {category.name}
             </span>
         ),
@@ -46,14 +47,18 @@ export const CategoryColumns: Column<Category>[] = [
     {
         key: "slug",
         header: "Slug",
-        render: (category) => category.slug,
+        render: (category) => (
+            <span className="font-medium">
+                {category.slug}
+            </span>
+        ),
     },
 
     {
         key: "createdAt",
         header: "Date Created",
         className: "text-nowrap",
-        render: (category) => formatDateTime(category.createdAt),
+        render: (category) => formatHistoryDateTime(category.createdAt),
     },
 
     {
