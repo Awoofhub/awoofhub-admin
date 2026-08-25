@@ -6,6 +6,7 @@ export interface Comment {
     user: {
         id: string,
         name: string,
+        username:string,
         profileImageUrl: string,
     },
     offer: Offer
