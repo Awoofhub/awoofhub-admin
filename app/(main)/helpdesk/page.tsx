@@ -26,7 +26,7 @@ export default function HelpdeskPage({ searchParams }: FilterProps) {
                 <span>Support Tickets</span>
             </div>
 
-            <div className="flex flex-row bg-white px-8 py-4 my-6 gap-3 rounded-2xl">
+            <div className="flex flex-row bg-white px-4 lg:px-6 py-4 my-6 gap-3 rounded-2xl">
                 <SearchInput placeholder="Search by @handle or email or by city.." />
 
             </div>

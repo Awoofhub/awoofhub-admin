@@ -1,65 +1,87 @@
 import { User } from "@/types/user";
-import { formatDateTime } from "@/utils/formatDateTime";
-import { capitalizeFirstLetter } from "@/utils/truncate";
-import { Check, RotateCcw, XCircle } from "lucide-react";
-import Image from "next/image";
-import { useState } from "react";
-import { BsThreeDots } from "react-icons/bs";
+import { formatDate } from "@/utils/formatDate";
+import { EllipsisVertical } from "lucide-react";
+import { useRef, useState } from "react";
 import UserModal from "../user/UserModal";
 import { Column } from "../table/BaseTable";
+import ContributorAvatar from "../offer/ContributorAvatar";
 
 function UserActions({ user }: { user: User }) {
     const [openModal, setOpenModal] = useState(false);
+    const [anchorRect, setAnchorRect] = useState<DOMRect | null>(null);
+    const buttonRef = useRef<HTMLButtonElement>(null);
+
+    const handleToggle = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        if (openModal) {
+            setOpenModal(false);
+            return;
+        }
+        setAnchorRect(buttonRef.current?.getBoundingClientRect() ?? null);
+        setOpenModal(true);
+    };
 
     return (
         <>
             <button
+                ref={buttonRef}
                 type="button"
                 className="flex justify-center cursor-pointer p-2"
-                onClick={(e) => {
-                    e.stopPropagation();
-                    setOpenModal(true);
-                }}
+                onClick={handleToggle}
             >
-                <BsThreeDots size={20} />
+                <EllipsisVertical size={20} />
             </button>
 
             <UserModal
                 userId={user.id}
+                status={user.status}
                 isOpen={openModal}
+                anchorRect={anchorRect}
                 onClose={() => setOpenModal(false)}
             />
         </>
     );
+}
+const STATUS_BADGE: Record<User["status"], { label: string; className: string; }> = {
+    active: { label: "Active", className: "bg-[#20B5261A] text-[#006400]" },
+    suspended: { label: "Suspended", className: "bg-[#FFC0001A] text-[#FE4F04]" },
+    blocked: { label: "Banned", className: "bg-[#E706061A] text-[#E70606]" },
+    deleted: { label: "Deleted", className: "bg-[#59585833] text-[#595858]" },
 };
 
+function StatusBadge({ status }: { status: User["status"] }) {
+    const badge = STATUS_BADGE[status];
+    if (!badge) {
+        return (
+            <span className="inline-flex items-center text-sm font-medium font-baloo px-4 py-1 rounded-full bg-gray-100 text-gray-500">
+                {status ?? "Unknown"}
+            </span>
+        );
+    }
+    return (
+        <span className={`inline-flex items-center text-sm font-medium font-baloo px-4 py-1 rounded-full ${badge.className}`}>
+            {badge.label}
+        </span>
+    );
+}
 
 export const UserColumns: Column<User>[] = [
     {
         key: "user",
         header: "User",
         render: (user) => (
-            <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full overflow-hidden">
-                    {user.profileImageUrl ? (
-                        <Image
-                            width={500}
-                            height={500}
-                            src={user.profileImageUrl}
-                            alt=""
-                            unoptimized
-                            className="w-full h-full object-cover"
-                        />
-                    ) : (
-                        <div className="bg-[#f0eded] text-black flex items-center justify-center w-full h-full">
-                            {capitalizeFirstLetter(user.name)}
-                        </div>
-                    )}
+            <div className="flex items-center gap-2">
+                <ContributorAvatar
+                    name={user.name}
+                    profileImageUrl={user.profileImageUrl}
+                    size={40}
+                    className="w-10 h-10"
+                    textClassName="text-sm"
+                />
+                <div>
+                    <p className="text-sm font-semibold text-gray-900">{user.name}</p>
+                    <p className="text-xs text-gray-900">@{user.username}</p>
                 </div>
-
-                <span className="font-medium text-xs text-gray-700 line-clamp-1">
-                    {user.name}
-                </span>
             </div>
         ),
     },
@@ -67,7 +89,8 @@ export const UserColumns: Column<User>[] = [
     {
         key: "email",
         header: "Email Address",
-        render: (user) => user.email,
+        render: (user) => (<span className="font-medium">{user.email}</span>),
+
     },
 
     {
@@ -81,45 +104,25 @@ export const UserColumns: Column<User>[] = [
         key: "dateJoined",
         header: "Date Joined",
         className: "text-nowrap",
-        render: (user) => formatDateTime(user.createdAt),
+        render: (user) => formatDate(user.createdAt),
     },
 
     {
         key: "offerPosted",
         header: "Offer Posted",
-        render: (user) => user.offerPosted ?? 0,
+        render: (user) => (<span className="font-medium">{user.offerPosted ?? 0}</span>),
     },
 
     {
         key: "status",
         header: "Status",
-        render: (user) => {
-            const status = user.status;
-
-            const config = {
-                active: "bg-green-50 text-green-600 border-green-100",
-                suspended: "bg-orange-50 text-orange-600 border-orange-100",
-                blocked: "bg-red-50 text-red-600 border-red-100",
-                deleted: "bg-gray-50 text-gray-600 border-red-100",
-            };
-
-            return (
-                <div
-                    className={`flex items-center gap-1.5 px-3 py-1 rounded-full border text-xs font-bold w-fit ${config[status]}`}
-                >
-                    {status === "active" && <Check className="w-3 h-3" />}
-                    {status === "suspended" && <RotateCcw className="w-3 h-3" />}
-                    {status === "blocked" && <XCircle className="w-3 h-3" />}
-                    {status === "deleted" && <XCircle className="w-3 h-3" />}
-                </div>
-            );
-        },
+        render: (user) => <StatusBadge status={user.status} />,
     },
 
     {
         key: "actions",
         header: "Actions",
-        className: "text-center",
+        className: "flex justify-center text-center",
         render: (user) => <UserActions user={user} />,
 
     },

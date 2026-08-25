@@ -1,15 +1,15 @@
 'use client';
 
-import { useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
-import { useOffer } from '@/features/offers/useOffer';
-import { useModerationHistory } from '@/features/moderation/useModerationHistory';
 import SuspendOfferModal from '@/components/modals/offer/SuspendOfferModal';
-import OfferSummaryCard from '@/components/offer/OfferSummaryCard';
 import OfferComments from '@/components/offer/OfferComments';
-import OfferHistoryTimeline from '@/components/offer/OfferHistoryTimeline';
-import { ChevronLeft } from 'lucide-react';
 import OfferDetailSkeleton from '@/components/offer/OfferDetailSkeleton';
+import OfferHistoryTimeline from '@/components/offer/OfferHistoryTimeline';
+import OfferSummaryCard from '@/components/offer/OfferSummaryCard';
+import { useModerationHistory } from '@/features/moderation/useModerationHistory';
+import { useOffer } from '@/features/offers/useOffer';
+import { ChevronLeft } from 'lucide-react';
+import { useParams, useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 export default function OfferDetailPage() {
     const params = useParams();
@@ -23,8 +23,8 @@ export default function OfferDetailPage() {
     const { data: history } = useModerationHistory({ id });
 
     if (isLoading) {
-    return <OfferDetailSkeleton />;
-}
+        return <OfferDetailSkeleton />;
+    }
 
     if (!offer) {
         return <div className="text-center text-gray-400 py-8 text-sm">Offer not found.</div>;

@@ -1,12 +1,10 @@
 import { Offer } from "@/types/offer";
-import { formatDateTime } from "@/utils/formatDateTime";
-import { AlertTriangle, Clock } from "lucide-react";
+import { formatDate } from "@/utils/formatDate";
 import Image from "next/image";
 import { useState } from "react";
-import { BsThreeDots } from "react-icons/bs";
 import OfferModal from "../modals/offer/OfferModal";
 import { Column } from "../table/BaseTable";
-
+import { CircleCheckBig, Hourglass, Pause, XCircle, EllipsisVertical} from "lucide-react"
 
 function OfferActions({ offer }: { offer: Offer }) {
     const [openModal, setOpenModal] = useState(false);
@@ -21,7 +19,7 @@ function OfferActions({ offer }: { offer: Offer }) {
                     setOpenModal(true);
                 }}
             >
-                <BsThreeDots size={20} />
+                <EllipsisVertical size={20} />
             </button>
 
             <OfferModal
@@ -31,25 +29,40 @@ function OfferActions({ offer }: { offer: Offer }) {
             />
         </>
     );
+}
+
+const STATUS_BADGE: Record<Offer["status"], { label: string; className: string; icon: any }> = {
+    approved: { label: "Active", className: "bg-[#20B5261A] text-[#006400]", icon: <CircleCheckBig size={12} /> },
+    pending: { label: "Pending", className: "bg-yellow-50 text-yellow-700", icon: <Hourglass size={12} /> },
+    rejected: { label: "Rejected", className: "bg-[#E706061A] text-[#E70606]", icon: <XCircle size={12} /> },
+    suspended: { label: "Suspended", className: "bg-[#FFC0001A] text-[#FE4F04]", icon: <Pause size={12} /> },
 };
 
+function StatusBadge({ status }: { status: Offer["status"] }) {
+    const badge = STATUS_BADGE[status];
+    if (!badge) return null;
+    return (
+        <span className={`inline-flex items-center gap-1 text-sm font-medium font-baloo px-4 py-1 rounded-full ${badge.className}`}>
+            {badge.icon} {badge.label}
+        </span>
+    );
+}
 
 export const OfferColumns: Column<Offer>[] = [
     {
         key: "title",
-        header: "Title",
+        header: "Tittle",
         render: (offer) => (
             <div className="flex items-center gap-3">
                 <Image
-                    width={500}
-                    height={500}
+                    width={40}
+                    height={40}
                     src={offer.imageUrl}
                     unoptimized
                     alt=""
-                    className="w-10 h-10 object-cover"
+                    className="w-10 h-10 rounded-lg object-cover shrink-0"
                 />
-
-                <span className="font-medium text-xs text-gray-700 line-clamp-1">
+                <span className="font-medium max-w-[120px] text-xs text-gray-900 line-clamp-2">
                     {offer.title}
                 </span>
             </div>
@@ -63,66 +76,48 @@ export const OfferColumns: Column<Offer>[] = [
     },
 
     {
-        key: "awoofer",
+        key: "dealType",
+        header: "Type",
+        className: "capitalize",
+        render: (offer) => offer.dealType?.replace('_', ' '),
+    },
+
+     {
+        key: "contributor",
         header: "Awoofer",
-        className: "text-nowrap",
-        render: (offer) => `@${offer.contributor.username}`
+        render: (offer) => (<span className="font-medium">@{offer.contributor.username}</span>),
     },
 
     {
-        key: "createdAt",
-        header: "Date Created",
-        className: "text-nowrap",
-        render: (offer) => formatDateTime(offer.createdAt),
+        key: "status",
+        header: "Status",
+        render: (offer) => <StatusBadge status={offer.status} />,
     },
 
     {
-        key: "reviewCount",
-        header: "Reviews",
-        render: (offer) => offer.reviewCount,
+        key: "clickCount",
+        header: "Grabs",
+        render: (offer) => offer.clickCount,
     },
 
     {
         key: "endDate",
-        header: "Ends On",
-        className: "text-nowrap text-center",
-        render: (offer) => formatDateTime(offer.endDate),
-    },
-
-    {
-        key: "expiryStatus",
-        header: "Expiry Status",
+        header: "Expiry",
+        className: "text-nowrap",
         render: (offer) => {
             const isExpired = new Date(offer.endDate) < new Date();
-
             return (
-                <div
-                    className={`flex items-center gap-1.5 px-3 py-1 rounded-full border text-[10px] uppercase tracking-wider font-bold w-fit ${isExpired
-                        ? "bg-gray-50 text-gray-500 border-gray-200"
-                        : "bg-blue-50 text-blue-600 border-blue-100"
-                        }`}
-                >
-                    {isExpired ? (
-                        <>
-                            <AlertTriangle className="w-3 h-3" />
-                            Expired
-                        </>
-                    ) : (
-                        <>
-                            <Clock className="w-3 h-3" />
-                            Valid
-                        </>
-                    )}
-                </div>
-            )
-
+                <span className={isExpired ? "text-red-600 font-medium" : ""}>
+                    {formatDate(offer.endDate)}
+                </span>
+            );
         },
     },
 
     {
         key: "actions",
         header: "Actions",
-        className: "text-center",
+        className: "flex justify-center text-center",
         render: (offer) => <OfferActions offer={offer} />,
     },
 ];

@@ -15,9 +15,15 @@ async function getOpenSupportCount(): Promise<ApiResponse<{ count: number }>> {
   return res;
 }
 
+async function updateStatus(id: string, status: HelpAndSupport['status']): Promise<ApiResponse<HelpAndSupport>> {
+  const res: ApiResponse<HelpAndSupport> = await apiClient.patch(`/help-and-support/${id}/status`, { status });
+  return res;
+}
+
 const HelpAndSupportService = {
   helpAndSupport,
   getOpenSupportCount,
+  updateStatus
 };
 
 export default HelpAndSupportService;
