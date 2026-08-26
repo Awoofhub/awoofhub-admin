@@ -5,7 +5,7 @@ import CommentReportListSkeleton from "./CommentReportListSkeleton";
 
 export default function CommentReportContainer() {
 
-    const { data, isLoading, isFetching, hasNextPage, isFetchingNextPage, fetchNextPage } = useTargetReports<CommentReport>({
+    const { data, isLoading, hasNextPage, isFetchingNextPage, fetchNextPage } = useTargetReports<CommentReport>({
         target: "comment",
         limit: 10,
     });
@@ -13,10 +13,9 @@ export default function CommentReportContainer() {
     const CommentReport = data?.pages.flatMap((page) => page.data) ?? [];
 
     return (
-        <div className="w-full p-4 space-y-6 bg-white font-sans">
-            <h2 className="text-xl font-bold text-gray-900">Reports</h2>
+        <>
             {isLoading && <CommentReportListSkeleton />}
-            {!isLoading && !isFetching && CommentReport.length === 0 && (
+            {!isLoading && CommentReport.length === 0 && (
                 <p className="text-center text-sm md:text-base text-gray-500">No Comment found.</p>
             )}
             {!isLoading && CommentReport.length > 0 && (
@@ -27,7 +26,7 @@ export default function CommentReportContainer() {
                     fetchNextPage={fetchNextPage}
                 />
             )}
-        </div>
+        </>
     );
 }
 

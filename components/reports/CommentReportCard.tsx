@@ -4,6 +4,7 @@ import { CommentReport } from '@/types/report';
 import { ChevronRight, Flag } from 'lucide-react';
 import Link from "next/link";
 import { useState } from 'react';
+import DeleteCommentReportModal from '../modals/report/DeleteCommentReport';
 import DismissReportModal from '../modals/report/DismissReportModal';
 
 
@@ -17,7 +18,7 @@ export default function CommentReportsCard({ data }: Props) {
 
     const [openDismissModal, setOpenDismissModal] = useState(false);
 
-    const [openRejectModal, setOpenRejectModal] = useState(false);
+    const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
     return (
         <>
@@ -59,12 +60,13 @@ export default function CommentReportsCard({ data }: Props) {
                 {/* Action buttons */}
                 <div className="grid grid-cols-2 gap-4 pt-2">
                     <button
+                        onClick={() => setOpenDeleteModal(true)}
                         className="w-full py-2.5 px-4 border border-red-500 text-red-500 font-semibold rounded-md hover:bg-red-50 transition-colors cursor-pointer text-sm"
                     >
-                        Suspend
+                        Delete
                     </button>
                     <button
-                    onClick={()=>setOpenDismissModal(true)}
+                        onClick={() => setOpenDismissModal(true)}
                         className="w-full py-2.5 px-4 bg-orange-600 text-white font-semibold rounded-md hover:bg-orange-700 transition-colors cursor-pointer text-sm"
                     >
                         Dismiss
@@ -73,6 +75,8 @@ export default function CommentReportsCard({ data }: Props) {
             </div>
 
             <DismissReportModal ids={[report.id]} isOpen={openDismissModal} onClose={() => setOpenDismissModal(false)} />
+            <DeleteCommentReportModal commentId={comment.id} reportId={report.id} isOpen={openDeleteModal} onClose={() => setOpenDeleteModal(false)} />
+
         </>
     );
 };
