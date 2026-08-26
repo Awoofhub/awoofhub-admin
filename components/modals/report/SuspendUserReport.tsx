@@ -1,12 +1,13 @@
 'use client';
 
+import { FormSelectDropdown } from '@/components/form/FormSelectDropdown';
 import { useModeration } from '@/features/moderation/useModeration';
 import { Loader2 } from 'lucide-react';
-import Image from 'next/image';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 
 interface Props {
     userId: string;
+    reportIds: string[];
     isOpen: boolean;
     onClose: () => void;
 }
@@ -14,17 +15,17 @@ interface Props {
 
 interface FormValues {
     reason: string;
+    selectedTime: string;
 }
 
-export default function SuspendUserReportModal({ userId, isOpen, onClose }: Props) {
-
+export default function SuspendUserReportModal({ userId, reportIds, isOpen, onClose }: Props) {
     const { submit, isPending, reset: resetModeration } = useModeration({
         onSuccess: () => {
             onClose();
         },
     });
 
-    const { register, handleSubmit, reset: resetForm } = useForm<FormValues>();
+    const { register, handleSubmit, control, reset: resetForm } = useForm<FormValues>();
 
     if (!isOpen) return null;
 
@@ -38,19 +39,50 @@ export default function SuspendUserReportModal({ userId, isOpen, onClose }: Prop
 
 
     const onSubmit = (data: FormValues) => {
-        submit({ targetType: 'user', targetId: userId, actionType: 'block', reason: data.reason });
+
+        const daysToAdd = parseInt(data.selectedTime, 10);
+        const expirationDate = new Date();
+        expirationDate.setDate(expirationDate.getDate() + daysToAdd);
+        submit({
+            targetType: 'user',
+            targetId: userId,
+            actionType: 'suspend',
+            reportIds,
+            reason: data.reason,
+            endsAt: expirationDate.toISOString(),
+        });
     };
+
+    const timelineOptions = [
+        { value: "7", label: "One week (7 days)" },
+        { value: "14", label: "Two weeks (14 days)" },
+        { value: "30", label: "One month (30 days)" },
+    ];
 
 
     return (
         <div
             className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4" onClick={handleClose}>
             <div className="bg-white rounded-xl px-6 py-6 max-w-md w-full" onClick={(e) => e.stopPropagation()}>
-                <Image src="/reject.png" width={200} height={200} alt='' priority className="mx-auto w-[150px] lg:w-[200px]" />
-                <h3 className="font-bold text-lg xs:text-xl text-gray-900 mb-4 text-center">Specify why this offer is being rejected.</h3>
-                <label className="text-sm text-gray-500 block mt-4 mb-1">Reason for rejection</label>
 
                 <form onSubmit={handleSubmit(onSubmit)}>
+                    <Controller
+                        name="selectedTime"
+                        control={control}
+                        rules={{ required: "Timeline is required" }}
+                        render={({ field, fieldState }) => (
+                            <FormSelectDropdown
+                                label="Suspension Timeline"
+                                data={timelineOptions}
+                                value={field.value}
+                                compulsory={true}
+                                onChange={field.onChange}
+                                error={fieldState.error?.message}
+                            />
+                        )}
+                    />
+
+                    <label className="text-sm text-gray-500 block mt-4 mb-1">Reason for suspension</label>
                     <textarea
                         {...register("reason", { required: "Please provide a reason for rejection." })}
                         placeholder="Briefly describe the situation."
@@ -67,10 +99,10 @@ export default function SuspendUserReportModal({ userId, isOpen, onClose }: Prop
                         {isPending ? (
                             <>
                                 <Loader2 className="animate-spin" size={18} />
-                                Rejecting...
+                                Suspending...
                             </>
                         ) : (
-                            'Reject'
+                            'Suspend'
                         )}
                     </button>
                 </form>

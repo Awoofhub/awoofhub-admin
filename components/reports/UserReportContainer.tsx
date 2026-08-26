@@ -6,7 +6,7 @@ import UserReportListSkeleton from "./UserReportListSkeleton";
 
 export default function UserReportContainer() {
 
-    const { data, isLoading, isFetching, hasNextPage, isFetchingNextPage, fetchNextPage } = useTargetReports<UserReport>({
+    const { data, isLoading, hasNextPage, isFetchingNextPage, fetchNextPage } = useTargetReports<UserReport>({
         target: "user",
         limit: 10,
     });
@@ -16,7 +16,7 @@ export default function UserReportContainer() {
     return (
         <>
             {isLoading && <UserReportListSkeleton />}
-            {!isLoading && !isFetching && UserReport.length === 0 && (
+            {!isLoading && UserReport.length === 0 && (
                 <p className="text-center text-sm md:text-base text-gray-500">No User found.</p>
             )}
             {!isLoading && UserReport.length > 0 && (

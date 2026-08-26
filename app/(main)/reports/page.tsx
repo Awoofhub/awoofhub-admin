@@ -29,8 +29,8 @@ export default function ReportsPage({ searchParams }: FilterProps) {
 
     const Tabs: { value: keyof ReportTabsCount | undefined; label: string }[] = [
         { value: undefined, label: "Offer" },
-        { value: "comments", label: "Comment" },
         { value: "users", label: "User" },
+        { value: "comments", label: "Comment" },
     ];
 
     const { data: pendingReportsCount } = usePendingReportsCount()

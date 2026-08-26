@@ -26,6 +26,7 @@ export const useTargetReports = <T>({ target, limit = 8 }: GetTargetReportsOptio
             return currentPage < totalPages ? currentPage + 1 : undefined;
         },
         initialPageParam: 1,
+        refetchInterval: 5000
 
     });
 

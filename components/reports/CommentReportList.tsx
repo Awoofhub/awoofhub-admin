@@ -27,7 +27,7 @@ export default function CommentReportList({ data, hasNextPage, fetchNextPage, is
         <>
             <div className="flex flex-col gap-3">
                 {data.map(item => (
-                    <CommentReportsCard data={item} key={item.comment.id} />
+                    <CommentReportsCard data={item} key={item.report.id} />
                 ))}
             </div>
 
