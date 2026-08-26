@@ -1,5 +1,6 @@
 'use client';
 
+import OfferQueueEmptyState from '@/components/offers/OfferQueueEmptyState';
 import OfferQueueList from '@/components/offers/OfferQueueList';
 import OfferQueueListSkeleton from '@/components/offers/OfferQueueListSkeleton';
 import { usePendingOffers } from '@/features/offers/usePendingOffers';
@@ -26,7 +27,7 @@ export default function OfferQueuePage() {
             </div>
 
             {!isLoading && !isFetching && Offers.length === 0 && (
-                <p className="text-center text-sm md:text-base text-gray-500">No Offers Pending</p>
+                <OfferQueueEmptyState/>
             )}
 
             {isLoading && <OfferQueueListSkeleton />}
