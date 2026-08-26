@@ -26,13 +26,8 @@ export default function OfferQueuePage() {
                 )}
             </div>
 
-<<<<<<< HEAD
-            {!isLoading && !isFetching && Offers.length === 0 && (
-                <OfferQueueEmptyState/>
-=======
             {!isLoading && Offers.length === 0 && (
-                <p className="text-center text-sm md:text-base text-gray-500">No Offers Pending</p>
->>>>>>> 8a3de0288f1eaf03f036115942761b14b22c9131
+                <OfferQueueEmptyState/>
             )}
 
             {isLoading && <OfferQueueListSkeleton />}
