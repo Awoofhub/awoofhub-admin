@@ -1,10 +1,9 @@
-
 "use client";
 
 import { CheckCircle, XCircle, PauseCircle, Ban, AlertTriangle } from "lucide-react";
 import { formatDate } from "@/utils/formatDate";
 import HeaderIconTitleCount from "../common/HeaderIconTitleCount";
-import UserDetailSkeleton from "../skeleton/UserListSkeleton";
+import ListSkeleton from "../skeleton/ListSkeleton";
 import EmptyMessage from "@/components/common/EmptyMessage";
 import { useModerationHistory } from "@/features/moderation/useModerationHistory";
 import { Moderation } from "@/types/moderation";
@@ -14,10 +13,8 @@ interface UserModerationTimelineProps {
   emptyMessage?: string;
 }
 
-type ActionType = Moderation["actionType"] | "approved" | "rejected";
-
 const actionStyles: Record<
-  string,
+  Moderation["actionType"] | "approved" | "rejected",
   { icon: typeof CheckCircle; iconColor: string; bg: string; label: string }
 > = {
   approved: { icon: CheckCircle, iconColor: "text-green-600", bg: "bg-green-100", label: "Approved" },
@@ -34,7 +31,7 @@ export default function UserModerationTimeline({
 }: UserModerationTimelineProps) {
   const { data: events = [], isLoading } = useModerationHistory({ id: userId });
 
-  if (isLoading) return <UserDetailSkeleton />;
+  if (isLoading) return <ListSkeleton />;
 
   return (
     <div className="bg-white rounded-xl p-4 sm:p-5">
@@ -50,15 +47,15 @@ export default function UserModerationTimeline({
             const isLast = index === events.length - 1;
 
             return (
-              <div key={e.id} className="flex gap-3">
-                <div className="flex flex-col items-center">
+              <div key={e.id} className={`flex gap-3 ${isLast ? "" : "mb-6"}`}>
+                <div className="flex flex-col items-center self-stretch">
                   <div className={`w-9 h-9 shrink-0 rounded-full ${style.bg} flex items-center justify-center`}>
                     <Icon size={18} className={style.iconColor} />
                   </div>
-                  {!isLast && <div className="w-px flex-1 bg-gray-200 my-1" />}
+                  {!isLast && <div className="w-px flex-1 min-h-[16px] bg-gray-200 mt-1" />}
                 </div>
 
-                <div className={`flex-1 min-w-0 ${isLast ? "pb-0" : "pb-6"}`}>
+                <div className="flex-1 min-w-0">
                   <p className="text-sm text-gray-900">
                     <span className="font-bold">{style.label}</span>
                     {" by "}
@@ -66,8 +63,10 @@ export default function UserModerationTimeline({
                     <span className="text-gray-400"> · </span>
                     <span className="text-gray-400">{formatDate(e.createdAt)}</span>
                   </p>
-                  {e.reason && (
+                  {e.reason ? (
                     <p className="text-sm text-gray-500 mt-0.5">{e.reason}</p>
+                  ) : (
+                    <p className="text-sm text-transparent mt-0.5 select-none">·</p>
                   )}
                 </div>
               </div>

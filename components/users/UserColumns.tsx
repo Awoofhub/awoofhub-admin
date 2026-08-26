@@ -45,7 +45,7 @@ function UserActions({ user }: { user: User }) {
 const STATUS_BADGE: Record<User["status"], { label: string; className: string; }> = {
     active: { label: "Active", className: "bg-[#20B5261A] text-[#006400]" },
     suspended: { label: "Suspended", className: "bg-[#FFC0001A] text-[#FE4F04]" },
-    blocked: { label: "Banned", className: "bg-[#E706061A] text-[#E70606]" },
+    banned: { label: "Banned", className: "bg-[#E706061A] text-[#E70606]" },
     deleted: { label: "Deleted", className: "bg-[#59585833] text-[#595858]" },
 };
 

@@ -8,7 +8,7 @@ export interface User {
   bio: string | null;
   address: string | null;
   website: string | null;
-  status: 'active' | 'suspended' | 'blocked' | 'deleted'
+  status: 'active' | 'suspended' | 'banned' | 'deleted'
   createdAt: string;
   updatedAt: string;
   offerPosted?: number;

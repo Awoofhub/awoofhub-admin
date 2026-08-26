@@ -1,4 +1,3 @@
-// components/user/ModerationActions.tsx
 "use client";
 
 import { useState } from "react";
@@ -53,17 +52,23 @@ export default function ModerationActions({
     setSuspendDays(7);
   };
 
-  const confirmBlock = () => {
+  const confirmBan = () => {
     submit({ targetType, targetId, actionType: "block", reason: reason.trim() || undefined });
   };
 
   const confirmSuspend = () => {
-    submit({ targetType, targetId, actionType: "suspend", endsAt: daysFromNow(suspendDays) });
+    submit({
+      targetType,
+      targetId,
+      actionType: "suspend",
+      endsAt: daysFromNow(suspendDays),
+      reason: reason.trim() || undefined,
+    });
   };
 
-  const confirmActivate = () => {
-    submit({ targetType, targetId, actionType: "activate" });
-  };
+ const confirmActivate = () => {
+  submit({ targetType, targetId, actionType: "activate", reason: reason.trim() || undefined });
+};
 
   return (
     <>
@@ -108,7 +113,7 @@ export default function ModerationActions({
           confirmLabel="Ban account"
           reason={reason}
           onReasonChange={setReason}
-          onConfirm={confirmBlock}
+          onConfirm={confirmBan}
           onCancel={closeModal}
           isLoading={isPending}
         />
@@ -119,6 +124,8 @@ export default function ModerationActions({
           variant="warning"
           title="Confirm that you are about to suspend this account"
           confirmLabel={isPending ? "Saving..." : "Suspend now"}
+          reason={reason}
+          onReasonChange={setReason}
           onConfirm={confirmSuspend}
           onCancel={closeModal}
           isLoading={isPending}
@@ -149,6 +156,8 @@ export default function ModerationActions({
           variant="success"
           title="Confirm that you are about to reactivate this account"
           confirmLabel="Reactivate account"
+          reason={reason}
+          onReasonChange={setReason}
           onConfirm={confirmActivate}
           onCancel={closeModal}
           isLoading={isPending}

@@ -8,6 +8,7 @@ import UserAvatar from "./UserAvatar";
 import UserDashboardCard from "./UserDashboardCard";
 import ModerationActions from "../moderation/ModerationActions";
 import { useUserDashboard } from "@/features/dashboard/useUserDashboard";
+import { Mail, MapPin } from "lucide-react";
 
 interface UserProfileHeaderProps {
   username: User;
@@ -16,7 +17,7 @@ interface UserProfileHeaderProps {
 export default function UserProfileHeader({ username }: UserProfileHeaderProps) {
   const { data: stats } = useUserDashboard({ id: username.id });
 
-  const isBlocked = username.status === "blocked";
+  const isBanned = username.status === "banned";
   const isSuspended = username.status === "suspended";
 
   return (
@@ -30,33 +31,39 @@ export default function UserProfileHeader({ username }: UserProfileHeaderProps) 
               {username.name}
             </h1>
             <StatusBadge
-              label={isBlocked ? "Banned" : isSuspended ? "Suspended" : username.role || "active"}
-              variant={isBlocked ? "red" : isSuspended ? "orange" : "green"}
+              label={isBanned ? "Banned" : isSuspended ? "Suspended" : username.role || "active"}
+              variant={isBanned ? "red" : isSuspended ? "orange" : "green"}
               size="md"
             />
             <h2 className="text-xl font-thin text-gray-500 mb-1">@{username.name}</h2>
           </div>
 
-          <p className="text-gray-500 mb-2 text-sm truncate">
-            {username.email} . {username.address}
+          <p className="text-gray-500 mb-2 text-sm truncate flex items-center gap-1.5 flex-wrap">
+            <span className="inline-flex items-center gap-1">
+              <Mail size={14} className="text-gray-400 shrink-0" />
+              {username.email}
+            </span>
+            <span className="text-gray-300"> · </span>
+            <span className="inline-flex items-center gap-1">
+              <MapPin size={14} className="text-gray-400 shrink-0" />
+              {username.address}
+            </span>
           </p>
 
-          {username.bio && (
-            <p className="text-sm text-gray-500 line-clamp-2 sm:line-clamp-3">
-              {username.bio}
-            </p>
-          )}
+        <p className="text-sm text-gray-500 line-clamp-2 sm:line-clamp-3">
+            {username.bio ?? "No bio available"}
+        </p>
 
           <p className="text-gray-500 mb-2">Joined {formatDate(username.createdAt)}</p>
         </div>
       </div>
 
-      {stats && <UserDashboardCard stats={stats} />}
+      <UserDashboardCard stats={stats ?? null} />
 
       <ModerationActions
         targetType="user"
         targetId={username.id}
-        isBlocked={isBlocked}
+        isBlocked={isBanned}
         isSuspended={isSuspended}
       />
     </div>
