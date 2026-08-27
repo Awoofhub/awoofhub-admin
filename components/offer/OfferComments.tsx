@@ -1,12 +1,17 @@
 'use client';
 
-import { useState } from 'react';
-import ContributorAvatar from '@/components/offer/ContributorAvatar';
 import PaginationButtons from '@/components/button/PaginationButtons';
+import ContributorAvatar from '@/components/offer/ContributorAvatar';
 import { useCommentsForOffer } from '@/features/comments/useCommentsForOffer';
 import { formatRelativeTime } from '@/utils/formatRelativeTime';
+import { useState } from 'react';
 
-export default function OfferComments({ offerId }: { offerId: string }) {
+
+interface Props {
+    offerId: string;
+}
+
+export default function OfferComments({ offerId }: Props) {
     const [page, setPage] = useState(1);
     const { data, isLoading } = useCommentsForOffer({ id: offerId, page, limit: 3 });
     const comments = data?.data ?? [];
@@ -44,7 +49,7 @@ export default function OfferComments({ offerId }: { offerId: string }) {
                         </div>
                     ))}
                 </div>
-            )}
+            )} 
             {totalPages > 1 && (
                 <PaginationButtons currentPage={page} totalPages={totalPages} onPageChange={setPage} />
             )}

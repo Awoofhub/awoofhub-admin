@@ -10,7 +10,7 @@ interface Props {
     onClose: () => void;
 }
 
-export default function ApproveOfferModal({ offerId, isOpen, onClose }: Props) {
+export default function ReactivateOfferModal({ offerId, isOpen, onClose }: Props) {
 
     const { submit, isPending } = useModeration({
         onSuccess: () => {
@@ -36,7 +36,7 @@ export default function ApproveOfferModal({ offerId, isOpen, onClose }: Props) {
             <div className="bg-white rounded-xl px-6 py-10 max-w-md w-full text-center" onClick={(e) => e.stopPropagation()}>
                 <Image src="/approve.png" width={200} height={200} alt='' priority className="mx-auto w-[150px]" />
 
-                <h3 className="font-bold text-xl xs:text-2xl text-gray-900 mb-4">Confirm that you are about to approve this offer</h3>
+                <h3 className="font-bold text-xl xs:text-2xl text-gray-900 mb-4">Confirm that you are about to re-approve this offer</h3>
 
                 <button
                     type="submit"
@@ -47,10 +47,10 @@ export default function ApproveOfferModal({ offerId, isOpen, onClose }: Props) {
                     {isPending ? (
                         <>
                             <Loader2 className="animate-spin" size={18} />
-                            Approving...
+                            Reactivating...
                         </>
                     ) : (
-                        'Approve Now'
+                        'Reactivate'
                     )}
                 </button>
 
