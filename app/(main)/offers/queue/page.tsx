@@ -25,6 +25,10 @@ export default function OfferQueuePage() {
                 )}
             </div>
 
+            {!isLoading && Offers.length === 0 && (
+                <p className="text-center text-sm md:text-base text-gray-500">No Offers Pending</p>
+            )}
+
             {isLoading && <OfferQueueListSkeleton />}
 
             {!isLoading && Offers.length > 0 && (

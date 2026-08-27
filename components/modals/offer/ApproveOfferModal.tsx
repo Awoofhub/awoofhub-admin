@@ -40,9 +40,9 @@ export default function ApproveOfferModal({ offerId, isOpen, onClose }: Props) {
     };
 
     return (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4" onClick={onClose}>
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4" onClick={handleClose}>
             <div className="bg-white rounded-xl px-6 py-10 max-w-md w-full text-center" onClick={(e) => e.stopPropagation()}>
-                <Image src="/approve.png" width={200} height={200} alt='' priority className="mx-auto w-[150px] lg:w-[200px]" />
+                <Image src="/approve.png" width={200} height={200} alt='' priority className="mx-auto w-[150px]" />
 
                 <h3 className="font-bold text-xl xs:text-2xl text-gray-900 mb-4">Confirm that you are about to approve this offer</h3>
                

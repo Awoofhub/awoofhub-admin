@@ -62,8 +62,8 @@ export default function OffersPage({ searchParams }: FilterProps) {
                 <span>All Offers</span>
             </div>
 
-            <div className="flex flex-col bg-white px-8 py-4 my-6 gap-3 rounded-2xl">
-                <div className="flex items-center gap-3">
+            <div className="flex flex-col bg-white px-4 lg:px-6 py-4 my-6 gap-3 rounded-2xl">
+                <div className="grid grid-cols-2 lg:grid-cols-3 items-center gap-2">
                     <SelectDropdown
                         data={DealTypes}
                         value={dealType}
@@ -81,8 +81,15 @@ export default function OffersPage({ searchParams }: FilterProps) {
                         value={status}
                         onChange={(value) => updateFilter("status", value)}
                     />
+                    <div className="lg:hidden">
+                        <SearchInput />
+                    </div>
+
                 </div>
-                <SearchInput />
+                <div className="hidden lg:block">
+                    <SearchInput />
+                </div>
+
             </div>
 
             <OffersTable search={search} status={status} dealType={dealType} category={category} />

@@ -1,6 +1,6 @@
+import { showToast } from "@/components/toast/Toast";
 import { API_URL } from "@/config/constants";
 import { refreshTokenService } from "@/services/auth-service";
-import { notificationsStore } from "@/store/notifications/notifications";
 import axios from "axios";
 
 export const apiClient = axios.create({
@@ -45,12 +45,8 @@ apiClient.interceptors.response.use(
             return Promise.reject(error);
         }
 
-        notificationsStore.getState().showNotification({
-            type: 'error',
-            title: 'Error',
-            duration: 5000,
-            message,
-        });
+        showToast('error', message);
+
 
         return Promise.reject(error);
     }
