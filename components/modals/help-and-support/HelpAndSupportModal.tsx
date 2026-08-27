@@ -1,7 +1,6 @@
 'use client';
 
 import ContributorAvatar from '@/components/offer/ContributorAvatar';
-import { useUpdateHelpAndSupportStatus } from '@/features/help-and-support/useUpdateHelpAndSupportStatus';
 import { HelpAndSupport } from '@/types/help-and-support';
 import { formatDate } from '@/utils/formatDate';
 import { useState } from 'react';
@@ -17,18 +16,9 @@ interface Props {
 
 
 export default function HelpAndSupportModal({ data, isOpen, onClose }: Props) {
-
     const [actionModal, setActionModal] = useState<'resolve' | 'close' | null>(null);
 
-    const { updateHelpAndSupport } = useUpdateHelpAndSupportStatus({
-        id: data.id,
-    })
-
     if (!isOpen) return null;
-
-    if (data.status === 'open') {
-        updateHelpAndSupport({ status: 'inProgress' });
-    }
 
     const isActionModalOpen = actionModal === null;
     const canAct = data.status === 'open' || data.status === 'inProgress';

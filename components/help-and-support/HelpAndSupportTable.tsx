@@ -1,6 +1,7 @@
 'use client';
 
 import { useHelpAndSupport } from "@/features/help-and-support/useHelpAndSupport";
+import { useUpdateHelpAndSupportStatus } from "@/features/help-and-support/useUpdateHelpAndSupportStatus";
 import { HelpAndSupport } from '@/types/help-and-support';
 import { useState } from "react";
 import HelpAndSupportModal from "../modals/help-and-support/HelpAndSupportModal";
@@ -26,10 +27,18 @@ export default function HelpAndSupportTable({ search }: Props) {
         limit,
     });
 
+    const { updateHelpAndSupport } = useUpdateHelpAndSupportStatus({
+        id:  selectedTicket?.id ?? '',
+    })
+
 
     const handleRowClick = (ticket: HelpAndSupport) => {
         setSelectedTicket(ticket);
         setOpen(true);
+
+        if (ticket.status === 'open') {
+            updateHelpAndSupport({ status: 'inProgress' });
+        }
     };
 
     return (
