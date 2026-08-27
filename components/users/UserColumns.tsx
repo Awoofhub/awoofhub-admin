@@ -1,47 +1,9 @@
 import { User } from "@/types/user";
 import { formatDate } from "@/utils/formatDate";
-import { EllipsisVertical } from "lucide-react";
-import { useRef, useState } from "react";
-import UserModal from "../modals/user/UserModal";
-import { Column } from "../table/BaseTable";
 import ContributorAvatar from "../offer/ContributorAvatar";
+import { Column } from "../table/BaseTable";
 
-function UserActions({ user }: { user: User }) {
-    const [openModal, setOpenModal] = useState(false);
-    const [anchorRect, setAnchorRect] = useState<DOMRect | null>(null);
-    const buttonRef = useRef<HTMLButtonElement>(null);
 
-    const handleToggle = (e: React.MouseEvent) => {
-        e.stopPropagation();
-        if (openModal) {
-            setOpenModal(false);
-            return;
-        }
-        setAnchorRect(buttonRef.current?.getBoundingClientRect() ?? null);
-        setOpenModal(true);
-    };
-
-    return (
-        <>
-            <button
-                ref={buttonRef}
-                type="button"
-                className="flex justify-center cursor-pointer p-2"
-                onClick={handleToggle}
-            >
-                <EllipsisVertical size={20} />
-            </button>
-
-            <UserModal
-                userId={user.id}
-                status={user.status}
-                isOpen={openModal}
-                anchorRect={anchorRect}
-                onClose={() => setOpenModal(false)}
-            />
-        </>
-    );
-}
 const STATUS_BADGE: Record<User["status"], { label: string; className: string; }> = {
     active: { label: "Active", className: "bg-[#20B5261A] text-[#006400]" },
     suspended: { label: "Suspended", className: "bg-[#FFC0001A] text-[#FE4F04]" },
@@ -103,27 +65,30 @@ export const UserColumns: Column<User>[] = [
     {
         key: "dateJoined",
         header: "Date Joined",
-        className: "text-nowrap",
-        render: (user) => formatDate(user.createdAt),
+        className: "text-center",
+        render: (user) => (
+            <div className="text-center">
+                {formatDate(user.createdAt)}
+            </div>
+        )
     },
 
     {
         key: "offerPosted",
-        header: "Offer Posted",
-        render: (user) => (<span className="font-medium">{user.offerPosted ?? 0}</span>),
+        className: "text-center",
+        header: "Offers Posted",
+        render: (user) => (<span className="block text-center font-medium">{user.offerPosted ?? 0}</span>),
     },
 
     {
         key: "status",
+        className: "text-center",
         header: "Status",
-        render: (user) => <StatusBadge status={user.status} />,
+        render: (user) => (
+            <div className="flex justify-center">
+                <StatusBadge status={user.status} />
+            </div>
+        ),
     },
 
-    {
-        key: "actions",
-        header: "Actions",
-        className: "flex justify-center text-center",
-        render: (user) => <UserActions user={user} />,
-
-    },
 ];
