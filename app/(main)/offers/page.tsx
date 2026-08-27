@@ -1,28 +1,22 @@
 'use client';
 
 import { SelectDropdown } from "@/components/form/SelectDropdown";
+import Loading from "@/components/loading/Loading";
 import OffersTable from "@/components/offers/OfferTable";
 import SearchInput from "@/components/search/SearchInput";
 import { useCategory } from "@/features/category/useCategory";
 import { useFilter } from "@/features/offers/useFilter";
 import { ChevronRight } from "lucide-react";
-import { use } from "react";
+import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
-type FilterParams = {
-    search?: string,
-    status?: string;
-    dealType?: string;
-    category?: string;
-};
 
-interface FilterProps {
-    searchParams: Promise<FilterParams>;
-}
-
-export default function OffersPage({ searchParams }: FilterProps) {
-
-    const params = use(searchParams);
-    const { search, status, dealType, category, } = params;
+function OffersPage() {
+    const searchParams = useSearchParams();
+    const search = searchParams.get("search") ?? undefined;
+    const category = searchParams.get("category") ?? undefined;
+    const dealType = searchParams.get("dealType") ?? undefined;
+    const status = searchParams.get("status") ?? undefined;
 
     const { data: categoryData } = useCategory();
     const updateFilter = useFilter();
@@ -97,4 +91,13 @@ export default function OffersPage({ searchParams }: FilterProps) {
         </div>
     )
 
+}
+
+
+export default function Filter() {
+  return (
+    <Suspense fallback={<Loading />}>
+        <OffersPage />
+    </Suspense>
+  );
 }

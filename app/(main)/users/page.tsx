@@ -1,24 +1,20 @@
 'use client';
 
 import { SelectDropdown } from "@/components/form/SelectDropdown";
+import Loading from "@/components/loading/Loading";
 import SearchInput from "@/components/search/SearchInput";
 import UserTable from "@/components/users/UserTable";
 import { useFilter } from "@/features/offers/useFilter";
 import { ChevronRight } from "lucide-react";
-import { use } from "react";
+import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
-type FilterParams = {
-    search?: string,
-    status?: string;
-};
 
-interface FilterProps {
-    searchParams: Promise<FilterParams>;
-}
+function UsersPage() {
+    const searchParams = useSearchParams();
+    const search = searchParams.get("search") ?? undefined;
+    const status = searchParams.get("status") ?? undefined;
 
-export default function UsersPage({ searchParams }: FilterProps) {
-    const params = use(searchParams);
-    const { search, status } = params;
 
     const updateFilter = useFilter();
 
@@ -52,5 +48,13 @@ export default function UsersPage({ searchParams }: FilterProps) {
         </div>
     )
 
+}
 
+
+export default function Filter() {
+    return (
+        <Suspense fallback={<Loading />}>
+            <UsersPage />
+        </Suspense>
+    );
 }
