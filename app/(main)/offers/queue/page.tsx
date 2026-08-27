@@ -8,7 +8,7 @@ import { ChevronRight } from 'lucide-react';
 
 export default function OfferQueuePage() {
 
-    const { data, isLoading, isFetching, isFetchingNextPage, hasNextPage, fetchNextPage, } = usePendingOffers({ limit: 8 });
+    const { data, isLoading, isFetchingNextPage, hasNextPage, fetchNextPage, } = usePendingOffers({ limit: 8 });
     const { data: pendingCount } = usePendingOffersCount();
 
     const Offers = data?.pages.flatMap((page) => page.data) ?? [];
@@ -25,7 +25,7 @@ export default function OfferQueuePage() {
                 )}
             </div>
 
-            {!isLoading && !isFetching && Offers.length === 0 && (
+            {!isLoading && Offers.length === 0 && (
                 <p className="text-center text-sm md:text-base text-gray-500">No Offers Pending</p>
             )}
 

@@ -33,8 +33,7 @@ export default function DismissReportModal({ ids, isOpen, onClose }: Props) {
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4" onClick={handleClose}>
             <div className="bg-white rounded-xl px-6 py-10 max-w-md w-full text-center" onClick={(e) => e.stopPropagation()}>
 
-                <h3 className="font-bold text-xl xs:text-2xl text-gray-900 mb-4">Are you sure you wanna dismiss this report</h3>
-
+                <h3 className="font-bold text-xl text-gray-900 mb-4">Are you sure you wanna dismiss this report</h3>
 
                 <button
                     type="submit"

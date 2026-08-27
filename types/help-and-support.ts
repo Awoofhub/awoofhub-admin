@@ -9,3 +9,7 @@ export interface HelpAndSupport {
     createdAt: string;
     updatedAt: string;
 }
+
+export interface UpdateHelpAndSupportData {
+    status: 'open' | 'inProgress' | 'resolved' | 'closed';
+}

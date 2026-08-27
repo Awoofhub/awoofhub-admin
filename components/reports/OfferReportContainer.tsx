@@ -16,7 +16,7 @@ export default function OfferReportContainer() {
     return (
         <>
             {isLoading && <OfferReportListSkeleton />}
-            {!isLoading && !isFetching && OfferReport.length === 0 && (
+            {!isLoading && OfferReport.length === 0 && (
                 <p className="text-center text-sm md:text-base text-gray-500">No Offer found.</p>
             )}
             {!isLoading && OfferReport.length > 0 && (

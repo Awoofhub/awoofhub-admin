@@ -7,6 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from 'react';
 import DismissReportModal from '../modals/report/DismissReportModal';
+import SuspendUserReportModal from '../modals/report/SuspendUserReport';
 
 
 interface Props {
@@ -18,6 +19,7 @@ export default function UserReportsCard({ data }: Props) {
     const { user, reports } = data
 
     const [openDismissModal, setOpenDismissModal] = useState(false);
+    const [openSuspendReportModal, setOpenSuspendReportModal] = useState(false);
 
     const reportIds = reports.map((report) => report.id);
 
@@ -115,9 +117,9 @@ export default function UserReportsCard({ data }: Props) {
                         </div>
 
                         {/* Action Buttons */}
-                        <div className="space-y-2.5 pt-6 mt-6 border-t border-gray-200/60">
+                        <div className="space-y-2.5 pt-6 border-t border-gray-200/60">
                             <span className="text-xs font-semibold text-gray-900 block mb-2">Take Action</span>
-                            <button className="w-full bg-orange-600 hover:bg-orange-700 text-white text-xs font-semibold py-2.5 rounded-md transition-all shadow-sm">
+                            <button onClick={() => setOpenSuspendReportModal(true)} className="w-full bg-orange-600 hover:bg-orange-700 text-white text-xs font-semibold py-2.5 rounded-md transition-all shadow-sm">
                                 Suspend this Account
                             </button>
                             <button onClick={() => setOpenDismissModal(true)} className="w-full bg-white hover:bg-gray-50 text-gray-800 border border-gray-300 text-xs font-semibold py-2.5 rounded-md transition-all">
@@ -132,6 +134,7 @@ export default function UserReportsCard({ data }: Props) {
             </div >
 
             <DismissReportModal ids={reportIds} isOpen={openDismissModal} onClose={() => setOpenDismissModal(false)} />
+            <SuspendUserReportModal reportIds={reportIds} userId={user.id} isOpen={openSuspendReportModal} onClose={() => setOpenSuspendReportModal(false)} />
 
         </>
 
