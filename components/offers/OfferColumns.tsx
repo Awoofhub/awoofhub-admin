@@ -1,10 +1,10 @@
 import { Offer } from "@/types/offer";
 import { formatDate } from "@/utils/formatDate";
+import { CircleCheckBig, EllipsisVertical, Hourglass, Pause, XCircle } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 import OfferModal from "../modals/offer/OfferModal";
 import { Column } from "../table/BaseTable";
-import { CircleCheckBig, Hourglass, Pause, XCircle, EllipsisVertical} from "lucide-react"
 
 function OfferActions({ offer }: { offer: Offer }) {
     const [openModal, setOpenModal] = useState(false);
@@ -23,7 +23,7 @@ function OfferActions({ offer }: { offer: Offer }) {
             </button>
 
             <OfferModal
-                offerId={offer.id}
+                offer={offer}
                 isOpen={openModal}
                 onClose={() => setOpenModal(false)}
             />
@@ -51,7 +51,7 @@ function StatusBadge({ status }: { status: Offer["status"] }) {
 export const OfferColumns: Column<Offer>[] = [
     {
         key: "title",
-        header: "Tittle",
+        header: "Title",
         render: (offer) => (
             <div className="flex items-center gap-3">
                 <Image
@@ -82,7 +82,7 @@ export const OfferColumns: Column<Offer>[] = [
         render: (offer) => offer.dealType?.replace('_', ' '),
     },
 
-     {
+    {
         key: "contributor",
         header: "Awoofer",
         render: (offer) => (<span className="font-medium">@{offer.contributor.username}</span>),
