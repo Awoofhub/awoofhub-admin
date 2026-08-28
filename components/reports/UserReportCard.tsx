@@ -27,54 +27,52 @@ export default function UserReportsCard({ data }: Props) {
     return (
         <>
             < div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6" >
-                < div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-gray-100" >
-                    <div className="flex items-start gap-4">
-
-                        <div className="w-24 h-24 rounded-full overflow-hidden">
-                            {user.profileImageUrl ? (
-                                <Image
-                                    width={200}
-                                    height={200}
-                                    unoptimized
-                                    src={user.profileImageUrl}
-                                    alt={user.name}
-                                    className="w-full h-full object-cover border border-gray-100"
-                                />
-                            ) : (
-                                <div className="bg-[#F7C8D5] text-[#B85B80] text-3xl font-semibold flex items-center justify-center w-full h-full">
-                                    {capitalizeFirstLetter(user.name)}
+                < div className="grid grid-cols-1 lg:grid-cols-3 gap-8" >
+                    < div className="lg:col-span-2 flex flex-col gap-3" >
+                        < div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-gray-100" >
+                            <div className="flex items-start gap-4">
+                                <div className="w-24 h-24 rounded-full overflow-hidden">
+                                    {user.profileImageUrl ? (
+                                        <Image
+                                            width={200}
+                                            height={200}
+                                            unoptimized
+                                            src={user.profileImageUrl}
+                                            alt={user.name}
+                                            className="w-full h-full object-cover border border-gray-100"
+                                        />
+                                    ) : (
+                                        <div className="bg-[#F7C8D5] text-[#B85B80] text-3xl font-semibold flex items-center justify-center w-full h-full">
+                                            {capitalizeFirstLetter(user.name)}
+                                        </div>
+                                    )}
                                 </div>
-                            )}
-                        </div>
 
-                        <div>
-                            <h2 className="font-bold text-gray-900 text-base md:text-lg">
-                                {user.name}
-                            </h2>
-                            <p className="text-sm text-gray-500 mt-0.5">
-                                @<span className="text-gray-700 font-medium">{user.username}</span>
-                            </p>
-                            <p className="text-sm text-gray-600 mt-1">
-                                <span className="font-semibold text-gray-900">{`${reports.length} user(s)`}</span>  reported this account:
-                            </p>
-                        </div>
-                    </div>
+                                <div>
+                                    <h2 className="font-bold text-gray-900 text-base md:text-lg">
+                                        {user.name}
+                                    </h2>
+                                    <p className="text-sm text-gray-500 mt-0.5">
+                                        @<span className="text-gray-700 font-medium">{user.username}</span>
+                                    </p>
+                                    <p className="text-sm text-gray-600 mt-1">
+                                        <span className="font-semibold text-gray-900">{`${reports.length} user(s)`}</span>  reported this account:
+                                    </p>
+                                </div>
+                            </div>
 
-                    <Link href={`/users/${user.username}`} className="flex items-center gap-1.5 text-orange-600 hover:text-orange-700 text-sm font-medium self-start">
-                        <span>View account</span>
-                        <ExternalLink size={16} />
-                    </Link>
-                </div >
+                            <Link href={`/users/${user.username}`} className="flex items-center gap-1.5 text-orange-600 hover:text-orange-700 text-sm font-medium self-start">
+                                <span>View account</span>
+                                <ExternalLink size={16} />
+                            </Link>
+                        </div >
 
-                < div className="grid grid-cols-1 lg:grid-cols-3 gap-8 pt-6" >
-
-                    < div className="lg:col-span-2 flex flex-col justify-between" >
                         <div>
                             <h3 className="font-semibold text-gray-900 text-sm mb-4">Report Notes</h3>
 
-                            <div className="space-y-4 pr-2">
+                            <div className="space-y-4">
                                 {reports.map((report) => (
-                                    <div key={report.id} className="border-b border-gray-100 pb-4 last:border-0">
+                                    <div key={report.id}>
                                         <div className="flex items-center justify-between text-xs mb-1">
                                             <span className="text-gray-700 font-medium">
                                                 @{report.reporter.username}{' '}
@@ -94,7 +92,7 @@ export default function UserReportsCard({ data }: Props) {
 
                     </div >
 
-                    < div className="p-5 flex flex-col gap-5" >
+                    < div className="flex flex-col gap-5" >
                         <div className="space-y-4">
                             <div className="flex items-center justify-between">
                                 <h4 className="font-semibold text-gray-900 text-sm">Account Details</h4>
