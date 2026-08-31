@@ -3,7 +3,7 @@ import icon from "../../public/icon-park-outline_list.png"
 
 export default function OfferQueueEmptyState() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-8 text-center mx-auto w-full max-w-[525px]">
+    <div className="flex flex-col items-center justify-center min-h-screen p-8 text-center  w-full ">
       <Image 
         src={icon} 
         alt="Empty queue icon"  
