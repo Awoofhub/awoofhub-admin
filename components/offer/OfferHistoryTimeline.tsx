@@ -1,44 +1,20 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { Moderation } from '@/types/moderation';
-import { Offer } from '@/types/offer';
 import { ModerationActionIcon, moderationActionLabel } from '@/components/offer/ModerationHistoryIcons';
+import { useModerationHistory } from '@/features/moderation/useModerationHistory';
+import { Offer } from '@/types/offer';
 import { formatHistoryDateTime } from '@/utils/formatHistoryDateTime';
-import { CircleCheckBig, Clock } from 'lucide-react';
+import { CircleCheckBig } from 'lucide-react';
 
 interface OfferHistoryTimelineProps {
     offer: Offer;
-    history: Moderation[] | undefined;
 }
 
-export default function OfferHistoryTimeline({ offer, history }: OfferHistoryTimelineProps) {
-    const [now, setNow] = useState<number | null>(null);
+export default function OfferHistoryTimeline({ offer }: OfferHistoryTimelineProps) {
 
-    useEffect(() => {
-        const readNow = () => setNow(Date.now());
-        readNow();
-    }, []);
-
-    const isExpired = now !== null && offer.status === 'approved' && new Date(offer.endDate).getTime() < now;
+    const { data: history } = useModerationHistory({ id: offer.id });
 
     const items = [
-        ...(isExpired ? [{
-            key: 'expired',
-            icon: (
-                <div className="bg-gray-200/60 p-2 lg:p-3 rounded-full">
-                    <Clock size={18} className="text-gray-500 shrink-0" />
-                </div>
-            ),
-            title: (
-                <>
-                    <span className="font-baloo font-semibold text-black text-sm xs:text-lg">Expired{' '}</span>
-                    <span className="text-muted font-medium text-[10px] xs:text-sm">{formatHistoryDateTime(offer.endDate)}</span>
-                </>
-            ),
-            subtitle: 'Offer reached its end date',
-        }] : []),
-
         ...(history ?? []).map((entry) => ({
             key: entry.id,
             icon: <ModerationActionIcon actionType={entry.actionType} />,
