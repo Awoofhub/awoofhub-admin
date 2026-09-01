@@ -7,6 +7,7 @@ import { useState } from "react";
 import HelpAndSupportModal from "../modals/help-and-support/HelpAndSupportModal";
 import PaginatedTable from "../table/PaginatedTable";
 import { HelpAndSupportColumns } from "./HelpAndSupportColumns";
+import HelpAndSupportEmptyState from "./HelpAndSupportEmptyState";
 
 interface Props {
     search?: string,
@@ -43,6 +44,7 @@ export default function HelpAndSupportTable({ search }: Props) {
 
     return (
         <div>
+            {isFetched && isFetching && !data ? (<HelpAndSupportEmptyState />) :
             <PaginatedTable
                 response={data}
                 columns={HelpAndSupportColumns}
@@ -53,7 +55,7 @@ export default function HelpAndSupportTable({ search }: Props) {
                 onRowClick={(handleRowClick)}
                 isFetching={isFetching}
                 isFetched={isFetched}
-            />
+            /> }
 
             {selectedTicket && (
                 <HelpAndSupportModal
