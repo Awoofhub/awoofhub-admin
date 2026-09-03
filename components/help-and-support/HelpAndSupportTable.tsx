@@ -8,6 +8,7 @@ import HelpAndSupportModal from "../modals/help-and-support/HelpAndSupportModal"
 import PaginatedTable from "../table/PaginatedTable";
 import { HelpAndSupportColumns } from "./HelpAndSupportColumns";
 
+
 interface Props {
     search?: string,
 }
@@ -43,6 +44,7 @@ export default function HelpAndSupportTable({ search }: Props) {
 
     return (
         <div>
+            
             <PaginatedTable
                 response={data}
                 columns={HelpAndSupportColumns}
@@ -53,7 +55,7 @@ export default function HelpAndSupportTable({ search }: Props) {
                 onRowClick={(handleRowClick)}
                 isFetching={isFetching}
                 isFetched={isFetched}
-            />
+            /> 
 
             {selectedTicket && (
                 <HelpAndSupportModal
