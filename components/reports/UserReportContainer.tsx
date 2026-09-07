@@ -2,6 +2,7 @@ import { useTargetReports } from "@/features/reports/useTargetReports";
 import { UserReport } from "@/types/report";
 import UserReportList from "./UserReportList";
 import UserReportListSkeleton from "./UserReportListSkeleton";
+import ReportEmptyState from "./ReportEmptyState";
 
 
 export default function UserReportContainer() {
@@ -17,7 +18,7 @@ export default function UserReportContainer() {
         <>
             {isLoading && <UserReportListSkeleton />}
             {!isLoading && UserReport.length === 0 && (
-                <p className="text-center text-sm md:text-base text-gray-500">No User found.</p>
+                <ReportEmptyState/>
             )}
             {!isLoading && UserReport.length > 0 && (
                 <UserReportList

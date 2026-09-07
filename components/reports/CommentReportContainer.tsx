@@ -2,6 +2,7 @@ import { useTargetReports } from "@/features/reports/useTargetReports";
 import { CommentReport } from "@/types/report";
 import CommentReportList from "./CommentReportList";
 import CommentReportListSkeleton from "./CommentReportListSkeleton";
+import ReportEmptyState from "./ReportEmptyState";
 
 export default function CommentReportContainer() {
 
@@ -16,7 +17,7 @@ export default function CommentReportContainer() {
         <>
             {isLoading && <CommentReportListSkeleton />}
             {!isLoading && CommentReport.length === 0 && (
-                <p className="text-center text-sm md:text-base text-gray-500">No Comment found.</p>
+                <ReportEmptyState/>
             )}
             {!isLoading && CommentReport.length > 0 && (
                 <CommentReportList

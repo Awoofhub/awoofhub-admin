@@ -2,6 +2,7 @@ import { useTargetReports } from "@/features/reports/useTargetReports";
 import { OfferReport } from "@/types/report";
 import OfferReportList from "./OfferReporList";
 import OfferReportListSkeleton from "./OfferReportListSkeleton";
+import ReportEmptyState from "./ReportEmptyState";
 
 
 export default function OfferReportContainer() {
@@ -17,7 +18,7 @@ export default function OfferReportContainer() {
         <>
             {isLoading && <OfferReportListSkeleton />}
             {!isLoading && OfferReport.length === 0 && (
-                <p className="text-center text-sm md:text-base text-gray-500">No Offer found.</p>
+                <ReportEmptyState/>
             )}
             {!isLoading && OfferReport.length > 0 && (
                 <OfferReportList
