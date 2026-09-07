@@ -29,16 +29,16 @@ function ReportsPage() {
     const { data: pendingReportsCount } = usePendingReportsCount()
 
     return (
-        <div className="p-4 bg-[#FAFAFA]">
+        <div className="p-4 bg-[#FAFAFA] h-screen">
 
             <div className="flex justify-between items-center">
 
-                <div className="my-4 flex items-center gap-1 text-xl text-black font-baloo font-semibold">
+                <div className="my-4 flex items-center gap-2 text-xl text-black font-baloo font-semibold">
                     <ChevronRight size={18} className="hidden xs:inline" />
                     <span>Reports</span>
                 </div>
 
-                <span className="text-primary">{`${pendingReportsCount ?? 0} new reports`}</span>
+                <h3 className="xs:text-lg font-medium text-primary">{`${pendingReportsCount ?? 0} new reports`}</h3>
             </div>
 
 

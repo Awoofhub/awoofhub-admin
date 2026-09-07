@@ -1,11 +1,12 @@
 'use client';
 
 import { CommentReport } from '@/types/report';
-import { ChevronRight, Flag } from 'lucide-react';
+import { ChevronRight, Flag, Dot } from 'lucide-react';
 import Link from "next/link";
 import { useState } from 'react';
 import DeleteCommentReportModal from '../modals/report/DeleteCommentReport';
 import DismissReportModal from '../modals/report/DismissReportModal';
+import { formatDate } from '@/utils/formatDate';
 
 
 interface Props {
@@ -22,54 +23,54 @@ export default function CommentReportsCard({ data }: Props) {
 
     return (
         <>
-            <div className="border border-gray-200 rounded-lg p-5 space-y-4 shadow-xs bg-white"        >
-                <div className="flex items-center justify-between text-sm">
-                    <div className="text-gray-600">
+            <div className="border border-gray-200 rounded-2xl p-4 xs:p-6 shadow-xs bg-white">
+                <div className="flex items-center justify-between mb-1">
+                    <div className="font-baloo font-medium text-sm xs:text-base text-gray-900">
                         Comment from:{' '}
                         <Link
                             href={`/users/${comment.user.username}`}
-                            className="text-orange-600 font-medium hover:underline"
+                            className="text-primary text-sm hover:underline"
                         >
                             @{comment.user.username}
                         </Link>
                     </div>
                     <Link
                         href={`/offers/${comment.offer.id}`}
-                        className="text-orange-600 font-medium flex items-center hover:underline cursor-pointer"
+                        className="flex font-baloo items-center text-primary hover:text-orange-700 text-xs xs:text-sm font-semibold"
                     >
-                        View deal <ChevronRight className="w-4 h-4 ml-0.5" />
+                        View deal <ChevronRight className="w-3 h-3 xs:w-4 xs:h-4 ml-px" />
                     </Link>
                 </div>
 
-                <div className="border border-gray-200 rounded-md p-4 text-gray-800 text-sm bg-white leading-relaxed">
+                <div className="border border-muted/20 rounded-xl p-3 text-gray-900 text-sm font-medium xs:text-base bg-white leading-relaxed">
                     {comment.comment}
                 </div>
 
-                <div className="flex flex-wrap items-center justify-between text-xs text-gray-500 pt-1">
-                    <div className="flex items-center space-x-2">
-                        <span className="text-red-500 flex items-center italic font-medium">
-                            <Flag className="w-3.5 h-3.5 mr-1 fill-red-500" />
+                <div className="flex flex-wrap items-center justify-between text-muted pt-1">
+                    <div className="flex items-center gap-0.5 xs:gap-2">
+                        <span className="text-red-600 text-[10px] xs:text-sm flex items-center italic font-medium">
+                            <Flag className="w-3 h-3 xs:w-4 xs:h-4 mr-1" />
                             {report.type}
                         </span>
-                        <span className="text-gray-300">•</span>
-                        <span>Reported by {`@${report.reporter.username}`}</span>
+                        <Dot className="w-4 h-4 xs:w-6 xs:h-6"/>
+                        <span className="text-[10px] xs:text-xs">Reported by {`@${report.reporter.username}`}</span>
                     </div>
-                    <div>{report.createdAt}</div>
+                    <span className="text-[10px] xs:text-xs flex items-center"> <Dot size={16}/>{formatDate(report.createdAt)}</span>
                 </div>
 
                 {/* Action buttons */}
-                <div className="grid grid-cols-2 gap-4 pt-2">
+                <div className="grid grid-cols-2 gap-3 xs:gap-4 pt-4">
                     <button
-                        onClick={() => setOpenDeleteModal(true)}
-                        className="w-full py-2.5 px-4 border border-red-500 text-red-500 font-semibold rounded-md hover:bg-red-50 transition-colors cursor-pointer text-sm"
-                    >
-                        Delete
-                    </button>
-                    <button
-                        onClick={() => setOpenDismissModal(true)}
-                        className="w-full py-2.5 px-4 bg-orange-600 text-white font-semibold rounded-md hover:bg-orange-700 transition-colors cursor-pointer text-sm"
+                         onClick={() => setOpenDismissModal(true)}
+                        className="w-full py-2 px-4 border-2 border-black text-black font-semibold font-baloo rounded-sm hover:bg-red-50 transition-colors cursor-pointer text-sm xs:text-base"
                     >
                         Dismiss
+                    </button>
+                    <button
+                        onClick={() => setOpenDeleteModal(true)}
+                        className="w-full py-2 px-4 bg-orange-600 text-white font-semibold rounded-sm font-baloo hover:bg-orange-700 transition-colors cursor-pointer text-sm xs:text-base"
+                    >
+                        Delete
                     </button>
                 </div>
             </div>

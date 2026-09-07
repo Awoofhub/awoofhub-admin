@@ -2,12 +2,13 @@
 
 import { UserReport } from '@/types/report';
 import { capitalizeFirstLetter } from '@/utils/truncate';
-import { ExternalLink, Flag } from 'lucide-react';
+import { ChevronRight, Flag } from 'lucide-react';
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from 'react';
 import DismissReportModal from '../modals/report/DismissReportModal';
 import SuspendUserReportModal from '../modals/report/SuspendUserReport';
+import { formatDate } from '@/utils/formatDate';
 
 
 interface Props {
@@ -26,12 +27,12 @@ export default function UserReportsCard({ data }: Props) {
 
     return (
         <>
-            < div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6" >
+            < div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 xs:p-6" >
                 < div className="grid grid-cols-1 lg:grid-cols-3 gap-8" >
                     < div className="lg:col-span-2 flex flex-col gap-3" >
-                        < div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-gray-100" >
-                            <div className="flex items-start gap-4">
-                                <div className="w-24 h-24 rounded-full overflow-hidden">
+                        < div className="flex flex-col-reverse xs:flex-row xs:items-center justify-between gap-1 xs:gap-4 pb-6 border-b border-muted/20" >
+                            <div className="flex items-center gap-4">
+                                <div className="w-15 h-15 xs:w-17.5 xs:h-17.5 rounded-full overflow-hidden">
                                     {user.profileImageUrl ? (
                                         <Image
                                             width={200}
@@ -49,40 +50,40 @@ export default function UserReportsCard({ data }: Props) {
                                 </div>
 
                                 <div>
-                                    <h2 className="font-bold text-gray-900 text-base md:text-lg">
+                                    <h2 className="font-bold text-black text-base xs:text-lg">
                                         {user.name}
                                     </h2>
-                                    <p className="text-sm text-gray-500 mt-0.5">
-                                        @<span className="text-gray-700 font-medium">{user.username}</span>
+                                    <p className="text-xs xs:text-base font-medium text-muted">
+                                        @<span>{user.username}</span>
                                     </p>
-                                    <p className="text-sm text-gray-600 mt-1">
-                                        <span className="font-semibold text-gray-900">{`${reports.length} user(s)`}</span>  reported this account:
+                                    <p className="text-xs xs:text-base text-muted">
+                                        <span className="font-medium text-sm xs:text-lg text-gray-900">{`${reports.length} `}</span> user(s) reported this account:
                                     </p>
                                 </div>
                             </div>
 
-                            <Link href={`/users/${user.username}`} className="flex items-center gap-1.5 text-orange-600 hover:text-orange-700 text-sm font-medium self-start">
+                            <Link href={`/users/${user.username}`} className="flex justify-end font-baloo items-center gap-1 text-primary hover:text-orange-700 text-xs xs:text-sm font-semibold xs:self-start">
                                 <span>View account</span>
-                                <ExternalLink size={16} />
+                                <ChevronRight size={14} />
                             </Link>
                         </div >
 
                         <div>
-                            <h3 className="font-semibold text-gray-900 text-sm mb-4">Report Notes</h3>
+                            <h3 className="font-semibold text-black text-sm xs:text-lg mb-4">Report Notes</h3>
 
-                            <div className="space-y-4">
+                            <div className="space-y-3">
                                 {reports.map((report) => (
                                     <div key={report.id}>
-                                        <div className="flex items-center justify-between text-xs mb-1">
-                                            <span className="text-gray-700 font-medium">
+                                        <div className="flex items-center justify-between text-xs xs:text-sm mb-1">
+                                            <span className="text-muted font-medium">
                                                 @{report.reporter.username}{' '}
-                                                <span className="text-orange-500 italic font-normal">
+                                                <span className="inline text-[#E70606] italic font-normal">
                                                     '{report.type}'
                                                 </span>
                                             </span>
-                                            <span className="text-gray-400">{report.createdAt}</span>
+                                            <span className="text-muted font-medium">{formatDate(report.createdAt)}</span>
                                         </div>
-                                        <div className="bg-gray-50/70 border border-gray-200/60 rounded-lg p-3 text-xs text-gray-700 leading-relaxed">
+                                       <div className="border border-muted/20 rounded-xl p-2 text-xs xs:text-sm text-gray-900 leading-relaxed">
                                             {report.description}
                                         </div>
                                     </div>
@@ -93,34 +94,34 @@ export default function UserReportsCard({ data }: Props) {
                     </div >
 
                     < div className="flex flex-col gap-5" >
-                        <div className="space-y-4">
-                            <div className="flex items-center justify-between">
-                                <h4 className="font-semibold text-gray-900 text-sm">Account Details</h4>
-                                <Flag size={16} className="text-red-500 fill-red-500" />
+                        <div className="space-y-3">
+                            <div className="flex items-center justify-between pt-4 xs:pt-0 border-t xs:border-0 border-muted/20">
+                                <h4 className="font-semibold text-black text-sm xs:text-lg">Account Details</h4>
+                               <Flag size={24} className="text-red-600 w-4 xs:w-5" />
                             </div>
 
                             <div>
-                                <span className="text-xs text-gray-400 block mb-0.5">Date Joined</span>
-                                <span className="text-xs text-gray-700 font-medium">{user.createdAt}</span>
+                                <p className="text-xs xs:text-sm font-baloo text-gray-400 mb-0.5">Date Joined</p>
+                                <p className="text-xs xs:text-sm text-gray-900 font-medium">{formatDate(user.createdAt)}</p>
                             </div>
                             <div>
-                                <span className="text-xs text-gray-400 block mb-0.5">Email Address</span>
-                                <span className="text-xs text-gray-700 font-medium">{user.email}</span>
+                                <p className="text-xs xs:text-sm font-baloo text-gray-400 mb-0.5">Email Address</p>
+                                <p className="text-xs xs:text-sm text-gray-900 font-medium">{user.email}</p>
                             </div>
                             <div>
-                                <span className="text-xs text-gray-400 block mb-0.5">username</span>
-                                <span className="text-xs text-gray-700 font-medium">{user.username}</span>
+                                <p className="text-xs xs:text-sm font-baloo text-gray-400  mb-0.5">username</p>
+                                <p className="text-xs xs:text-sm text-gray-900 font-medium">{user.username}</p>
                             </div>
 
                         </div>
 
                         {/* Action Buttons */}
-                        <div className="space-y-2.5 pt-6 border-t border-gray-200/60">
-                            <span className="text-xs font-semibold text-gray-900 block mb-2">Take Action</span>
-                            <button onClick={() => setOpenSuspendReportModal(true)} className="w-full bg-orange-600 hover:bg-orange-700 text-white text-xs font-semibold py-2.5 rounded-md transition-all shadow-sm">
+                        <div className="space-y-2.5 pt-4 border-t border-muted/20">
+                            <h4 className="font-semibold text-black text-sm xs:text-lg mb-2">Take Action</h4>
+                            <button onClick={() => setOpenSuspendReportModal(true)} className="w-full bg-orange-600 hover:bg-orange-700 text-white text-sm font-baloo font-semibold py-2.5 rounded-md transition-all shadow-sm">
                                 Suspend this Account
                             </button>
-                            <button onClick={() => setOpenDismissModal(true)} className="w-full bg-white hover:bg-gray-50 text-gray-800 border border-gray-300 text-xs font-semibold py-2.5 rounded-md transition-all">
+                            <button onClick={() => setOpenDismissModal(true)} className="w-full bg-white hover:bg-gray-50 text-gray-800 border border-gray-300 text-sm font-baloo font-semibold py-2.5 rounded-md transition-all">
                                 Dismiss
                             </button>
                         </div>
