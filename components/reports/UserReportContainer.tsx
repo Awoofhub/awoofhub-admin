@@ -16,8 +16,8 @@ export default function UserReportContainer() {
 
     return (
         <>
-            <UserReportListSkeleton/>
-            {/* {isLoading && <UserReportListSkeleton />}
+            
+            {isLoading && <UserReportListSkeleton />}
             {!isLoading && UserReport.length === 0 && (
                 <ReportEmptyState/>
             )}
@@ -28,7 +28,7 @@ export default function UserReportContainer() {
                     isFetchingNextPage={isFetchingNextPage}
                     fetchNextPage={fetchNextPage}
                 />
-            )} */}
+            )}
         </>
     );
 }

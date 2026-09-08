@@ -4,25 +4,25 @@ interface OfferReportListSkeletonProps {
 
 function OfferReportCardSkeleton() {
     return (
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 animate-pulse">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 sm:p-6 animate-pulse">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
                 <div className="lg:col-span-2 flex flex-col gap-3">
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-gray-100">
-                        <div className="flex items-start gap-4">
-                            <div className="w-16 h-16 rounded-xl bg-gray-200 shrink-0" />
-                            <div className="space-y-2">
-                                <div className="h-5 w-48 bg-gray-200 rounded" />
-                                <div className="h-4 w-36 bg-gray-200 rounded" />
-                                <div className="h-4 w-56 bg-gray-200 rounded" />
+                        <div className="flex items-center gap-3 sm:gap-4 min-w-0">
+                            <div className="w-16 h-16 md:w-26 md:h-24  bg-gray-200 shrink-0" />
+                            <div className="space-y-2 min-w-0">
+                                <div className="h-5 w-40 sm:w-48 bg-gray-200 rounded" />
+                                <div className="h-4 w-32 sm:w-36 bg-gray-200 rounded" />
+                                <div className="h-4 w-44 sm:w-50 bg-gray-200 rounded" />
                             </div>
                         </div>
-                        <div className="h-4 w-24 bg-gray-200 rounded" />
+                        <div className="h-4 w-24 bg-gray-200 rounded shrink-0" />
                     </div>
 
                     <div>
                         <div className="h-4 w-24 bg-gray-200 rounded mb-4" />
                         <div className="space-y-4">
-                            {[0, 1].map((item) => (
+                            {[0].map((item) => (
                                 <div key={item}>
                                     <div className="flex items-center justify-between gap-3 text-xs mb-1">
                                         <div className="h-3 w-36 bg-gray-200 rounded" />

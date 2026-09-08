@@ -4,16 +4,16 @@ interface CommentReportListSkeletonProps {
 
 function CommentReportCardSkeleton() {
     return (
-        <div className="border border-gray-200 rounded-lg p-5 space-y-4 shadow-xs bg-white animate-pulse">
-            <div className="flex items-center justify-between gap-4 text-sm">
-                <div className="h-4 w-44 bg-gray-200 rounded" />
+        <div className="border border-gray-200 rounded-lg p-4 sm:p-5 space-y-4 shadow-xs bg-white animate-pulse">
+            <div className="flex flex-col xs:flex-row xs:items-center justify-between gap-3 text-sm">
+                <div className="h-4 w-40 sm:w-44 bg-gray-200 rounded" />
                 <div className="h-4 w-24 bg-gray-200 rounded" />
             </div>
 
             <div className="border border-gray-200 rounded-md p-4 space-y-2">
                 <div className="h-4 w-full bg-gray-200 rounded" />
                 <div className="h-4 w-4/5 bg-gray-200 rounded" />
-                <div className="h-4 w-2/5 bg-gray-200 rounded" />
+                
             </div>
 
             <div className="flex flex-wrap items-center justify-between gap-3 text-xs pt-1">
@@ -25,7 +25,7 @@ function CommentReportCardSkeleton() {
                 <div className="h-4 w-24 bg-gray-200 rounded" />
             </div>
 
-            <div className="grid grid-cols-2 gap-4 pt-2">
+            <div className="grid grid-cols-1 xs:grid-cols-2 gap-3 xs:gap-4 pt-2">
                 <div className="h-10 w-full bg-gray-200 rounded-md" />
                 <div className="h-10 w-full bg-gray-200 rounded-md" />
             </div>

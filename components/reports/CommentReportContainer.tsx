@@ -15,8 +15,8 @@ export default function CommentReportContainer() {
 
     return (
         <>
-            <CommentReportListSkeleton/>
-            {/* {isLoading && <CommentReportListSkeleton />}
+            
+            {isLoading && <CommentReportListSkeleton />}
             {!isLoading && CommentReport.length === 0 && (
                 <ReportEmptyState/>
             )}
@@ -27,7 +27,7 @@ export default function CommentReportContainer() {
                     isFetchingNextPage={isFetchingNextPage}
                     fetchNextPage={fetchNextPage}
                 />
-            )} */}
+            )}
         </>
     );
 }
