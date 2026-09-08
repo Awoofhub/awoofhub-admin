@@ -15,6 +15,7 @@ export default function CommentReportContainer() {
 
     return (
         <>
+            
             {isLoading && <CommentReportListSkeleton />}
             {!isLoading && CommentReport.length === 0 && (
                 <ReportEmptyState/>

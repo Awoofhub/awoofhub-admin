@@ -16,6 +16,7 @@ export default function UserReportContainer() {
 
     return (
         <>
+            
             {isLoading && <UserReportListSkeleton />}
             {!isLoading && UserReport.length === 0 && (
                 <ReportEmptyState/>
