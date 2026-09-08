@@ -16,6 +16,7 @@ export default function OfferReportContainer() {
 
     return (
         <>
+         {/* <OfferReportListSkeleton/> */}
             {isLoading && <OfferReportListSkeleton />}
             {!isLoading && OfferReport.length === 0 && (
                 <ReportEmptyState/>

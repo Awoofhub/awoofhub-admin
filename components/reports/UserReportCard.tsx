@@ -77,7 +77,7 @@ export default function UserReportsCard({ data }: Props) {
                                             <span className="text-gray-700 font-medium">
                                                 @{report.reporter.username}{' '}
                                                 <span className="text-orange-500 italic font-normal">
-                                                    '{report.type}'
+                                                    {report.type}
                                                 </span>
                                             </span>
                                             <span className="text-gray-400">{report.createdAt}</span>
