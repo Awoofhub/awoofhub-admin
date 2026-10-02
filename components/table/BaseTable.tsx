@@ -10,8 +10,8 @@ export interface Column<T> {
 interface BaseTableProps<T> {
   data: T[];
   columns: Column<T>[];
-  isFetching: boolean,
-  limit: number,
+  isFetching: boolean;
+  limit: number;
   rowKey: (item: T) => string;
   onRowClick?: (item: T) => void;
 }
@@ -43,10 +43,7 @@ export default function BaseTable<T>({
       {isFetching ? (
         <tbody>
           {rows.map((rowIndex) => (
-            <tr
-              key={rowIndex}
-              className="border-b border-muted/20"
-            >
+            <tr key={rowIndex} className="border-b border-muted/20">
               {columns.map((column) => (
                 <td
                   key={column.key}

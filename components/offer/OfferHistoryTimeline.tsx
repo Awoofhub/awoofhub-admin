@@ -1,6 +1,6 @@
 'use client';
 
-import { ModerationActionIcon, moderationActionLabel } from '@/components/offer/ModerationHistoryIcons';
+import { OfferModerationActionIcon, offerModerationActionLabel } from '@/components/offer/OfferModerationHistoryIcons';
 import { useModerationHistory } from '@/features/moderation/useModerationHistory';
 import { Offer } from '@/types/offer';
 import { formatHistoryDateTime } from '@/utils/formatHistoryDateTime';
@@ -17,10 +17,10 @@ export default function OfferHistoryTimeline({ offer }: OfferHistoryTimelineProp
     const items = [
         ...(history ?? []).map((entry) => ({
             key: entry.id,
-            icon: <ModerationActionIcon actionType={entry.actionType} />,
+            icon: <OfferModerationActionIcon actionType={entry.actionType} />,
             title: (
                 <>
-                    <span className="font-baloo font-semibold text-black text-sm xs:text-lg"> {moderationActionLabel(entry.actionType)}{' '}</span>
+                    <span className="font-baloo font-semibold text-black text-sm xs:text-lg"> {offerModerationActionLabel(entry.actionType)}{' '}</span>
                     <span className="font-medium text-xs xs:text-base text-black">by {entry.admin?.name}</span>
                     {' · '}
                     <span className="text-muted font-medium text-[10px] xs:text-sm">{formatHistoryDateTime(entry.createdAt)}</span>
@@ -35,6 +35,7 @@ export default function OfferHistoryTimeline({ offer }: OfferHistoryTimelineProp
             title: (
                 <>
                     <span className="font-baloo font-semibold text-black text-sm xs:text-lg"> Offer Created{' '}</span>
+                    {" · "}
                     <span className="text-muted font-medium text-[10px] xs:text-sm">{formatHistoryDateTime(offer.createdAt)}</span>
                 </>
             ),

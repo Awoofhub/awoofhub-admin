@@ -1,6 +1,6 @@
 'use client';
 
-import ContributorAvatar from '@/components/offer/ContributorAvatar';
+import UserAvatar from '@/components/users/UserAvatar';
 import { HelpAndSupport } from '@/types/help-and-support';
 import { formatDate } from '@/utils/formatDate';
 import { useState } from 'react';
@@ -37,7 +37,7 @@ export default function HelpAndSupportModal({ data, isOpen, onClose }: Props) {
                     <div>
                         <div className="flex items-start justify-between gap-3 pb-3 border-b border-muted/20">
                             <div className="flex items-center gap-2">
-                                <ContributorAvatar name={data.name} profileImageUrl={null} size={60} className="w-10 h-10 xs:w-12 xs:h-12 lg:w-15 lg:h-15" textClassName="text-sm xs:text-base lg:text-lg" />
+                                <UserAvatar name={data.name} profileImageUrl={null} size={60} className="w-10 h-10 xs:w-12 xs:h-12 lg:w-15 lg:h-15" textClassName="text-sm xs:text-base lg:text-lg" />
                                 <div className="flex flex-col gap-1 xs:gap-1.5 lg:gap-2">
                                     <h3 className="font-semibold text-base xs:text-lg text-gray-900">{data.name}</h3>
                                     <p className="text-sm font-medium text-muted">{data.email}</p>

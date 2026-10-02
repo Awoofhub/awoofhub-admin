@@ -15,7 +15,7 @@ export const getUserByUsername = async ({username}: GetUserOptions): Promise<Use
 
 export const useUserByUsername = ({username}: GetUserOptions) => {
     const { data, isLoading } = useQuery({
-        queryKey: ["user", username],
+        queryKey: ["users", username],
         queryFn: () => getUserByUsername({username}),
     });
     
