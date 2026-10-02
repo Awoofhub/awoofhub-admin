@@ -3,7 +3,7 @@ import { LocationIconFor, ValueIconFor } from '@/components/offers/OfferCardIcon
 import { Offer } from '@/types/offer';
 import { getEffectiveOfferStatus } from '@/utils/getEffectiveOfferStatus';
 import Image from 'next/image';
-import ContributorRow from './ContributorActions';
+import ContributorRow from './ContributorRow';
 
 interface OfferSummaryCardProps {
     offer: Offer;

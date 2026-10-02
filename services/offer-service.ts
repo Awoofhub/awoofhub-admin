@@ -11,9 +11,9 @@ async function offers(search: string, dealType:string, category: string, minRati
   return res;
 }
 
-async function offersByUsername(username: string, search: string, category: string, minRating: number, createdFrom: string, createdTo: string, page: number, limit: number,): Promise<ApiResponse<Offer[]>> {
+async function offersByUsername(username: string,  page: number, limit: number,): Promise<ApiResponse<Offer[]>> {
   const res: ApiResponse<Offer[]> = await apiClient.get(`/offers/username/${username}`, {
-    params: { search, category, minRating, createdFrom, createdTo, page, limit },
+    params: {  page, limit },
   });
 
   return res;

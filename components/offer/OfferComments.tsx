@@ -1,7 +1,7 @@
 'use client';
 
 import PaginationButtons from '@/components/button/PaginationButtons';
-import ContributorAvatar from '@/components/offer/ContributorAvatar';
+import UserAvatar from '@/components/users/UserAvatar';
 import { useCommentsForOffer } from '@/features/comments/useCommentsForOffer';
 import { formatRelativeTime } from '@/utils/formatRelativeTime';
 import { useState } from 'react';
@@ -29,7 +29,7 @@ export default function OfferComments({ offerId }: Props) {
                 <div className="space-y-6">
                     {comments.map((comment) => (
                         <div key={comment.id} className="flex items-center gap-3">
-                            <ContributorAvatar
+                            <UserAvatar
                                 name={comment.user.name}
                                 profileImageUrl={comment.user.profileImageUrl}
                                 size={50}

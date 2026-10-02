@@ -1,6 +1,6 @@
 'use client';
 
-import ContributorAvatar from '@/components/offer/ContributorAvatar';
+import UserAvatar from '@/components/users/UserAvatar';
 import OfferModalDetails from '@/components/offer/OfferModalDetails';
 import { LocationIconFor, ValueIconFor } from '@/components/offers/OfferCardIcons';
 import { Offer } from '@/types/offer';
@@ -107,7 +107,7 @@ export default function OfferModal({ offer, isOpen, onClose }: Props) {
                             <hr className="text-muted/20 mt-1.5" />
 
                             <div className="flex items-center gap-2 mt-1.5">
-                                <ContributorAvatar name={offer.contributor?.name} profileImageUrl={offer.contributor?.profileImageUrl} size={30} className="w-6 h-6 xs:w-8 xs:h-8 text-[10px] xs:text-xs" />
+                                <UserAvatar name={offer.contributor?.name} profileImageUrl={offer.contributor?.profileImageUrl} size={30} className="w-6 h-6 xs:w-8 xs:h-8 text-[10px] xs:text-xs" />
                                 <span className="text-xs xs:text-sm font-baloo font-semibold text-gray-900">{offer.contributor?.name}</span>
                             </div>
 

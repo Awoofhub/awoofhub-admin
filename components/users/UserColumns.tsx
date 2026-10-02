@@ -1,13 +1,13 @@
 import { User } from "@/types/user";
 import { formatDate } from "@/utils/formatDate";
-import ContributorAvatar from "../offer/ContributorAvatar";
+import UserAvatar from "../users/UserAvatar";
 import { Column } from "../table/BaseTable";
 
 
 const STATUS_BADGE: Record<User["status"], { label: string; className: string; }> = {
     active: { label: "Active", className: "bg-[#20B5261A] text-[#006400]" },
     suspended: { label: "Suspended", className: "bg-[#FFC0001A] text-[#FE4F04]" },
-    blocked: { label: "Banned", className: "bg-[#E706061A] text-[#E70606]" },
+    banned: { label: "Banned", className: "bg-[#E706061A] text-[#E70606]" },
     deleted: { label: "Deleted", className: "bg-[#59585833] text-[#595858]" },
 };
 
@@ -33,7 +33,7 @@ export const UserColumns: Column<User>[] = [
         header: "User",
         render: (user) => (
             <div className="flex items-center gap-2">
-                <ContributorAvatar
+                <UserAvatar
                     name={user.name}
                     profileImageUrl={user.profileImageUrl}
                     size={40}
