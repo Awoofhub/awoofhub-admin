@@ -1,9 +1,9 @@
 import { useOffers } from "@/features/offers/useOffers";
+import { OffersPaginationContext } from "@/providers/offers-pagination-provider";
 import { useRouter } from "next/navigation";
 import { useContext } from "react";
 import PaginatedTable from "../table/PaginatedTable";
 import { OfferColumns } from "./OfferColumns";
-import { OffersPaginationContext } from "@/providers/offers-pagination-provider";
 
 interface Props {
     search?: string,

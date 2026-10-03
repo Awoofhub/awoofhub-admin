@@ -1,7 +1,12 @@
 "use client";
-import { createContext, useState, ReactNode } from "react";
+import { createContext, Dispatch, ReactNode, SetStateAction, useState } from "react";
 
-export const UsersPaginationContext = createContext();
+interface UsersPaginationContextType {
+  page: number;
+  setPage: Dispatch<SetStateAction<number>>;
+}
+
+export const UsersPaginationContext = createContext<UsersPaginationContextType>({ page: 1, setPage: () => { }});
 
 export function UsersPaginationProvider({ children }: { children: ReactNode }) {
   const [page, setPage] = useState(1);
