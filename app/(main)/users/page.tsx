@@ -3,7 +3,7 @@
 import { SelectDropdown } from "@/components/form/SelectDropdown";
 import Loading from "@/components/loading/Loading";
 import SearchInput from "@/components/search/SearchInput";
-import UserTable from "@/components/users/UserTable";
+import UsersTable from "@/components/users/UsersTable";
 import { useFilter } from "@/features/offers/useFilter";
 import { ChevronRight } from "lucide-react";
 import { useSearchParams } from "next/navigation";
@@ -44,7 +44,7 @@ function UsersPage() {
                 />
             </div>
 
-            <UserTable search={search} status={status} />
+            <UsersTable search={search} status={status} />
         </div>
     )
 
