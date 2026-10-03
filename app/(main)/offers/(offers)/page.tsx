@@ -2,7 +2,7 @@
 
 import { SelectDropdown } from "@/components/form/SelectDropdown";
 import Loading from "@/components/loading/Loading";
-import OffersTable from "@/components/offers/OfferTable";
+import OffersTable from "@/components/offers/OffersTable";
 import SearchInput from "@/components/search/SearchInput";
 import { useCategory } from "@/features/category/useCategory";
 import { useFilter } from "@/features/offers/useFilter";

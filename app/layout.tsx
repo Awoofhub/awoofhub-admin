@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Baloo_2, Geist, Geist_Mono, Montserrat } from "next/font/google";
 import "./globals.css";
 
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],

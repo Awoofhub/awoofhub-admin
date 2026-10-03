@@ -5,6 +5,7 @@ import { Ban, CheckCircle } from 'lucide-react';
 import { useState } from 'react';
 import ReactivateOfferModal from '../modals/offer/ReactivateOfferModal';
 import SuspendOfferModal from '../modals/offer/SuspendOfferModal';
+import Link from 'next/link';
 
 
 interface Props {
@@ -20,7 +21,7 @@ export default function ContributorRow({ offer, status }: Props) {
     return (
         <>
             <div className="flex items-center justify-between mt-4">
-                <div className="flex items-center gap-2">
+                <Link href={`/users/${offer.contributor.username}`} className="flex items-center gap-2">
                     <UserAvatar
                         name={offer.contributor.name}
                         profileImageUrl={offer.contributor.profileImageUrl}
@@ -29,7 +30,7 @@ export default function ContributorRow({ offer, status }: Props) {
                         textClassName="text-xs"
                     />
                     <span className="text-sm xs:text-base font-baloo font-semibold text-black">{offer.contributor.name}</span>
-                </div>
+                </Link>
 
                 {status === 'approved' && (
                     <button
