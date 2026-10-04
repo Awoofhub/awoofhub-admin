@@ -9,6 +9,7 @@ import UserOfferListItem from "./UserOfferListItem";
 import UserCommentListItem from "./UserCommentListItem";
 import PaginationButtons from "@/components/button/PaginationButtons";
 import { TbFileCheckFilled, TbMessageCircle } from "react-icons/tb";
+import UserCommentListItemSkeleton from "./UserCommentListItemSkeleton";
 
 interface UserActivityListProps {
   user: User;
@@ -72,10 +73,8 @@ export default function UserActivityList({ user }: UserActivityListProps) {
           Comments
         </h2>
 
-        {!commentsLoading && comments.length === 0 ? (
-          <p className="text-center text-sm text-gray-500 py-4">
-            No comments yet.
-          </p>
+        {commentsLoading && comments.length === 0 ? (
+          <UserCommentListItemSkeleton/>
         ) : (
           comments.map((comment) => (
             <UserCommentListItem key={comment.id} comment={comment} />
