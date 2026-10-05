@@ -1,14 +1,14 @@
 "use client";
 
-import { useState } from "react";
 import { User } from "@/types/user";
+import { useState } from "react";
 
-import { useOffersByUsername } from "@/features/offers/useOffersByUsername";
-import { useCommentsByUser } from "@/features/comments/useCommentsByUser";
-import UserOfferListItem from "./UserOfferListItem";
-import UserCommentListItem from "./UserCommentListItem";
 import PaginationButtons from "@/components/button/PaginationButtons";
+import { useCommentsByUser } from "@/features/comments/useCommentsByUser";
+import { useOffersByUser } from "@/features/offers/useOffersByUser";
 import { TbFileCheckFilled, TbMessageCircle } from "react-icons/tb";
+import UserCommentListItem from "./UserCommentListItem";
+import UserOfferListItem from "./UserOfferListItem";
 
 interface UserActivityListProps {
   user: User;
@@ -20,8 +20,8 @@ export default function UserActivityList({ user }: UserActivityListProps) {
   const [offersPage, setOffersPage] = useState(1);
   const [commentsPage, setCommentsPage] = useState(1);
 
-  const { data: offersData, isLoading: offersLoading } = useOffersByUsername({
-    username: user.username,
+  const { data: offersData, isLoading: offersLoading } = useOffersByUser({
+    userId: user.id,
     page: offersPage,
     limit: 3
   } )
