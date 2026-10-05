@@ -11,8 +11,8 @@ async function offers(search: string, dealType:string, category: string, minRati
   return res;
 }
 
-async function offersByUsername(username: string,  page: number, limit: number,): Promise<ApiResponse<Offer[]>> {
-  const res: ApiResponse<Offer[]> = await apiClient.get(`/offers/username/${username}`, {
+async function offersByUser(userId: string,  page: number, limit: number,): Promise<ApiResponse<Offer[]>> {
+  const res: ApiResponse<Offer[]> = await apiClient.get(`/offers/admin/user/${userId}`, {
     params: {  page, limit },
   });
 
@@ -48,7 +48,7 @@ async function getPendingOffersCount(): Promise<ApiResponse<{count: number}>> {
 
 const OfferService = {
   offers,
-  offersByUsername,
+  offersByUser,
   offerById,
   expiringOffers,
   trendingOffers,
