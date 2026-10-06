@@ -9,7 +9,7 @@ export const getOpenSupportCount = async (): Promise<number> => {
 
 export const useOpenSupportCount = () => {
     const { data, isFetching, isFetched } = useQuery({
-        queryKey: ['support', 'open', 'count'],
+        queryKey: ['helpAndSupport', 'open', 'count'],
         queryFn: () => getOpenSupportCount(),
         refetchInterval: 5000
     });

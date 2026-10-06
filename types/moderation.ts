@@ -6,7 +6,7 @@ export interface CreateModerationData {
     actionType: 'warning' | 'suspend' | 'block' | 'delete' | 'activate',
     reason?: string,
     endsAt?: string,
-    reportId?: string
+    reportIds?: string[]
 };
 
 export interface Moderation {

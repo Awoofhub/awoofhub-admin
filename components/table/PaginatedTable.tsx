@@ -1,6 +1,6 @@
 import { ApiResponse } from "@/types/api-response";
 import PaginationButtons from "../button/PaginationButtons";
-import Table, { Column } from "./Table";
+import BaseTable, { Column } from "./BaseTable";
 
 
 interface PaginatedTableProps<T> {
@@ -55,7 +55,7 @@ export default function PaginatedTable<T>({
       {/* Table */}
       {(hasData || isFetching) && (
         <div className="overflow-x-auto">
-          <Table
+          <BaseTable
             data={data}
             isFetching={isFetching}
             limit={limit}

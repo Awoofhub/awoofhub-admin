@@ -1,3 +1,5 @@
+import { Comment } from "./comment";
+import { Offer } from "./offer";
 import { User } from "./user";
 
 export interface UpdateReportStatusData {
@@ -15,3 +17,26 @@ export interface Report {
   updatedAt: string;
   status: "pending" | "resolved" | "dismissed";
 }
+
+export interface ReportTabsCount {
+  offers: number;
+  users: number;
+  comments: number;
+}
+
+export interface CommentReport {
+  report: Report;
+  comment: Comment;
+}
+
+export interface OfferReport {
+  offer: Offer;
+  reports: Report[];
+}
+
+
+export interface UserReport {
+  user: User;
+  reports: Report[];
+}
+

@@ -5,8 +5,8 @@ import { formatRelativeTime } from '@/utils/formatRelativeTime';
 import { UserRound } from 'lucide-react';
 import Image from 'next/image';
 import { useState } from 'react';
-import ApproveOfferModal from '../modals/ApproveOfferModal';
-import RejectOfferModal from '../modals/RejectOfferModal';
+import ApproveOfferModal from '../modals/offer/ApproveOfferModal';
+import RejectOfferModal from '../modals/offer/RejectOfferModal';
 import { LocationIconFor, ValueIconFor } from './OfferCardIcons';
 import OfferDetails from './OfferQueueDetail';
 
@@ -16,8 +16,6 @@ interface Props {
 
 
 export default function OfferQueueCard({ offer }: Props) {
-
-
     const [openApproveModal, setOpenApproveModal] = useState(false);
     const [openRejectModal, setOpenRejectModal] = useState(false);
 
@@ -86,8 +84,9 @@ export default function OfferQueueCard({ offer }: Props) {
                     </div>
 
                     <hr className="border border-muted/20 mt-4 lg:mt-4 block xs:hidden lg:block" />
-
-                    <OfferDetails description={offer.description} />
+                    <div className="block xs:hidden lg:block">
+                        <OfferDetails description={offer.description} />
+                    </div>
 
                     <div className="hidden lg:block">
                         <div className="flex flex-col xs:flex-row gap-2 mt-2">
@@ -108,6 +107,10 @@ export default function OfferQueueCard({ offer }: Props) {
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div className="hidden xs:block lg:hidden">
+                <OfferDetails description={offer.description} />
             </div>
 
             <div className="lg:hidden">

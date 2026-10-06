@@ -1,7 +1,7 @@
 import { Offer } from "@/types/offer";
 import { formatExpiresIn } from "@/utils/formatExpiresIn";
 import Image from "next/image";
-import { Column } from "../table/Table";
+import { Column } from "../table/BaseTable";
 
 
 

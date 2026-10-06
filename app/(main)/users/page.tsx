@@ -1,5 +1,60 @@
+'use client';
 
-export default function UsersPage() {
-   
-    
+import { SelectDropdown } from "@/components/form/SelectDropdown";
+import Loading from "@/components/loading/Loading";
+import SearchInput from "@/components/search/SearchInput";
+import UsersTable from "@/components/users/UsersTable";
+import { useFilter } from "@/features/offers/useFilter";
+import { ChevronRight } from "lucide-react";
+import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
+
+
+function UsersPage() {
+    const searchParams = useSearchParams();
+    const search = searchParams.get("search") ?? undefined;
+    const status = searchParams.get("status") ?? undefined;
+
+
+    const updateFilter = useFilter();
+
+    const Status = [
+        { value: undefined, label: "All Status" },
+        { value: "active", label: "Active" },
+        { value: "suspended", label: "Suspended" },
+        { value: "blocked", label: "Blocked" },
+        { value: "deleted", label: "Deleted" },
+
+    ]
+
+    return (
+        <div className="p-4">
+            <div className="my-4 flex items-center gap-1 text-xl text-black font-baloo font-semibold">
+                <ChevronRight size={18} className="hidden xs:inline " />
+                <span>All Users</span>
+            </div>
+
+            <div className="flex flex-col xs:flex-row bg-white px-4 lg:px-6 py-4 my-6 gap-3 rounded-2xl">
+                <SearchInput placeholder="Search by @handle or email or by city.." />
+
+                <SelectDropdown
+                    data={Status}
+                    value={status}
+                    onChange={(value) => updateFilter("status", value)}
+                />
+            </div>
+
+            <UsersTable search={search} status={status} />
+        </div>
+    )
+
+}
+
+
+export default function Filter() {
+    return (
+        <Suspense fallback={<Loading />}>
+            <UsersPage />
+        </Suspense>
+    );
 }

@@ -10,7 +10,6 @@ import { BiCategoryAlt } from "react-icons/bi";
 import { FaListUl } from "react-icons/fa6";
 import { FiBox, FiFlag, FiLogOut, FiSidebar, FiUsers } from "react-icons/fi";
 import { GoHome } from "react-icons/go";
-import { GrAnnounce } from "react-icons/gr";
 import { MdArrowForwardIos } from "react-icons/md";
 import { TbHeadset } from "react-icons/tb";
 
@@ -34,7 +33,6 @@ export default function MobileSidebar({ isOpen, onClose }: Props) {
         { href: "/users", label: "Users", icon: FiUsers },
         { href: "/reports", label: "Reports", icon: FiFlag, },
         { href: "/helpdesk", label: "Helpdesk", icon: TbHeadset },
-        { href: "/announcements", label: "Announcement", icon: GrAnnounce },
         { href: "/categories", label: "Categories", icon: BiCategoryAlt },
     ];
 

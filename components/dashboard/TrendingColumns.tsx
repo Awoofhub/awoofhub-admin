@@ -3,7 +3,7 @@ import { formatDate } from "@/utils/formatDate";
 import { formatDateTime } from "@/utils/formatDateTime";
 import { formatExpiresIn, isExpiringSoon } from "@/utils/formatExpiresIn";
 import Image from "next/image";
-import { Column } from "../table/Table";
+import { Column } from "../table/BaseTable";
 
 
 

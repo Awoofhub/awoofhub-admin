@@ -12,7 +12,6 @@ export const useDashboard = () => {
         queryKey: ['dashboard'],
         queryFn: () => GetDashboard(),
         refetchInterval: 180000,
-        staleTime: 60000,
     });
 
     return { data, isLoading };

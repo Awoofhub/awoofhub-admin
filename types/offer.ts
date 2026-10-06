@@ -30,3 +30,6 @@ export interface Offer {
   isTrending: boolean;
   ratingDistribution: any;
 }
+
+
+export type OfferDisplayStatus = Offer['status'] | 'expired';

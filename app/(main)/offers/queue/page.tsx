@@ -1,5 +1,6 @@
 'use client';
 
+import OfferQueueEmptyState from '@/components/offers/OfferQueueEmptyState';
 import OfferQueueList from '@/components/offers/OfferQueueList';
 import OfferQueueListSkeleton from '@/components/offers/OfferQueueListSkeleton';
 import { usePendingOffers } from '@/features/offers/usePendingOffers';
@@ -24,6 +25,10 @@ export default function OfferQueuePage() {
                     <span className="text-primary font-baloo font-medium text-base lg:text-lg">{pendingCount} pending review&#40;s&#41;</span>
                 )}
             </div>
+
+            {!isLoading && Offers.length === 0 && (
+                <OfferQueueEmptyState/>
+            )}
 
             {isLoading && <OfferQueueListSkeleton />}
 
