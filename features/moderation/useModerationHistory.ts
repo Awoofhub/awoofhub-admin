@@ -12,10 +12,12 @@ export const getModerationHistory = async ({ id }: GetModerationHistoryOptions):
 };
 
 export const useModerationHistory = ({ id }: GetModerationHistoryOptions) => {
-    const { data, isLoading } = useQuery({
+    const { data, isLoading, isFetching } = useQuery({
         queryKey: ['moderation', 'history', id],
         queryFn: () => getModerationHistory({ id }),
+        enabled: !!id,
+        staleTime: 0,
     });
 
-    return { data, isLoading };
+    return { data, isLoading, isFetching };
 };

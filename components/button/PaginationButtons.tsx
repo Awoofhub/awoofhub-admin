@@ -14,27 +14,7 @@ export default function PaginationButtons({ totalPages, currentPage, onPageChang
     <div className="flex justify-between px-2 pt-2  items-center gap-6 text-sm text-gray-700 font-medium select-none">
 
       <div className="flex gap-2 items-center">
-        <button
-          onClick={() => onPageChange(1)}
-          disabled={currentPage === 1}
-          className={btnClass}
-          title="First page"
-        >
-          <ChevronsLeft size={18} />
-        </button>
-        <span className="text-base font-baloo font-medium text-gray-500 mr-auto">Showing {currentPage} of {totalPages}</span>
-        <button
-          onClick={() => onPageChange(totalPages)}
-          disabled={currentPage === totalPages}
-          className={btnClass}
-          title="Last page"
-        >
-          <ChevronsRight size={18} />
-        </button>
-      </div>
-
-      <div className="flex items-center gap-1">
-
+        
         <button
           onClick={() => onPageChange(currentPage - 1)}
           disabled={currentPage === 1}
@@ -43,8 +23,8 @@ export default function PaginationButtons({ totalPages, currentPage, onPageChang
         >
           <ChevronLeft size={18} />
         </button>
-
-        <button
+        <span className="text-base font-baloo font-medium text-gray-500 mr-auto">Showing {currentPage} of {totalPages}</span>
+         <button
           onClick={() => onPageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
           className={btnClass}
@@ -52,6 +32,29 @@ export default function PaginationButtons({ totalPages, currentPage, onPageChang
         >
           <ChevronRight size={18} />
         </button>
+      </div>
+
+      <div className="flex items-center gap-1">
+
+         <button
+          onClick={() => onPageChange(1)}
+          disabled={currentPage === 1}
+          className={btnClass}
+          title="First page"
+        >
+          <ChevronsLeft size={18} />
+        </button>
+
+       <button
+          onClick={() => onPageChange(totalPages)}
+          disabled={currentPage === totalPages}
+          className={btnClass}
+          title="Last page"
+        >
+          <ChevronsRight size={18} />
+        </button>
+
+       
       </div>
     </div>
   );
