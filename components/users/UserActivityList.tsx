@@ -8,25 +8,25 @@ import { useCommentsByUser } from "@/features/comments/useCommentsByUser";
 import { useOffersByUser } from "@/features/offers/useOffersByUser";
 import { TbFileCheckFilled, TbMessageCircle } from "react-icons/tb";
 import UserCommentListItem from "./UserCommentListItem";
+import UserCommentListItemSkeleton from "./UserCommentListItemSkeleton";
 import UserOfferListItem from "./UserOfferListItem";
+import UserOfferListItemSkeleton from "./UserOfferlistitemskeleton";
 
 interface UserActivityListProps {
   user: User;
 }
 
-
-
 export default function UserActivityList({ user }: UserActivityListProps) {
   const [offersPage, setOffersPage] = useState(1);
   const [commentsPage, setCommentsPage] = useState(1);
 
-  const { data: offersData, isLoading: offersLoading } = useOffersByUser({
+  const { data: offersData, isFetching: offersFetching } = useOffersByUser({
     userId: user.id,
     page: offersPage,
-    limit: 3
-  } )
+    limit: 3,
+  });
 
-  const { data: commentsData, isLoading: commentsLoading } = useCommentsByUser({
+  const { data: commentsData, isFetching: commentsFetching } = useCommentsByUser({
     userId: user.id,
     page: commentsPage,
     limit: 3,
@@ -37,8 +37,7 @@ export default function UserActivityList({ user }: UserActivityListProps) {
 
   const offersTotalPages = offersData?.meta?.totalPages ?? 1;
   const commentsTotalPages = commentsData?.meta?.totalPages ?? 1;
-  
-  
+
   return (
     <div className="space-y-8">
       <div className="bg-white rounded-xl shadow-sm p-4 lg:p-6">
@@ -47,11 +46,13 @@ export default function UserActivityList({ user }: UserActivityListProps) {
           Offers Posted
         </h2>
 
-        {!offersLoading && offers.length === 0 ? (
+        {offersFetching &&  <UserOfferListItemSkeleton />} 
+        {!offersFetching && offers.length === 0 && (
           <p className="text-center text-sm text-gray-500 py-4">
             No offers posted yet.
           </p>
-        ) : (
+        ) }
+        { !offersFetching && offers.length > 0 && (
           offers.map((offer) => (
             <UserOfferListItem key={offer.id} offer={offer} />
           ))
@@ -72,11 +73,13 @@ export default function UserActivityList({ user }: UserActivityListProps) {
           Comments
         </h2>
 
-        {!commentsLoading && comments.length === 0 ? (
+        {commentsFetching &&  <UserCommentListItemSkeleton />} 
+        {!commentsFetching && comments.length === 0 && (
           <p className="text-center text-sm text-gray-500 py-4">
             No comments yet.
           </p>
-        ) : (
+        ) }
+        { !commentsFetching && comments.length > 0 && (
           comments.map((comment) => (
             <UserCommentListItem key={comment.id} comment={comment} />
           ))

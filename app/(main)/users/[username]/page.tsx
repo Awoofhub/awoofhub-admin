@@ -16,6 +16,7 @@ interface Props {
 }
 
 export default function UserDetailPage({ params }: Props) {
+  
   const { username } = use(params);
 
   const { data: user, isLoading } = useUserByUsername({
@@ -53,4 +54,5 @@ export default function UserDetailPage({ params }: Props) {
 
       {tab === "activity" ? <UserActivityList user={user} />  : <UserHistoryTimeline user={user} />}
     </div>);
+    
 }
