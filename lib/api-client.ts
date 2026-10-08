@@ -19,7 +19,8 @@ apiClient.interceptors.response.use(
     async (error) => {
         const originalRequest = error.config;
         const status = error.response?.status;
-        const message = error.response?.data?.message || error.message;
+        const responseMessage = error.response?.data?.message;
+        const message = Array.isArray(responseMessage) ? responseMessage.join(", ") : responseMessage || error.message;
         const isAuthRoute =
             originalRequest.url?.includes('/auth/') &&
             !originalRequest.url?.includes('/auth/refresh');
