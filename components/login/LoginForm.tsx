@@ -26,7 +26,7 @@ export const LoginForm = ({
                     Admin Login
                 </h1>
                 <p className="text-sm xxs:text-base mt-1 text-slate-500 md:text-lg font-medium">
-                     Please enter your email address or <br /> username and password to continue
+                    Please enter your email address or <br /> username and password to continue
                 </p>
             </div>
 
@@ -38,7 +38,13 @@ export const LoginForm = ({
                     compulsory={true}
                     type="email"
                     icon={<Mail size={18} color={"#FE4F04"} />}
-                    {...register('email')}
+                    {...register("email", {
+                        required: "Email is required to verify your account",
+                        pattern: {
+                            value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                            message: "Enter a valid email address",
+                        },
+                    })}
                     error={formState.errors['email']}
                 />
 

@@ -16,8 +16,7 @@ export const useDashboardOfferChart = ({ month }: GetDashboardOfferChartOption  
     const { data, isLoading } = useQuery({
         queryKey: ['dashboard', 'offer', 'chart', month],
         queryFn: () => GetDashboardOfferChart({ month }),
-        refetchInterval: 180000,
-        staleTime: 60000,
+        refetchInterval: 180000
     });
 
     return { data, isLoading };
