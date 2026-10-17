@@ -29,7 +29,7 @@ export default function HelpdeskPage({ searchParams }: FilterProps) {
             </div>
 
             <div className="flex flex-row bg-white px-4 lg:px-6 py-4 my-6 gap-3 rounded-2xl">
-                <SearchInput placeholder="Search by email" />
+                <SearchInput placeholder="Search by email" onSearchChange={() => setPage(1)} />
             </div>
 
             <HelpAndSupportTable search={search} page={page} setPage={setPage} />
