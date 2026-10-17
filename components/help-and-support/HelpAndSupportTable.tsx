@@ -11,10 +11,11 @@ import { HelpAndSupportColumns } from "./HelpAndSupportColumns";
 
 interface Props {
     search?: string,
+    page: number;
+    setPage: (page: number) => void;
 }
 
-export default function HelpAndSupportTable({ search }: Props) {
-    const [page, setPage] = useState(1);
+export default function HelpAndSupportTable({ search, page, setPage }: Props) {
     const [isOpen, setOpen] = useState(false);
     const [selectedTicket, setSelectedTicket] = useState<HelpAndSupport | null>(null);
     const limit = 4;
@@ -29,7 +30,7 @@ export default function HelpAndSupportTable({ search }: Props) {
     });
 
     const { updateHelpAndSupport } = useUpdateHelpAndSupportStatus({
-        id:  selectedTicket?.id ?? '',
+        id: selectedTicket?.id ?? '',
     })
 
 
@@ -44,7 +45,7 @@ export default function HelpAndSupportTable({ search }: Props) {
 
     return (
         <div>
-            
+
             <PaginatedTable
                 response={data}
                 columns={HelpAndSupportColumns}
@@ -55,7 +56,7 @@ export default function HelpAndSupportTable({ search }: Props) {
                 onRowClick={(handleRowClick)}
                 isFetching={isFetching}
                 isFetched={isFetched}
-            /> 
+            />
 
             {selectedTicket && (
                 <HelpAndSupportModal
