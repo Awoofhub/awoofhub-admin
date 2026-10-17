@@ -1,5 +1,3 @@
-'use client';
-
 import Loading from "@/components/loading/Loading";
 import UsersPage from "@/components/users/UsersPage";
 import { Suspense } from "react";
