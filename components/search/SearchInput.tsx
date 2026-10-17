@@ -1,14 +1,15 @@
 'use client'
-import { useFilter } from '@/features/offers/useFilter';
+import { useFilter } from '@/features/filters/useFilter';
 import { useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
 import { FiSearch } from 'react-icons/fi';
 
 type Props = {
   placeholder?: string;
+  onSearchChange?: () => void;
 };
 
-function SearchInputContent({ placeholder }: Props) {
+function SearchInputContent({ placeholder, onSearchChange }: Props) {
   const searchParams = useSearchParams();
   const updateFilter = useFilter();
 
@@ -21,7 +22,10 @@ function SearchInputContent({ placeholder }: Props) {
         className="w-full bg-transparent text-xs xs:text-sm lg:text-base text-foreground placeholder:text-muted/60 focus:outline-none"
         type="search"
         defaultValue={searchParams.get("search")?.toString()}
-        onChange={(e) => updateFilter('search', e.target.value)}
+        onChange={(e) => {
+          if (onSearchChange) onSearchChange();
+          updateFilter('search', e.target.value);
+        }}
       />
     </div>
   );

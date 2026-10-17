@@ -27,7 +27,6 @@ export function useFilter() {
         });
       }
 
-      params.delete('page');
       router.replace(`?${params.toString()}`);
     },
     [searchParams, router]
