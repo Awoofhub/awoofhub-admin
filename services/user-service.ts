@@ -8,9 +8,9 @@ export async function getUserByUsernameService(username: string): Promise<ApiRes
   return res;
 }
 
-export async function getAllUsersService(search: string, role: string, status: string, page: number = 1, limit: number = 10): Promise<ApiResponse<User[]>> {
+export async function getAllUsersService(search: string, status: string, page: number = 1, limit: number = 10): Promise<ApiResponse<User[]>> {
   const res: ApiResponse<User[]> = await apiClient.get("/users", {
-    params: { search, role, status, page, limit }
+    params: { search, status, page, limit }
   });
 
   return res;

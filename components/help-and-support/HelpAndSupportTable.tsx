@@ -3,7 +3,7 @@
 import { useHelpAndSupport } from "@/features/help-and-support/useHelpAndSupport";
 import { useUpdateHelpAndSupportStatus } from "@/features/help-and-support/useUpdateHelpAndSupportStatus";
 import { HelpAndSupport } from '@/types/help-and-support';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import HelpAndSupportModal from "../modals/help-and-support/HelpAndSupportModal";
 import PaginatedTable from "../table/PaginatedTable";
 import { HelpAndSupportColumns } from "./HelpAndSupportColumns";
@@ -19,6 +19,10 @@ export default function HelpAndSupportTable({ search }: Props) {
     const [selectedTicket, setSelectedTicket] = useState<HelpAndSupport | null>(null);
     const limit = 4;
 
+    useEffect(() => {
+        setPage(1);
+    }, [search, setPage]);
+
     const { data, isFetched, isFetching } = useHelpAndSupport({
         search: search ?? "",
         category: "",
@@ -29,7 +33,7 @@ export default function HelpAndSupportTable({ search }: Props) {
     });
 
     const { updateHelpAndSupport } = useUpdateHelpAndSupportStatus({
-        id:  selectedTicket?.id ?? '',
+        id: selectedTicket?.id ?? '',
     })
 
 
@@ -44,7 +48,7 @@ export default function HelpAndSupportTable({ search }: Props) {
 
     return (
         <div>
-            
+
             <PaginatedTable
                 response={data}
                 columns={HelpAndSupportColumns}
@@ -55,7 +59,7 @@ export default function HelpAndSupportTable({ search }: Props) {
                 onRowClick={(handleRowClick)}
                 isFetching={isFetching}
                 isFetched={isFetched}
-            /> 
+            />
 
             {selectedTicket && (
                 <HelpAndSupportModal

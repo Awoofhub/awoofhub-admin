@@ -1,5 +1,5 @@
 'use client'
-import { useFilter } from '@/features/offers/useFilter';
+import { useFilter } from '@/features/filters/useFilter';
 import { useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
 import { FiSearch } from 'react-icons/fi';
