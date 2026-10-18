@@ -5,9 +5,8 @@ import OffersTable from "@/components/offers/OffersTable";
 import SearchInput from "@/components/search/SearchInput";
 import { useCategory } from "@/features/category/useCategory";
 import { useFilter } from "@/features/filters/useFilter";
-import { UsersPaginationContext } from "@/providers/users-pagination-provider";
 import { ChevronRight } from "lucide-react";
-import { use, useContext } from "react";
+import { use } from "react";
 
 
 type FilterParams = {
@@ -27,7 +26,6 @@ export default function OffersPage({ searchParams }: FilterProps) {
 
     const { data: categoryData } = useCategory();
     const updateFilter = useFilter();
-    const { setPage } = useContext(UsersPaginationContext);
 
     const DealTypes = [
         { value: undefined, label: "All Deals" },
@@ -56,11 +54,6 @@ export default function OffersPage({ searchParams }: FilterProps) {
         { value: "rejected", label: "Rejected" },
     ]
 
-    const handleFilterChange = (key: string, value: any) => {
-        setPage(1);
-        updateFilter(key, value);
-    };
-
     return (
         <div className="p-4">
 
@@ -74,27 +67,27 @@ export default function OffersPage({ searchParams }: FilterProps) {
                     <SelectDropdown
                         data={DealTypes}
                         value={dealType}
-                        onChange={(value) => handleFilterChange("dealType", value)}
+                        onChange={(value) => updateFilter("dealType", value)}
                     />
 
                     <SelectDropdown
                         data={Categories}
                         value={category}
-                        onChange={(value) => handleFilterChange("category", value)}
+                        onChange={(value) => updateFilter("category", value)}
                     />
 
                     <SelectDropdown
                         data={Status}
                         value={status}
-                        onChange={(value) => handleFilterChange("status", value)}
+                        onChange={(value) => updateFilter("status", value)}
                     />
                     <div className="lg:hidden">
-                        <SearchInput onSearchChange={() => setPage(1)} />
+                        <SearchInput />
                     </div>
 
                 </div>
                 <div className="hidden lg:block">
-                    <SearchInput onSearchChange={() => setPage(1)} />
+                    <SearchInput />
                 </div>
 
             </div>
@@ -105,3 +98,4 @@ export default function OffersPage({ searchParams }: FilterProps) {
     )
 
 }
+

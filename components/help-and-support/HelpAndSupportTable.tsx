@@ -3,7 +3,7 @@
 import { useHelpAndSupport } from "@/features/help-and-support/useHelpAndSupport";
 import { useUpdateHelpAndSupportStatus } from "@/features/help-and-support/useUpdateHelpAndSupportStatus";
 import { HelpAndSupport } from '@/types/help-and-support';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import HelpAndSupportModal from "../modals/help-and-support/HelpAndSupportModal";
 import PaginatedTable from "../table/PaginatedTable";
 import { HelpAndSupportColumns } from "./HelpAndSupportColumns";
@@ -11,14 +11,17 @@ import { HelpAndSupportColumns } from "./HelpAndSupportColumns";
 
 interface Props {
     search?: string,
-    page: number;
-    setPage: (page: number) => void;
 }
 
-export default function HelpAndSupportTable({ search, page, setPage }: Props) {
+export default function HelpAndSupportTable({ search }: Props) {
+    const [page, setPage] = useState(1);
     const [isOpen, setOpen] = useState(false);
     const [selectedTicket, setSelectedTicket] = useState<HelpAndSupport | null>(null);
     const limit = 4;
+
+    useEffect(() => {
+        setPage(1);
+    }, [search, setPage]);
 
     const { data, isFetched, isFetching } = useHelpAndSupport({
         search: search ?? "",

@@ -6,10 +6,9 @@ import { FiSearch } from 'react-icons/fi';
 
 type Props = {
   placeholder?: string;
-  onSearchChange?: () => void;
 };
 
-function SearchInputContent({ placeholder, onSearchChange }: Props) {
+function SearchInputContent({ placeholder }: Props) {
   const searchParams = useSearchParams();
   const updateFilter = useFilter();
 
@@ -22,10 +21,7 @@ function SearchInputContent({ placeholder, onSearchChange }: Props) {
         className="w-full bg-transparent text-xs xs:text-sm lg:text-base text-foreground placeholder:text-muted/60 focus:outline-none"
         type="search"
         defaultValue={searchParams.get("search")?.toString()}
-        onChange={(e) => {
-          if (onSearchChange) onSearchChange();
-          updateFilter('search', e.target.value);
-        }}
+        onChange={(e) => updateFilter('search', e.target.value)}
       />
     </div>
   );
