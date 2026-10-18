@@ -1,7 +1,7 @@
 import { useOffers } from "@/features/offers/useOffers";
 import { OffersPaginationContext } from "@/providers/offers-pagination-provider";
 import { useRouter } from "next/navigation";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import PaginatedTable from "../table/PaginatedTable";
 import { OfferColumns } from "./OfferColumns";
 
@@ -15,8 +15,12 @@ interface Props {
 
 export default function OffersTable({ search, dealType, category, status, }: Props) {
     const router = useRouter();
-    const {page, setPage} = useContext(OffersPaginationContext);
+    const { page, setPage } = useContext(OffersPaginationContext);
     const limit = 4
+
+    useEffect(() => {
+        setPage(1);
+    }, [search, dealType, category, status, setPage]);
 
     const { data: offers, isFetched, isFetching } = useOffers({
         search: search ?? "",

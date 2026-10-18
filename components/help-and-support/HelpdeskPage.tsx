@@ -3,7 +3,7 @@
 import HelpAndSupportTable from "@/components/help-and-support/HelpAndSupportTable";
 import SearchInput from "@/components/search/SearchInput";
 import { ChevronRight } from "lucide-react";
-import { use, useState } from "react";
+import { use } from "react";
 
 type FilterParams = {
     search?: string,
@@ -17,8 +17,6 @@ export default function HelpdeskPage({ searchParams }: FilterProps) {
 
     const params = use(searchParams);
     const { search } = params;
-
-    const [page, setPage] = useState(1);
    
 
     return (
@@ -29,12 +27,14 @@ export default function HelpdeskPage({ searchParams }: FilterProps) {
             </div>
 
             <div className="flex flex-row bg-white px-4 lg:px-6 py-4 my-6 gap-3 rounded-2xl">
-                <SearchInput placeholder="Search by email" onSearchChange={() => setPage(1)} />
+                <SearchInput placeholder="Search by email" />
+
             </div>
 
-            <HelpAndSupportTable search={search} page={page} setPage={setPage} />
+            <HelpAndSupportTable search={search} />
         </div>
 
     )
+
 
 }
