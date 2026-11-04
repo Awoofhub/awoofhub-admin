@@ -15,8 +15,8 @@ export interface ReportStats {
   pendingReports: number;
 }
 
-export interface ClickStats {
-  totalClicks: number;
+export interface GrabStats {
+  totalGrabs: number;
 }
 
 export interface SupportStats {
@@ -27,7 +27,7 @@ export interface DashboardData {
   users: UserStats;
   offers: OfferStats;
   reports: ReportStats;
-  clicks: ClickStats;
+  grabs: GrabStats;
   support: SupportStats;
 }
 

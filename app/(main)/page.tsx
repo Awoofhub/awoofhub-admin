@@ -54,7 +54,7 @@ export default function Home() {
           />
           <StatsCard
             label="Total Grabs"
-            value={data.clicks.totalClicks}
+            value={data.grabs.totalGrabs}
             iconSrc="/grabs.svg"
             iconBg="bg-[#FAAE8E]/20"
           />
