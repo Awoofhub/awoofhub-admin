@@ -59,10 +59,10 @@ export const TrendingColumns: Column<Offer>[] = [
     },
 
     {
-        key: "clickCounts",
+        key: "grabCounts",
         header: "Grabs",
         className: "text-left",
-        render: (offer) => offer.clickCount,
+        render: (offer) => offer.grabCount,
     },
 
     {

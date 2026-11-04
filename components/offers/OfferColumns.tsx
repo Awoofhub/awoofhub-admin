@@ -95,9 +95,9 @@ export const OfferColumns: Column<Offer>[] = [
     },
 
     {
-        key: "clickCount",
+        key: "grabCount",
         header: "Grabs",
-        render: (offer) => offer.clickCount,
+        render: (offer) => offer.grabCount,
     },
 
     {
